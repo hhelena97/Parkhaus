@@ -34,4 +34,15 @@ class ParkhausInterfaceTest {
         //Anzahl der besonderen Parkplätze muss sich jeweils auch verändern
         assertTrue(testParkhaus.eAutoParkplatz == 5);
     }
+
+    @Test
+    void bezahleTicket() {
+
+        // Teste ob 'parkzeit' richtig berechnet wurde
+
+        // Teste ob 'preis' richitg berechnet wurde
+
+        // Teste ob 'preis' auf 'tageseinnahmen' gerechnet wurde
+    }
+
 }
