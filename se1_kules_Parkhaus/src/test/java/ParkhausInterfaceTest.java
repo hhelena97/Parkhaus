@@ -36,13 +36,25 @@ class ParkhausInterfaceTest {
     }
 
     @Test
-    void bezahleTicket() {
+    void bezahleTicketTest() {
+
+        Parkhaus p = new Parkhaus(2.1);
+        Ticket t = new Ticket("Normaler Parkplatz");
 
         // Teste ob 'parkzeit' richtig berechnet wurde
+        double erwarteteParkzeit = LocalTime.now() - t.uhrzeit;
+        assertEquals(erwarteteParkzeit, t.getParkzeitTicket());
 
-        // Teste ob 'preis' richitg berechnet wurde
 
-        // Teste ob 'preis' auf 'tageseinnahmen' gerechnet wurde
+        // Teste ob 'preis' richtig berechnet wurde
+        double erwarteterPreis = p.getStundentarif()*t.getParkzeitTicket();
+        assertEquals(erwarteterPreis, t.getPreisTicket());
+
+
+        // Teste ob 'preis' auf 'einnahmenTag' gerechnet wurde
+        double erwarteteEinnahmenTag = p.getEinnahmenTag() + erwarteterPreis;
+        assertEquals(erwarteteEinnahmenTag, p.getEinnahmenTag());
+
     }
 
 }
