@@ -4,10 +4,15 @@ import java.time.LocalTime;
 public class Ticket {
 
     private double parkzeitTicket;
-
     private double preisTicket;
+    private LocalDate datum;
+    private LocalTime uhrzeit;
+    private String artDesParkplatzes;
 
-    public Ticket(String artDesParkplatzes) {
+    public Ticket(String art) {
+        datum = LocalDate.now();
+        uhrzeit = LocalTime.now();
+        artDesParkplatzes = art;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -21,4 +26,15 @@ public class Ticket {
         return preisTicket;
     }
 
+    public LocalDate getDatum() {
+        return datum;
+    }
+
+    public LocalTime getUhrzeit() {
+        return uhrzeit;
+    }
+
+    public String getArtDesParkplatzes() {
+        return artDesParkplatzes;
+    }
 }
