@@ -24,7 +24,7 @@ public class Parkhaus implements ParkhausInterface{
 
     public Parkhaus(double stdTarif) {
 
-        super();    // Frage: rufe ich damit den Konstruktor ohne Parameter auf?
+        super();    // Frage: rufe ich damit den Konstruktor ohne Parameter auf? Katharina: du rufst damit den Konstruktor auf aus der Klasse von der Parkhaus erbt, aber Parkhaus erbt doch von keiner Klasse... ich meine du müsstest da this(); benutzen statt super(); dann sollte der den Parkhaus() aufrufen
         this.stundentarif = stdTarif;
     }
 
