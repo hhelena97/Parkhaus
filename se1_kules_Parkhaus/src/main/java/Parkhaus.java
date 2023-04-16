@@ -65,6 +65,9 @@ public class Parkhaus implements ParkhausInterface{
 
         // für spätere Tasks: 'preis' auf 'einnahmenTag' rechnen :)
         einnahmenTag += preis;     //TODO: Test schreiben (eigentlich bevor ich das hier schreibe!)
+
+        //in Real erst nach dem Bezahlen
+        t.entwerten();
     }
 
     // -----------------------------------------------------------------------------------------------------------------
