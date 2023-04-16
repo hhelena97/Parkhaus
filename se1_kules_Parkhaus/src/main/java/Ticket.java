@@ -14,7 +14,7 @@ public class Ticket implements TicketIF{
     public Ticket(){
         datum = LocalDate.now();
         uhrzeit = LocalTime.now();
-        parkzeitTicket = getParkzeitTicket();
+        parkzeitTicket = LocalTime.now();
         artDesParkplatzes = "normaler Parkplatz";
         entwertet = false;
     }
@@ -22,7 +22,7 @@ public class Ticket implements TicketIF{
     public Ticket(String art) {
         datum = LocalDate.now();
         uhrzeit = LocalTime.now();
-        parkzeitTicket = getParkzeitTicket();
+        parkzeitTicket = LocalTime.now();
         artDesParkplatzes = art;
         entwertet = false;
     }
@@ -37,7 +37,7 @@ public class Ticket implements TicketIF{
     public int getParkzeitStunde() {return this.parkzeitTicket.getHour();}
     public int getParkzeitMin(){return this.parkzeitTicket.getMinute();}
 
-    public void setParkzeitTicket() { this.parkzeitTicket = LocalTime.now()};
+    public void setParkzeitTicket() { this.parkzeitTicket = LocalTime.now();};
 
     public double getPreisTicket() {
         return preisTicket;
@@ -55,8 +55,8 @@ public class Ticket implements TicketIF{
         return artDesParkplatzes;
     }
 
-    public void setEntwertet(boolean ft) {this.entwertet = ft};
-    public boolean getEntwertet() {return this.entwertet};
+    public void setEntwertet(boolean ft) {this.entwertet = ft;};
+    public boolean getEntwertet() {return this.entwertet;};
 
     //------------------------------------------------------------------
     //Was mit dem Ticket passiert:
@@ -64,8 +64,8 @@ public class Ticket implements TicketIF{
     public void entwerten() {
         this.entwertet = true;
         this.setParkzeitTicket();
-        System.out.println("Sie haben um" + getParkzeitStunde() + ":" + getParkzeitMin() + "Uhr bezahlt und koennen mit diesem Ticket in der naechsten Viertel Stunde die Schranke oeffnen.");
+        System.out.println("Sie haben um " + getParkzeitStunde() + ":" + getParkzeitMin() + " Uhr bezahlt und koennen mit diesem Ticket in der naechsten Viertel Stunde die Schranke oeffnen.");
     }
 
 }
-}
+
