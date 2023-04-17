@@ -31,6 +31,7 @@ class ParkhausInterfaceTest {
         assertEquals(testTicket1.getDatum(), LocalDate.now());
 
         //TODO: Zeit überprüfen
+
         /**ErstellungsZeit soll vor der jetzigen Zeit sein (da das Ticket 2 Zeilen vorher erstellt wurde und die Sekunden auch gemessen werden)
         assertTrue(testTicket.getUhrzeit() < LocalTime.now());
         //ErstellungsZeit soll aber auch nicht irgendwie in der Zukunft liegen
@@ -49,10 +50,10 @@ class ParkhausInterfaceTest {
         assertTrue(testParkhaus.getAnzahlFreierMotorradParkplaetze() == 19);
     }
 
-    @Test
+    /**@Test
     void bezahleTicketTest() {
 
-        /**Parkhaus p = new Parkhaus(2.1);
+        Parkhaus p = new Parkhaus(2.1);
         Ticket t = new Ticket("Normaler Parkplatz");
 
         // Teste ob 'parkzeit' richtig berechnet wurde
@@ -67,8 +68,8 @@ class ParkhausInterfaceTest {
 
         // Teste ob 'preis' auf 'einnahmenTag' gerechnet wurde
         double erwarteteEinnahmenTag = p.getEinnahmenTag() + erwarteterPreis;
-        assertEquals(erwarteteEinnahmenTag, p.getEinnahmenTag());**/
+        assertEquals(erwarteteEinnahmenTag, p.getEinnahmenTag());
 
-    }
+    }**/
 
 }

@@ -3,7 +3,7 @@ import java.time.LocalTime;
 
 public class Parkhaus implements ParkhausInterface{
 
-    private double stundentarif;
+    private double stundentarif; //wie teuer ist es eine Stunde in diesem Parkhaus zu parken? TODO: kann man das final machen?
     private double einnahmenTag;
     private double parkdauerTag;
     private int anzahlFreierParkplaetze; //insgesamt inkl. alle arten
@@ -15,6 +15,8 @@ public class Parkhaus implements ParkhausInterface{
     public int getAnzahlFreierParkplaetze() {
         return anzahlFreierParkplaetze;
     }
+
+    //brauchen wie beide Konstruktoren?
     public Parkhaus() {
 
         this.stundentarif = 0.0;
@@ -28,7 +30,14 @@ public class Parkhaus implements ParkhausInterface{
         this.stundentarif = stdTarif;
     }
 
-    @Override
+    /**
+     * die Methode "neuesTicket" ruft den Konstruktor für ein neues Ticket auf (setzt die Uhrzeit auf die aktuelle Uhrzeit, das Datum auf
+     * das aktuelle Datum und die Art auf den mitgegebenen String "art"). Danach wird die Anzahl der freien Parkplätze um 1 verringert.
+     * Und die Anzahl der jeweiligen freien Plätze der bestimmten Art werden auch um 1 verringert.
+     *
+     * @param art String in welchem steht, welche Art des Parkplatzes der Kunde gewählt hat
+     * @return ein neues Ticket mit gesetzten Instanzvariablen
+     */
     public Ticket neuesTicket(String art) {
         Ticket dasTicket = new Ticket(art);
         anzahlFreierParkplaetze--;
@@ -52,7 +61,7 @@ public class Parkhaus implements ParkhausInterface{
     @Override
     public void bezahleTicket(Ticket t) {
 
-        // TODO: Parkzeit berechnen
+        // TODO: Parkzeit berechnen     Katharina: kannst du jetzt mit der guten neuen Methode "zeitDifferenz" machen :)
         // -> aktuelle Zeit - TicketZeit
 
         double preis = 0;
