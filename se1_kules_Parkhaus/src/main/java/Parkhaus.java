@@ -124,4 +124,5 @@ public class Parkhaus implements ParkhausInterface{
     public void setAnzahlFreierNormalerParkplaetze(int i) {
         this.anzahlFreierNormalerParkplaetze = i;
     }
+
 }

@@ -3,11 +3,11 @@ import java.time.LocalTime;
 
 public class Ticket implements TicketIF{
 
-    private LocalTime parkzeitTicket;
-    private double preisTicket;
+    //private LocalTime parkzeitTicket;
+    //private double preisTicket;
     private LocalDate datum;
     private LocalTime uhrzeit;
-    private String artDesParkplatzes;
+    private final String artDesParkplatzes;
 
     private boolean entwertet;
 
@@ -44,9 +44,7 @@ public class Ticket implements TicketIF{
     }
 
 
-    public double getPreisTicket() {
-        return preisTicket;
-    }
+    //public double getPreisTicket() {return preisTicket;}
 
     public String getArtDesParkplatzes() {
         return artDesParkplatzes;
@@ -64,5 +62,19 @@ public class Ticket implements TicketIF{
         System.out.println("Sie haben um " + getUhrzeitStunde() + ":" + getUhrzeitMin() + " Uhr bezahlt und koennen mit diesem Ticket in der naechsten Viertel Stunde die Schranke oeffnen.");
     }
 
+
+    //--------------------------------------------------------------------------------------------------------
+    //Methode für Zeit
+
+    /**
+     * Methode bekommt zwei Parameter, Anfangs- und Endzeit und gibt die verstrichene Zeit zwischen den beiden zurück
+     */
+
+    public int zeitDifferenz(LocalTime anfangsZeit) {
+        LocalTime now = LocalTime.now();
+        int zeitJetzt = now.getMinute() + (now.getHour() * 60);
+        int zeitTicket = this.uhrzeit.getMinute() + (this.uhrzeit.getHour() * 60);
+        return zeitJetzt - zeitTicket;
+    }
 }
 
