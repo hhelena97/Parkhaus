@@ -8,6 +8,8 @@ public class Ticket implements TicketIF{
     private LocalDate datum;
     private LocalTime uhrzeit;
     private final String artDesParkplatzes;
+
+    private double preis;
     private boolean entwertet;
 
     //Test-Konstruktor damit man sich nicht immer ein Ticket mit "Ticket-Art" erstellen muss zum Testen
@@ -29,40 +31,48 @@ public class Ticket implements TicketIF{
 
     // -----------------------------------------------------------------------------------------------------------------
     // Getter und Setter:
+
+    public LocalTime getUhrzeit() {return uhrzeit;}
+    public int getUhrzeitStunde() {return this.uhrzeit.getHour();}
+    public int getUhrzeitMin(){return this.uhrzeit.getMinute();}
+    public void setUhrzeit() { this.uhrzeit = LocalTime.now();};
+
+    public void setUhrzeitManuell(int stunden, int minuten){LocalTime.of(stunden, minuten);};
     public LocalDate getDatum() {
         return datum;
     }
     public String getArtDesParkplatzes() {
         return artDesParkplatzes;
     }
-    public boolean getEntwertet() {return this.entwertet;}
-    public int getUhrzeitStunde() {return this.uhrzeit.getHour();}
-    public int getUhrzeitMin(){return this.uhrzeit.getMinute();}
-    public void setUhrzeit() { this.uhrzeit = LocalTime.now();} //zum updaten, falls jemand zu spät rausfahren möchte??
-    public void setEntwertet(boolean ft) {this.entwertet = ft;}
-    public LocalTime getUhrzeit() {return uhrzeit;}
+
+    public void setPreis(double preis){this.preis = preis;};
+    public double getPreis(){return this.preis;};
+
+    public void setEntwertet(boolean ft) {this.entwertet = ft;};
+    public boolean getEntwertet() {return this.entwertet;};
     //public double getPreisTicket() {return preisTicket;}
-    public void setUhrzeitManuell(int stunden, int minuten) { // für Helena zum testen :)
-        this.uhrzeit = LocalTime.of(stunden, minuten);
-    }
 
 
     //--------------------------------------------------------------------------------------------------------------------------------------
     //Was mit dem Ticket passiert:
+    /**
+     * Die Methode 'entwerten' setzt die entwerten-Variable auf true
+     * und aktualisiert die gespeicherte Zeit
+     */
     @Override
     public void entwerten() {
-        this.entwertet = true;
+        this.setEntwertet(true);
         this.setUhrzeit();
         System.out.println("Sie haben um " + getUhrzeitStunde() + ":" + getUhrzeitMin() + " Uhr bezahlt und koennen mit diesem Ticket in der naechsten Viertel Stunde die Schranke oeffnen.");
     }
 
+
     /**
      * Die Methode 'zeitDifferenz' vergleicht die 'anfangsZeit' mit der aktuellen Zeit und berechnet die Differenz zwischen beiden
      *
-     * @param anfangsZeit die Zeit die mit der aktuellen Zeit verglichen werden soll
      * @return die Differenz zwischen der mitgegebenen 'anfangszeit' und der aktuellen Zeit in Minuten
      */
-    public int zeitDifferenz(LocalTime anfangsZeit) {
+    public int zeitDifferenz() {
         LocalTime now = LocalTime.now();
         int zeitJetzt = now.getMinute() + (now.getHour() * 60);
         int zeitTicket = this.uhrzeit.getMinute() + (this.uhrzeit.getHour() * 60);

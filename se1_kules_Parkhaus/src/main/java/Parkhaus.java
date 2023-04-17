@@ -26,7 +26,7 @@ public class Parkhaus implements ParkhausInterface{
 
     public Parkhaus(double stdTarif) {
 
-        super();    // Frage: rufe ich damit den Konstruktor ohne Parameter auf? Katharina: du rufst damit den Konstruktor auf aus der Klasse von der Parkhaus erbt, aber Parkhaus erbt doch von keiner Klasse... ich meine du müsstest da this(); benutzen statt super(); dann sollte der den Parkhaus() aufrufen
+        //super();    // Frage: rufe ich damit den Konstruktor ohne Parameter auf? Katharina: du rufst damit den Konstruktor auf aus der Klasse von der Parkhaus erbt, aber Parkhaus erbt doch von keiner Klasse... ich meine du müsstest da this(); benutzen statt super(); dann sollte der den Parkhaus() aufrufen
         this.stundentarif = stdTarif;
     }
 
@@ -62,18 +62,21 @@ public class Parkhaus implements ParkhausInterface{
     public void bezahleTicket(Ticket t) {
 
         // TODO: Parkzeit berechnen     Katharina: kannst du jetzt mit der guten neuen Methode "zeitDifferenz" machen :)
-        // -> aktuelle Zeit - TicketZeit
+        int dauer = t.zeitDifferenz();
+        int stunden = dauer/60;
 
-        double preis = 0;
+        if (dauer%60 != 0) {
+            stunden++;
+        }
 
         // TODO: Preis berechnen
-        // -> Parkzeit * Tarif
+        t.setPreis(this.getStundentarif() * stunden);
         // -> angefangene Stunden berücksichtigen
 
-        System.out.println("Zu bezahlender Preis:" + preis);
+        System.out.println("Zu bezahlender Preis: " + t.getPreis());
 
         // für spätere Tasks: 'preis' auf 'einnahmenTag' rechnen :)
-        einnahmenTag += preis;     //TODO: Test schreiben (eigentlich bevor ich das hier schreibe!)
+        //einnahmenTag += preis;     //TODO: Test schreiben (eigentlich bevor ich das hier schreibe!)
 
         //in Real erst nach dem Bezahlen
         t.entwerten();

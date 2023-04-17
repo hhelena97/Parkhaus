@@ -16,5 +16,10 @@ public class Main {
 
         System.out.println(t1.getEntwertet());
 
+        Parkhaus p = new Parkhaus(2.1);
+        Ticket t = new Ticket("Normaler Parkplatz");
+        t.setUhrzeitManuell(16, 30);
+
+
     }
 }
