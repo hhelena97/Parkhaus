@@ -14,7 +14,7 @@ public class Ticket implements TicketIF{
     public Ticket(){
         datum = LocalDate.now();
         uhrzeit = LocalTime.now();
-        parkzeitTicket = LocalTime.now();
+        //parkzeitTicket = LocalTime.now();
         artDesParkplatzes = "normaler Parkplatz";
         entwertet = false;
     }
@@ -22,7 +22,7 @@ public class Ticket implements TicketIF{
     public Ticket(String art) {
         datum = LocalDate.now();
         uhrzeit = LocalTime.now();
-        parkzeitTicket = LocalTime.now();
+        //parkzeitTicket = LocalTime.now();
         artDesParkplatzes = art;
         entwertet = false;
     }
@@ -30,25 +30,22 @@ public class Ticket implements TicketIF{
     // -----------------------------------------------------------------------------------------------------------------
     // Getter und Setter:
 
-    public LocalTime getParkzeitTicket() {
-        return parkzeitTicket;
+    public LocalTime getUhrzeit() {
+        return uhrzeit;
     }
 
-    public int getParkzeitStunde() {return this.parkzeitTicket.getHour();}
-    public int getParkzeitMin(){return this.parkzeitTicket.getMinute();}
+    public int getUhrzeitStunde() {return this.uhrzeit.getHour();}
+    public int getUhrzeitMin(){return this.uhrzeit.getMinute();}
 
-    public void setParkzeitTicket() { this.parkzeitTicket = LocalTime.now();};
-
-    public double getPreisTicket() {
-        return preisTicket;
-    }
+    public void setUhrzeit() { this.uhrzeit = LocalTime.now();};
 
     public LocalDate getDatum() {
         return datum;
     }
 
-    public LocalTime getUhrzeit() {
-        return uhrzeit;
+
+    public double getPreisTicket() {
+        return preisTicket;
     }
 
     public String getArtDesParkplatzes() {
@@ -63,8 +60,8 @@ public class Ticket implements TicketIF{
     @Override
     public void entwerten() {
         this.entwertet = true;
-        this.setParkzeitTicket();
-        System.out.println("Sie haben um " + getParkzeitStunde() + ":" + getParkzeitMin() + " Uhr bezahlt und koennen mit diesem Ticket in der naechsten Viertel Stunde die Schranke oeffnen.");
+        this.setUhrzeit();
+        System.out.println("Sie haben um " + getUhrzeitStunde() + ":" + getUhrzeitMin() + " Uhr bezahlt und koennen mit diesem Ticket in der naechsten Viertel Stunde die Schranke oeffnen.");
     }
 
 }

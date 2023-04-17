@@ -8,8 +8,8 @@ public class Main {
 
         Ticket t1 = new Ticket();
 
-        System.out.println("Stunde:" + t1.getParkzeitStunde());
-        System.out.println("Minute:" + t1.getParkzeitMin());
+        System.out.println("Stunde:" + t1.getUhrzeitStunde());
+        System.out.println("Minute:" + t1.getUhrzeitMin());
         System.out.println("Entwertet: " + t1.getEntwertet());
 
         t1.entwerten();
