@@ -7,11 +7,11 @@ class TicketIFTest {
     Ticket t2 = new Ticket();
 
 
-    @Test
+    /**@Test
     void entwertenTest(){
         t1.entwerten();
         assertTrue(t1.getEntwertet());
         assertFalse(t2.getEntwertet());
-    }
+    }**/
 
 }

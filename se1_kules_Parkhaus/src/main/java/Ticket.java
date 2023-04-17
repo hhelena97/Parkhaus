@@ -29,20 +29,22 @@ public class Ticket implements TicketIF{
 
     // -----------------------------------------------------------------------------------------------------------------
     // Getter und Setter:
-
-    public int getUhrzeitStunde() {return this.uhrzeit.getHour();}
-    public int getUhrzeitMin(){return this.uhrzeit.getMinute();}
-    public void setUhrzeit() { this.uhrzeit = LocalTime.now();};
     public LocalDate getDatum() {
         return datum;
     }
     public String getArtDesParkplatzes() {
         return artDesParkplatzes;
     }
-    public void setEntwertet(boolean ft) {this.entwertet = ft;};
-    public boolean getEntwertet() {return this.entwertet;};
-    //public double getPreisTicket() {return preisTicket;}
+    public boolean getEntwertet() {return this.entwertet;}
+    public int getUhrzeitStunde() {return this.uhrzeit.getHour();}
+    public int getUhrzeitMin(){return this.uhrzeit.getMinute();}
+    public void setUhrzeit() { this.uhrzeit = LocalTime.now();} //zum updaten, falls jemand zu spät rausfahren möchte??
+    public void setEntwertet(boolean ft) {this.entwertet = ft;}
     public LocalTime getUhrzeit() {return uhrzeit;}
+    //public double getPreisTicket() {return preisTicket;}
+    public void setUhrzeitManuell(int stunden, int minuten) { // für Helena zum testen :)
+        this.uhrzeit = LocalTime.of(stunden, minuten);
+    }
 
 
     //--------------------------------------------------------------------------------------------------------------------------------------
@@ -53,7 +55,6 @@ public class Ticket implements TicketIF{
         this.setUhrzeit();
         System.out.println("Sie haben um " + getUhrzeitStunde() + ":" + getUhrzeitMin() + " Uhr bezahlt und koennen mit diesem Ticket in der naechsten Viertel Stunde die Schranke oeffnen.");
     }
-
 
     /**
      * Die Methode 'zeitDifferenz' vergleicht die 'anfangsZeit' mit der aktuellen Zeit und berechnet die Differenz zwischen beiden
