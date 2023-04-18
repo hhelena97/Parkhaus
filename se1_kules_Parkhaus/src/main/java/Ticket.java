@@ -3,8 +3,6 @@ import java.time.LocalTime;
 
 public class Ticket implements TicketIF{
 
-    //private LocalTime parkzeitTicket;
-    //private double preisTicket;
     private LocalDate datum;
     private LocalTime uhrzeit;
     private final String artDesParkplatzes;
@@ -24,7 +22,6 @@ public class Ticket implements TicketIF{
     public Ticket(String art) {
         datum = LocalDate.now();
         uhrzeit = LocalTime.now();
-        //parkzeitTicket = LocalTime.now();
         artDesParkplatzes = art;
         entwertet = false;
     }

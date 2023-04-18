@@ -5,7 +5,7 @@ import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ParkhausInterfaceTest {
+class ParkhausIFTest {
 
     @Test
     void neuesTicketTest() {
