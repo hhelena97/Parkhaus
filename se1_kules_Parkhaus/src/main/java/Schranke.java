@@ -7,14 +7,6 @@ public class Schranke implements SchrankeIF{
     public Schranke(Parkhaus zugehoerigesParkhaus){this.parkhaus = zugehoerigesParkhaus;}
 
     /**
-     * "einfahren" soll die Schranke öffnen, wenn man das Ticket gezogen hat
-     */
-    @Override
-    public void einfahren() {
-        //US02?
-    }
-
-    /**
      * "ausfahren" prüft, ob das Ticket entwertet wurde und die Zeit zum ausfahren noch reicht. Wenn die Bedingungen nicht
      * erfüllt sind, wird ein entsprechender Hinweis ausgegeben. Ist das Ticket entwertet und die Viertelstunde noch nicht um,
      * wird das Ticket auf null gesetzt, was das "schlucken" simulieren soll. Die Anzahl der freien Parkplätze wird um eins
@@ -24,11 +16,12 @@ public class Schranke implements SchrankeIF{
     @Override
     public void ausfahren(Ticket ticket) {
         if (ticket.getEntwertet()) {
-            LocalTime timeStamp = LocalTime.now();
-            if (ticket.getUhrzeit().plusMinutes(15).isBefore(timeStamp)){
+            LocalTime timeStamp = LocalTime.now().minusMinutes(15);
+            LocalTime uhrzeit = ticket.getUhrzeit();
+            if (uhrzeit.isAfter(timeStamp)){
                 //Parkplatz freigeben:
                 String art = ticket.getArtDesParkplatzes();
-                this.parkhaus.setAnzahlFreieEAutoParkplaetze(this.parkhaus.getAnzahlFreierParkplaetze()+1);
+                this.parkhaus.setAnzahlFreierParkplaetze(this.parkhaus.getAnzahlFreierParkplaetze()+1);
                 //Für die speziellen Parkplätze:
                 switch (art) {
                     case "Normaler Parkplatz" ->

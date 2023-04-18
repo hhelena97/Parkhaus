@@ -1,13 +1,9 @@
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SchrankeIFTest {
-
-    @Test
-    void einfahrenTest(){
-        //Test
-    }
 
     @Test
     void ausfahrenTest(){
@@ -27,10 +23,10 @@ public class SchrankeIFTest {
         assertEquals(189,testParkhaus.getAnzahlFreierNormalerParkplaetze());
         assertEquals(9,testParkhaus.getAnzahlFreierBehindertenParkplaetze());
 
-        /*Zeitschranke testen, sollte auch Hinweis über abgelaufene Zeit geben
-        testTicket1.setUhrzeitManuell(18,00);
+        //Zeitschranke testen, sollte auch Hinweis über abgelaufene Zeit geben
+        testTicket1.setUhrzeitManuell(18,0);
         testTicket1.setEntwertet(true);
-        testTicket2.setUhrzeitManuell(18,00);
+        testTicket2.setUhrzeitManuell(18,0);
         testTicket2.setEntwertet(true);
         testSchranke.ausfahren(testTicket1);
         testSchranke.ausfahren(testTicket2);
@@ -40,14 +36,14 @@ public class SchrankeIFTest {
 
         //Zeitschranke testen, sollte die Autos nun rauslassen
         testTicket1.setEntwertet(true);
-        testTicket1.setUhrzeitManuell(18,20);
+        testTicket1.setUhrzeitManuell(23,0);
         testSchranke.ausfahren(testTicket1);
         assertEquals(199,testParkhaus.getAnzahlFreierParkplaetze());
         assertEquals(190,testParkhaus.getAnzahlFreierNormalerParkplaetze());
         testTicket2.setEntwertet(true);
-        testTicket2.setUhrzeitManuell(18,20);
+        testTicket2.setUhrzeitManuell(23,0);
         testSchranke.ausfahren(testTicket2);
         assertEquals(200,testParkhaus.getAnzahlFreierParkplaetze());
-        assertEquals(10,testParkhaus.getAnzahlFreierBehindertenParkplaetze());*/
+        assertEquals(10,testParkhaus.getAnzahlFreierBehindertenParkplaetze());
     }
 }
