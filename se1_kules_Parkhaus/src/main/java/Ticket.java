@@ -14,7 +14,6 @@ public class Ticket implements TicketIF{
     public Ticket(){
         datum = LocalDate.now();
         uhrzeit = LocalTime.now();
-        //parkzeitTicket = LocalTime.now();
         artDesParkplatzes = "normaler Parkplatz";
         entwertet = false;
     }
@@ -65,9 +64,9 @@ public class Ticket implements TicketIF{
 
 
     /**
-     * Die Methode 'zeitDifferenz' vergleicht die 'anfangsZeit' mit der aktuellen Zeit und berechnet die Differenz zwischen beiden
+     * Die Methode 'zeitDifferenz' vergleicht die Uhrzeit des Tickets mit der aktuellen Zeit und berechnet die Differenz zwischen beiden
      *
-     * @return die Differenz zwischen der mitgegebenen 'anfangszeit' und der aktuellen Zeit in Minuten
+     * @return die Differenz zwischen der im Ticket gespeicherten Uhrzeit und der aktuellen Zeit in Minuten
      */
     public int zeitDifferenz() {
         LocalTime now = LocalTime.now();

@@ -29,13 +29,26 @@ class ParkhausIFTest {
 
         //ErstellungsDatum soll gleich dem heutigen Datum sein
         assertEquals(testTicket1.getDatum(), LocalDate.now());
+        assertEquals(testTicket2.getDatum(), LocalDate.now());
+        assertEquals(testTicket3.getDatum(), LocalDate.now());
+        assertEquals(testTicket4.getDatum(), LocalDate.now());
 
-        //TODO: Zeit überprüfen
+        //ErstellungsZeit soll vor der jetzigen Zeit sein (da das Ticket 2 Zeilen vorher erstellt wurde und die Sekunden auch gemessen werden)
+        assertEquals(testTicket1.getUhrzeit().getHour(), LocalTime.now().getHour());
+        assertEquals(testTicket1.getUhrzeit().getMinute(), LocalTime.now().getMinute());
+        assertEquals(testTicket1.getUhrzeit().getSecond(), LocalTime.now().getSecond());
 
-        /**ErstellungsZeit soll vor der jetzigen Zeit sein (da das Ticket 2 Zeilen vorher erstellt wurde und die Sekunden auch gemessen werden)
-        assertTrue(testTicket.getUhrzeit() < LocalTime.now());
-        //ErstellungsZeit soll aber auch nicht irgendwie in der Zukunft liegen
-        assertTrue(testTicket.getUhrzeit() > LocalTime.now().plusMinutes(1));**/
+        assertEquals(testTicket2.getUhrzeit().getHour(), LocalTime.now().getHour());
+        assertEquals(testTicket2.getUhrzeit().getMinute(), LocalTime.now().getMinute());
+        assertEquals(testTicket2.getUhrzeit().getSecond(), LocalTime.now().getSecond());
+
+        assertEquals(testTicket3.getUhrzeit().getHour(), LocalTime.now().getHour());
+        assertEquals(testTicket3.getUhrzeit().getMinute(), LocalTime.now().getMinute());
+        assertEquals(testTicket3.getUhrzeit().getSecond(), LocalTime.now().getSecond());
+
+        assertEquals(testTicket4.getUhrzeit().getHour(), LocalTime.now().getHour());
+        assertEquals(testTicket4.getUhrzeit().getMinute(), LocalTime.now().getMinute());
+        assertEquals(testTicket4.getUhrzeit().getSecond(), LocalTime.now().getSecond());
 
         //Art des Parkplatzes soll dann in der Ticket-Instanzvariablen stehen
         assertEquals("Normaler Parkplatz", testTicket1.getArtDesParkplatzes());

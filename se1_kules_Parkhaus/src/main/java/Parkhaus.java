@@ -3,7 +3,7 @@ import java.time.LocalTime;
 
 public class Parkhaus implements ParkhausIF{
 
-    private double stundentarif;    //wie teuer ist es eine Stunde in diesem Parkhaus zu parken? TODO: kann man das final machen?
+    private double stundentarif;    //wie teuer ist es eine Stunde in diesem Parkhaus zu parken? kann man das final machen?
     private double einnahmenTag;
     private double parkdauerTag;
     private int anzahlFreierParkplaetze; //insgesamt inkl. alle arten
@@ -60,7 +60,7 @@ public class Parkhaus implements ParkhausIF{
     @Override
     public void bezahleTicket(Ticket t) {
 
-        // TODO: Parkzeit berechnen     Katharina: kannst du jetzt mit der guten neuen Methode "zeitDifferenz" machen :)
+        // TODO: Parkzeit berechnen
         int dauer = t.zeitDifferenz();
         int stunden = dauer/60;
 
