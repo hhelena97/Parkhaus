@@ -37,7 +37,7 @@ public class Ticket implements TicketIF{
     public int getUhrzeitMin(){return this.uhrzeit.getMinute();}
     public void setUhrzeit() { this.uhrzeit = LocalTime.now();};
 
-    public void setUhrzeitManuell(int stunden, int minuten){LocalTime.of(stunden, minuten);};
+    public void setUhrzeitManuell(int stunden, int minuten){this.uhrzeit = LocalTime.of(stunden, minuten);};
     public LocalDate getDatum() {
         return datum;
     }
