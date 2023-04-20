@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public class Parkhaus implements ParkhausIF{
 
@@ -11,6 +12,8 @@ public class Parkhaus implements ParkhausIF{
     private int anzahlFreierEAutoParkplaetze; //anzahl e auto
     private int anzahlFreierBehindertenParkplaetze; //erklärt sich denke ich
     private int anzahlFreierMotorradParkplaetze; // -----------"--------------
+    private List<Ticket> aktiveTickets;
+    private List<Ticket> entwerteteTickets;
 
 
 
