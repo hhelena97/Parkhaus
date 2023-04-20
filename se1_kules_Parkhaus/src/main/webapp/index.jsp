@@ -2,12 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>Das kule Parkhaus</title>
 </head>
 <body>
-<h1><%= "Hello World!" %>
-</h1>
+<h1>Dashboard</h1>
 <br/>
-<a href="hello-servlet">Hello Servlet</a>
+<a href="parkhaus-servlet">Parkhaus-Ansicht</a>
+<br>
+<p>"Hier kommt später eine Ticket-Ansicht und andere Dinge</p>
 </body>
 </html>

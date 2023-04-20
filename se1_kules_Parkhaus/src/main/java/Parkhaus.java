@@ -17,7 +17,7 @@ public class Parkhaus implements ParkhausIF{
 
 
 
-    //brauchen wie beide Konstruktoren?
+    //brauchen wie beide Konstruktoren? //ja, ist hilfreich zum Testen
     public Parkhaus() {
 
         this.stundentarif = 0.0;
@@ -29,6 +29,13 @@ public class Parkhaus implements ParkhausIF{
 
         this();    // rufe den Konstruktor ohne Parameter auf
         this.stundentarif = stdTarif;
+    }
+
+    //Konstruktor für Zwischenstufe bei dem man Anzahl Parkplätze und Stundentarif festlegt
+    public Parkhaus(double stdTarif, int normale_Parkplaetze){
+        this.stundentarif = stdTarif;
+        this.anzahlFreierNormalerParkplaetze = normale_Parkplaetze;
+
     }
 
     /**
@@ -83,6 +90,8 @@ public class Parkhaus implements ParkhausIF{
         //in Real erst nach dem Bezahlen
         t.entwerten();
     }
+
+    //BranchTest
 
     // -----------------------------------------------------------------------------------------------------------------
     // Getter und Setter:
