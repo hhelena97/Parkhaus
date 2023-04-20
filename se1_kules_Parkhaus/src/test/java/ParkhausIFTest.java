@@ -67,6 +67,7 @@ class ParkhausIFTest {
         assertEquals(testTicket3, testParkhaus.getAktiveTickets().get(2));
         assertEquals(testTicket4, testParkhaus.getAktiveTickets().get(3));
 
+
     }
 
     @Test
