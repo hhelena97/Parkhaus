@@ -8,6 +8,7 @@ public class Parkhaus implements ParkhausIF{
     private double stundentarif;    //wie teuer ist es eine Stunde in diesem Parkhaus zu parken? kann man das final machen?
     private double einnahmenTag;
     private double parkdauerTag;
+
     private int anzahlFreierParkplaetze; //insgesamt inkl. alle arten
     private int anzahlFreierNormalerParkplaetze; //anzahl normaler
     private int anzahlFreierEAutoParkplaetze; //anzahl e auto
@@ -18,7 +19,8 @@ public class Parkhaus implements ParkhausIF{
 
 
 
-    //brauchen wie beide Konstruktoren?
+
+    //brauchen wie beide Konstruktoren? //ja, ist hilfreich zum Testen
     public Parkhaus() {
 
         this.stundentarif = 0.0;
@@ -30,6 +32,12 @@ public class Parkhaus implements ParkhausIF{
 
         this();    // rufe den Konstruktor ohne Parameter auf
         this.stundentarif = stdTarif;
+    }
+
+    //Konstruktor für Zwischenstufe bei dem man Anzahl normale Parkplätze festlegt
+    public Parkhaus(int normale_Parkplaetze){
+        this();
+        this.anzahlFreierNormalerParkplaetze = normale_Parkplaetze;
     }
 
     /**
@@ -87,11 +95,13 @@ public class Parkhaus implements ParkhausIF{
         t.entwerten();
     }
 
+
     // -----------------------------------------------------------------------------------------------------------------
     // Getter und Setter:
 
     public int getAnzahlFreierParkplaetze() {
-        return anzahlFreierParkplaetze;
+        int freigesamt = anzahlFreierNormalerParkplaetze + anzahlFreierEAutoParkplaetze + anzahlFreierBehindertenParkplaetze + anzahlFreierMotorradParkplaetze;
+        return freigesamt;
     }
 
     public double getStundentarif() {

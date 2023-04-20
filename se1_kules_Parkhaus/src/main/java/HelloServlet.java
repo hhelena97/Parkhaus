@@ -6,8 +6,11 @@ import javax.servlet.annotation.*;
 public class HelloServlet extends HttpServlet {
     private String message;
 
+
+
     public void init() {
-        message = "Hello World!";
+
+        //message = "Hello";
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
