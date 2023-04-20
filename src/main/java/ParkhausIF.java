@@ -1,3 +1,5 @@
+
+
 public interface ParkhausIF {
     public Ticket neuesTicket(String art);
 
