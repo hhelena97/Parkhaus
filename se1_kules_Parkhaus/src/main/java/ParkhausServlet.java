@@ -10,10 +10,10 @@ public class ParkhausServlet extends HttpServlet {
     private String message;
     private Parkhaus p;
 
-    public void init() {
 
-        p = new Parkhaus(3, 100);
+    public void init() {
         message = "Das kule Parkhaus";
+        p = new Parkhaus(100);
         System.out.println("Parkhaus erstellt - Parkplätze: " + p.getAnzahlFreierParkplaetze());
     }
 

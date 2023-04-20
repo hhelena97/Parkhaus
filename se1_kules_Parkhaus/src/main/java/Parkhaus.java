@@ -8,6 +8,7 @@ public class Parkhaus implements ParkhausIF{
     private double stundentarif;    //wie teuer ist es eine Stunde in diesem Parkhaus zu parken? kann man das final machen?
     private double einnahmenTag;
     private double parkdauerTag;
+
     private int anzahlFreierParkplaetze; //insgesamt inkl. alle arten
     private int anzahlFreierNormalerParkplaetze; //anzahl normaler
     private int anzahlFreierEAutoParkplaetze; //anzahl e auto
@@ -15,6 +16,7 @@ public class Parkhaus implements ParkhausIF{
     private int anzahlFreierMotorradParkplaetze; // -----------"--------------
     private List<Ticket> aktiveTickets = new ArrayList<Ticket>();
     private List<Ticket> entwerteteTickets = new ArrayList<Ticket>();
+
 
 
 
@@ -32,11 +34,10 @@ public class Parkhaus implements ParkhausIF{
         this.stundentarif = stdTarif;
     }
 
-    //Konstruktor für Zwischenstufe bei dem man Anzahl Parkplätze und Stundentarif festlegt
-    public Parkhaus(double stdTarif, int normale_Parkplaetze){
-        this.stundentarif = stdTarif;
+    //Konstruktor für Zwischenstufe bei dem man Anzahl normale Parkplätze festlegt
+    public Parkhaus(int normale_Parkplaetze){
+        this();
         this.anzahlFreierNormalerParkplaetze = normale_Parkplaetze;
-
     }
 
     /**
@@ -94,13 +95,13 @@ public class Parkhaus implements ParkhausIF{
         t.entwerten();
     }
 
-    //BranchTest
 
     // -----------------------------------------------------------------------------------------------------------------
     // Getter und Setter:
 
     public int getAnzahlFreierParkplaetze() {
-        return anzahlFreierParkplaetze;
+        int freigesamt = anzahlFreierNormalerParkplaetze + anzahlFreierEAutoParkplaetze + anzahlFreierBehindertenParkplaetze + anzahlFreierMotorradParkplaetze;
+        return freigesamt;
     }
 
     public double getStundentarif() {

@@ -9,6 +9,6 @@
 <br/>
 <a href="parkhaus-servlet">Parkhaus-Ansicht</a>
 <br>
-<p>"Hier kommt später eine Ticket-Ansicht und andere Dinge</p>
+<p>Hier kommt später eine Ticket-Ansicht und andere Dinge</p>
 </body>
 </html>
