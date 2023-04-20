@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Parkhaus implements ParkhausIF{
@@ -12,8 +13,8 @@ public class Parkhaus implements ParkhausIF{
     private int anzahlFreierEAutoParkplaetze; //anzahl e auto
     private int anzahlFreierBehindertenParkplaetze; //erklärt sich denke ich
     private int anzahlFreierMotorradParkplaetze; // -----------"--------------
-    private List<Ticket> aktiveTickets;
-    private List<Ticket> entwerteteTickets;
+    private List<Ticket> aktiveTickets = new ArrayList<Ticket>();
+    private List<Ticket> entwerteteTickets = new ArrayList<Ticket>();
 
 
 
@@ -52,6 +53,8 @@ public class Parkhaus implements ParkhausIF{
         } else {
             anzahlFreierMotorradParkplaetze--;
         }
+        //in aktiveTickets Liste schieben
+        aktiveTickets.add(dasTicket);
         return dasTicket;
     }
 
@@ -141,5 +144,21 @@ public class Parkhaus implements ParkhausIF{
 
     public void setAnzahlFreierNormalerParkplaetze(int i) {
         this.anzahlFreierNormalerParkplaetze = i;
+    }
+
+    public List<Ticket> getAktiveTickets() {
+        return aktiveTickets;
+    }
+
+    public void setAktiveTickets(List<Ticket> aktiveTickets) {
+        this.aktiveTickets = aktiveTickets;
+    }
+
+    public List<Ticket> getEntwerteteTickets() {
+        return entwerteteTickets;
+    }
+
+    public void setEntwerteteTickets(List<Ticket> entwerteteTickets) {
+        this.entwerteteTickets = entwerteteTickets;
     }
 }

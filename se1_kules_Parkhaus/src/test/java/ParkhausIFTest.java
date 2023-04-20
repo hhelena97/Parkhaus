@@ -61,6 +61,12 @@ class ParkhausIFTest {
         assertTrue(testParkhaus.getAnzahlFreierEAutoParkplaetze() == 7);
         assertTrue(testParkhaus.getAnzahlFreierBehindertenParkplaetze() == 9);
         assertTrue(testParkhaus.getAnzahlFreierMotorradParkplaetze() == 19);
+
+        assertEquals(testTicket1, testParkhaus.getAktiveTickets().get(0));
+        assertEquals(testTicket2, testParkhaus.getAktiveTickets().get(1));
+        assertEquals(testTicket3, testParkhaus.getAktiveTickets().get(2));
+        assertEquals(testTicket4, testParkhaus.getAktiveTickets().get(3));
+
     }
 
     @Test

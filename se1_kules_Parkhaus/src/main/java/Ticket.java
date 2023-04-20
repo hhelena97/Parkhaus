@@ -6,23 +6,26 @@ public class Ticket implements TicketIF{
     private LocalDate datum;
     private LocalTime uhrzeit;
     private final String artDesParkplatzes;
-
     private double preis;
     private boolean entwertet;
+    private int ticketID;
+    private static int identifikationsNummer = 0;
 
     //Test-Konstruktor damit man sich nicht immer ein Ticket mit "Ticket-Art" erstellen muss zum Testen
     public Ticket(){
-        datum = LocalDate.now();
-        uhrzeit = LocalTime.now();
-        artDesParkplatzes = "normaler Parkplatz";
+        this.datum = LocalDate.now();
+        this.uhrzeit = LocalTime.now();
+        this.ticketID = identifikationsNummer++;
+        this.artDesParkplatzes = "normaler Parkplatz";
         entwertet = false;
     }
 
     public Ticket(String art) {
-        datum = LocalDate.now();
-        uhrzeit = LocalTime.now();
-        artDesParkplatzes = art;
-        entwertet = false;
+        this.datum = LocalDate.now();
+        this.uhrzeit = LocalTime.now();
+        this.ticketID = identifikationsNummer++;
+        this.artDesParkplatzes = art;
+        this.entwertet = false;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
