@@ -1,9 +1,11 @@
+
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Parkhaus implements ParkhausIF{
+public class Parkhaus implements ParkhausIF {
 
     private double stundentarif;    //wie teuer ist es eine Stunde in diesem Parkhaus zu parken? kann man das final machen?
     private double einnahmenTag;

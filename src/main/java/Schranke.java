@@ -1,6 +1,8 @@
+
+
 import java.time.LocalTime;
 
-public class Schranke implements SchrankeIF{
+public class Schranke implements SchrankeIF {
 
     private Parkhaus parkhaus;
 
@@ -30,15 +32,14 @@ public class Schranke implements SchrankeIF{
                 String art = ticket.getArtDesParkplatzes();
                 this.parkhaus.setAnzahlFreieEAutoParkplaetze(this.parkhaus.getAnzahlFreierParkplaetze()+1);
                 //Für die speziellen Parkplätze:
-                switch (art) {
-                    case "Normaler Parkplatz" ->
-                            this.parkhaus.setAnzahlFreierNormalerParkplaetze((this.parkhaus.getAnzahlFreierNormalerParkplaetze() + 1));
-                    case "E-Auto-Parkplatz" ->
-                            this.parkhaus.setAnzahlFreierEAutoParkplaetze((this.parkhaus.getAnzahlFreierEAutoParkplaetze() + 1));
-                    case "Behinderten-Parkplatz" ->
-                            this.parkhaus.setAnzahlFreierBehindertenParkplaetze((this.parkhaus.getAnzahlFreierBehindertenParkplaetze() + 1));
-                    default ->
-                            this.parkhaus.setAnzahlFreierMotorradParkplaetze((this.parkhaus.getAnzahlFreierMotorradParkplaetze() + 1));
+                if (art.equals("Normaler Parkplatz")) {
+                    this.parkhaus.setAnzahlFreierNormalerParkplaetze((this.parkhaus.getAnzahlFreierNormalerParkplaetze() + 1));
+                } else if (art.equals("E-Auto-Parkplatz")) {
+                    this.parkhaus.setAnzahlFreierNormalerParkplaetze((this.parkhaus.getAnzahlFreierEAutoParkplaetze() + 1));
+                } else if (art.equals("Behinderten-Parkplatz")) {
+                    this.parkhaus.setAnzahlFreierNormalerParkplaetze((this.parkhaus.getAnzahlFreierBehindertenParkplaetze() + 1));
+                } else {
+                    this.parkhaus.setAnzahlFreierNormalerParkplaetze((this.parkhaus.getAnzahlFreierMotorradParkplaetze() + 1));
                 }
                 ticket = null;
             }

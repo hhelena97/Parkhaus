@@ -1,7 +1,9 @@
+
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Ticket implements TicketIF{
+public class Ticket implements TicketIF {
 
     private LocalDate datum;
     private LocalTime uhrzeit;
