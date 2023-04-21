@@ -13,13 +13,18 @@ public class ParkhausServlet extends HttpServlet {
     public void init() {
         message = "Das kule Parkhaus";
         p = new Parkhaus(100);
-        p.neuesTicket("Normaler Parkplatz");
-        p.neuesTicket("Behinderten-Parkplatz");
+
+        System.out.println("erste ticketID: " +p.neuesTicket("Normaler Parkplatz").getTicketID());
+        System.out.println("erste ticketID laut ArrayList: " +p.getAktiveTickets().get(0).getTicketID());
+
+        System.out.println("erste ticketID: " +p.neuesTicket("Behinderten-Parkplatz").getTicketID());
+        System.out.println("erste ticketID laut ArrayList: " +p.getAktiveTickets().get(1).getTicketID());
+
         System.out.println("Parkhaus erstellt - Parkplätze: " + p.getAnzahlFreierParkplaetze());
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println(request.getPathInfo()); //welchen Pfad hinter /parkhaus-servlet
+        //System.out.println(request.getPathInfo()); //welchen Pfad hinter /parkhaus-servlet
         response.setContentType("text/html");
 
         // Hello
@@ -39,6 +44,7 @@ public class ParkhausServlet extends HttpServlet {
         int index = 0;
         for (Ticket i : p.getAktiveTickets()) {
             htmlString += "<p>" + p.getAktiveTickets().get(index).getTicketID()+ "</p>";
+            index++;
         }
         htmlString += "</body></html>";
         return htmlString;
