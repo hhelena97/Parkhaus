@@ -10,6 +10,11 @@ public class Ticket implements TicketIF {
     private final String artDesParkplatzes;
     private double preis;
     private boolean entwertet;
+
+    public int getTicketID() {
+        return ticketID;
+    }
+
     private int ticketID;
     private static int identifikationsNummer = 0;
 
