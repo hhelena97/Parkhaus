@@ -9,6 +9,8 @@
 <br/>
 <a href="parkhaus-servlet">Parkhaus-Ansicht</a>
 <br>
+<a href="parkhaus-servlet/aktiveTickets">aktive Tickets</a>
+<br>
 <p>Hier kommt später eine Ticket-Ansicht und andere Dinge</p>
 </body>
 </html>

@@ -42,7 +42,6 @@ public class Ticket implements TicketIF {
     public int getUhrzeitStunde() {return this.uhrzeit.getHour();}
     public int getUhrzeitMin(){return this.uhrzeit.getMinute();}
     public void setUhrzeit() { this.uhrzeit = LocalTime.now();};
-
     public void setUhrzeitManuell(int stunden, int minuten){this.uhrzeit = LocalTime.of(stunden, minuten);};
     public LocalDate getDatum() {
         return datum;
@@ -50,10 +49,8 @@ public class Ticket implements TicketIF {
     public String getArtDesParkplatzes() {
         return artDesParkplatzes;
     }
-
     public void setPreis(double preis){this.preis = preis;};
     public double getPreis(){return this.preis;};
-
     public void setEntwertet(boolean ft) {this.entwertet = ft;};
     public boolean getEntwertet() {return this.entwertet;};
     //public double getPreisTicket() {return preisTicket;}
