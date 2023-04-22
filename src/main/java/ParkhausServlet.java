@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 
 @WebServlet(name = "ParkhausServlet", value = "/parkhaus-servlet")
 public class ParkhausServlet extends HttpServlet {
-    private String message;
+    private String message;         //hi :)
     private Parkhaus p;
 
     public void init() {
