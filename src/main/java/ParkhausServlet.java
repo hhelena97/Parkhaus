@@ -13,7 +13,7 @@ public class ParkhausServlet extends HttpServlet {
     public void init() {
         message = "Das kule Parkhaus";
         if(getServletConfig().getServletContext().getAttribute("parkhaus") == null){
-            p = new Parkhaus(100);
+            p = new Parkhaus(3, 100, 5, 5,10);
             getServletConfig().getServletContext().setAttribute("parkhaus", p);
         } else {
             p = (Parkhaus)getServletConfig().getServletContext().getAttribute("parkhaus");
@@ -43,6 +43,12 @@ public class ParkhausServlet extends HttpServlet {
         } else {
             out.println("<html><body>");
             out.println("<h1>" + message + "</h1>");
+            out.println("<p> Parkplätze gesamt: " + p.getParkplaetzeGesamt() + "</p><br>");
+            out.println("<p> aktuell freie Parkplätze gesamt: " + p.getAnzahlFreierParkplaetze() + "</p><br>");
+            out.println("<p> aktuell freie normale Parkplätze: " + p.getAnzahlFreierNormalerParkplaetze() + "</p><br>");
+            out.println("<p> aktuell freie Parkplätze für E-Autos: " + p.getAnzahlFreierEAutoParkplaetze() + "</p><br>");
+            out.println("<p> aktuell freie Behinderten-Parkplätze: " + p.getAnzahlFreierBehindertenParkplaetze() + "</p><br>");
+            out.println("<p> aktuell freie Motorrad-Parkplätze: " + p.getAnzahlFreierMotorradParkplaetze() + "</p><br>");
             out.println("</body></html>");
         }
     }

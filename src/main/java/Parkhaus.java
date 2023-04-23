@@ -16,6 +16,7 @@ public class Parkhaus implements ParkhausIF {
     private int anzahlFreierEAutoParkplaetze; //anzahl e auto
     private int anzahlFreierBehindertenParkplaetze; //erklärt sich denke ich
     private int anzahlFreierMotorradParkplaetze; // -----------"--------------
+    private int parkplaetzeGesamt; //Anzahl der Parkplätze insgesamt, ob frei oder besetzt
     private List<Ticket> aktiveTickets = new ArrayList<Ticket>();
     private List<Ticket> entwerteteTickets = new ArrayList<Ticket>();
 
@@ -41,6 +42,17 @@ public class Parkhaus implements ParkhausIF {
         this();
         this.anzahlFreierNormalerParkplaetze = normale_Parkplaetze;
     }
+
+    public Parkhaus(double stundentarif, int normaleParkplaetze, int EAutoParkplaetze, int behindertenParkplaetze, int motoradparkplaetze){
+        this.stundentarif = stundentarif;
+        parkplaetzeGesamt = normaleParkplaetze + behindertenParkplaetze + EAutoParkplaetze + motoradparkplaetze;
+        anzahlFreierNormalerParkplaetze = normaleParkplaetze;
+        anzahlFreierEAutoParkplaetze = behindertenParkplaetze;
+        anzahlFreierBehindertenParkplaetze = behindertenParkplaetze;
+        anzahlFreierMotorradParkplaetze = motoradparkplaetze;
+
+    }
+
 
     /**
      * die Methode "neuesTicket" ruft den Konstruktor für ein neues Ticket auf (setzt die Uhrzeit auf die aktuelle Uhrzeit, das Datum auf
@@ -101,9 +113,12 @@ public class Parkhaus implements ParkhausIF {
     // -----------------------------------------------------------------------------------------------------------------
     // Getter und Setter:
 
+    public int getParkplaetzeGesamt(){
+        return parkplaetzeGesamt;
+    }
     public int getAnzahlFreierParkplaetze() {
-        int freigesamt = anzahlFreierNormalerParkplaetze + anzahlFreierEAutoParkplaetze + anzahlFreierBehindertenParkplaetze + anzahlFreierMotorradParkplaetze;
-        return freigesamt;
+        anzahlFreierParkplaetze = anzahlFreierNormalerParkplaetze + anzahlFreierEAutoParkplaetze + anzahlFreierBehindertenParkplaetze + anzahlFreierMotorradParkplaetze;
+        return anzahlFreierParkplaetze;
     }
 
     public double getStundentarif() {
