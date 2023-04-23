@@ -12,7 +12,13 @@ public class ParkhausServlet extends HttpServlet {
 
     public void init() {
         message = "Das kule Parkhaus";
-        p = new Parkhaus(100);
+        if(getServletConfig().getServletContext().getAttribute("parkhaus") == null){
+            p = new Parkhaus(100);
+            getServletConfig().getServletContext().setAttribute("parkhaus", p);
+        } else {
+            p = (Parkhaus)getServletConfig().getServletContext().getAttribute("parkhaus");
+        }
+
 
         //damit in den aktiven Tickets was drin steht (und ich musste da was ausprobieren), kann weg sobald es den Button zum neuen Ticket erzeugen gibt
         System.out.println("erste ticketID: " +p.neuesTicket("Normaler Parkplatz").getTicketID());

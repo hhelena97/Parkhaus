@@ -5,12 +5,12 @@
     <title>Das kule Parkhaus</title>
 </head>
 <body>
-<h1>Dashboard</h1>
+<h1>Start</h1>
 <br/>
 <a href="parkhaus-servlet">Parkhaus-Ansicht</a>
 <br>
 <a href="parkhaus-servlet/aktiveTickets">aktive Tickets</a>
 <br>
-<p>Hier kommt später eine Ticket-Ansicht und andere Dinge</p>
+<p>Hier kommt vielleicht später noch was</p>
 </body>
 </html>
