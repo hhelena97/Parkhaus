@@ -11,6 +11,8 @@
 <br>
 <a href="parkhaus-servlet/aktiveTickets">aktive Tickets</a>
 <br>
+<a href="parkhaus-servlet/neuesTicket">neues Ticket erstellen</a>
+<br>
 <p>Hier kommt vielleicht später noch was</p>
 </body>
 </html>

@@ -40,7 +40,12 @@ public class ParkhausServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         if(request.getPathInfo() != null && request.getPathInfo().equals("/aktiveTickets")) {
             out.println(StringFuerAktiveTicketsAuflistung(response)); //hier methode, die die Tickets zurückgibt
-        } else {
+        }
+        else if (request.getPathInfo() != null && request.getPathInfo().equals("/neuesTicket"))
+        {
+            out.println(StringFuerNeuesTicketAuswahl());
+        }
+        else {
             out.println("<html><body>");
             out.println("<h1>" + message + "</h1>");
             out.println("<p> Parkplätze gesamt: " + p.getParkplaetzeGesamt() + "</p><br>");
@@ -50,6 +55,19 @@ public class ParkhausServlet extends HttpServlet {
             out.println("<p> aktuell freie Behinderten-Parkplätze: " + p.getAnzahlFreierBehindertenParkplaetze() + "</p><br>");
             out.println("<p> aktuell freie Motorrad-Parkplätze: " + p.getAnzahlFreierMotorradParkplaetze() + "</p><br>");
             out.println("</body></html>");
+        }
+    }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException
+    {
+        response.setContentType("text/html");
+
+        PrintWriter out = response.getWriter();
+
+        if (request.getParameter("buttonNeuesTicketErstellen") != null)
+        {
+            Ticket t = new Ticket(request.getParameter("parkplatzArt"));
+            out.println("<p> Es wurde ein neues Ticket mit Parkplatzart: " + t.getArtDesParkplatzes() + " und ID: " + t.getTicketID() + " erstellt! </p><br>");
         }
     }
     
@@ -72,6 +90,21 @@ public class ParkhausServlet extends HttpServlet {
         htmlString += "</body></html>";
         return htmlString;
     }
+
+    private String StringFuerNeuesTicketAuswahl()            // Ticket-Auswahl mit Knopf
+    {
+        String s = "";
+        s += "<form method = \"POST\" target = \"_blank\">";
+        s += "<input type = \"checkbox\" name = \"parkplatzArt\" value=\"Normaler Parkplatz\" /> Normaler Parkplatz</br>";
+        s += "<input type = \"checkbox\" name = \"parkplatzArt\" value=\"Behinderten-Parkplatz\"  /> Behinderten Parkplatz</br>";
+        s += "<input type = \"checkbox\" name = \"parkplatzArt\" value=\"E-Auto-Parkplatz\" /> E-Auto Parkplatz</br>";
+        s += "<input type = \"checkbox\" name = \"parkplatzArt\" value=\"Motorrad-Parkplatz\" /> Motorrad Parkplatz</br>";
+        s += "<input type = \"submit\" name = \"buttonNeuesTicketErstellen\" value = \"Erstelle Ticket\" />";
+        s += "</form>";
+        return s;
+    }
+
+
 
     public void destroy() {
     }
