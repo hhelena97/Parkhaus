@@ -12,12 +12,8 @@ public class ParkhausServlet extends HttpServlet {
 
     public void init() {
         message = "Das kule Parkhaus";
-        if(getServletConfig().getServletContext().getAttribute("parkhaus") == null){
-            p = new Parkhaus(3, 100, 5, 5,10);
-            getServletConfig().getServletContext().setAttribute("parkhaus", p);
-        } else {
-            p = (Parkhaus)getServletConfig().getServletContext().getAttribute("parkhaus");
-        }
+        p = new Parkhaus(3, 100, 5, 5,10);
+        getServletConfig().getServletContext().setAttribute("parkhaus", p);
 
 
         //damit in den aktiven Tickets was drin steht (und ich musste da was ausprobieren), kann weg sobald es den Button zum neuen Ticket erzeugen gibt
@@ -35,6 +31,14 @@ public class ParkhausServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //System.out.println(request.getPathInfo()); //welchen Pfad hinter /parkhaus-servlet
         response.setContentType("text/html");
+
+        //prüfe ob es ein Parkhaus gibt und wenn ja, verwende dieses Parkhaus
+        if (getServletConfig().getServletContext().getAttribute("parkhaus") == null){
+            p = new Parkhaus(3, 100, 5, 5,10);
+            getServletConfig().getServletContext().setAttribute("parkhaus", p);
+        } else {
+            p = (Parkhaus)getServletConfig().getServletContext().getAttribute("parkhaus");
+        }
 
         // Hello
         PrintWriter out = response.getWriter();
