@@ -41,7 +41,7 @@ public class Schranke implements SchrankeIF {
                 } else {
                     this.parkhaus.setAnzahlFreierNormalerParkplaetze((this.parkhaus.getAnzahlFreierMotorradParkplaetze() + 1));
                 }
-                ticket = null;
+                //ticket = null; würde ich nicht machen hier, da ich die Daten von den Tickets noch auf der Website anzeigen will
             }
             else {
                 ticket.setUhrzeit(); //Parkzeit neu starten

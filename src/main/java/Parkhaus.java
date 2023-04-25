@@ -18,7 +18,7 @@ public class Parkhaus implements ParkhausIF {
     private int anzahlFreierMotorradParkplaetze; // -----------"--------------
     private int parkplaetzeGesamt; //Anzahl der Parkplätze insgesamt, ob frei oder besetzt
     private List<Ticket> aktiveTickets = new ArrayList<Ticket>();
-    private List<Ticket> entwerteteTickets = new ArrayList<Ticket>();
+    private List<Ticket> inaktiveTickets = new ArrayList<Ticket>();
 
 
 
@@ -177,15 +177,8 @@ public class Parkhaus implements ParkhausIF {
         return aktiveTickets;
     }
 
-    public void setAktiveTickets(List<Ticket> aktiveTickets) {
-        this.aktiveTickets = aktiveTickets;
+    public List<Ticket> getInaktiveTickets() {
+        return inaktiveTickets;
     }
 
-    public List<Ticket> getEntwerteteTickets() {
-        return entwerteteTickets;
-    }
-
-    public void setEntwerteteTickets(List<Ticket> entwerteteTickets) {
-        this.entwerteteTickets = entwerteteTickets;
-    }
 }

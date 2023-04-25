@@ -49,6 +49,9 @@ public class ParkhausServlet extends HttpServlet {
         {
             out.println(StringFuerNeuesTicketAuswahl());
         }
+        else if(request.getPathInfo() != null && request.getPathInfo().equals("/inaktiveTickets")) {
+            out.println(StringFuerInaktiveTicketsAuflistung(response));
+        }
         else {
             out.println("<html><body>");
             out.println("<h1>" + message + "</h1>");
@@ -89,6 +92,26 @@ public class ParkhausServlet extends HttpServlet {
                 htmlString += ":" + p.getAktiveTickets().get(index).getUhrzeit().getMinute() + ", ";
             }
             htmlString += "Parkplatzart: " + p.getAktiveTickets().get(index).getArtDesParkplatzes()+ "</p>";
+            index++;
+        }
+        htmlString += "</body></html>";
+        return htmlString;
+    }
+
+    public String StringFuerInaktiveTicketsAuflistung(HttpServletResponse response) throws IOException{
+        String htmlString = "";
+        htmlString += "<html><body><h2>Alle inaktiven Tickets: </h2>";
+        int index = 0;
+        for (Ticket i : p.getInaktiveTickets()) {
+            htmlString += "<p>Ticket" + p.getInaktiveTickets().get(index).getTicketID()+ ", ";
+            htmlString += "Datum: " + p.getInaktiveTickets().get(index).getDatum()+", ";
+            htmlString += "Ausfahrzeit: " + p.getInaktiveTickets().get(index).getUhrzeit().getHour();
+            if(p.getInaktiveTickets().get(index).getUhrzeit().getMinute() <10) {
+                htmlString += ":0" + p.getInaktiveTickets().get(index).getUhrzeit().getMinute() + ", ";
+            } else {
+                htmlString += ":" + p.getInaktiveTickets().get(index).getUhrzeit().getMinute() + ", ";
+            }
+            htmlString += "Parkplatzart: " + p.getInaktiveTickets().get(index).getArtDesParkplatzes()+ "</p>";
             index++;
         }
         htmlString += "</body></html>";
