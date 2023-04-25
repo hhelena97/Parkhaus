@@ -33,15 +33,16 @@ public class Schranke implements SchrankeIF{
                     default ->
                             this.parkhaus.setAnzahlFreierMotorradParkplaetze((this.parkhaus.getAnzahlFreierMotorradParkplaetze() + 1));
                 }
+                System.out.println("Auf Wiedersehen!");
                 ticket = null;
             }
             else {
                 ticket.setUhrzeit(); //Parkzeit neu starten
                 ticket.setEntwertet(false);
-                System.out.println("Zeit zum Ausfahren überschritten, Zeitstempel zurückgesetzt auf: " + ticket.getUhrzeitStunde() + ":" + ticket.getUhrzeitMin() +". Bitte entwerten Sie das Ticket erneut am Automaten.");
+                System.out.println("Zeit zum Ausfahren ueberschritten, Zeitstempel zurueckgesetzt auf: " + ticket.getUhrzeitStunde() + ":" + ticket.getUhrzeitMin() +". Bitte entwerten Sie das Ticket erneut am Automaten.");
             }
 
         }
-        else {System.out.println("Ausfahrt nur mit entwertetem Ticket möglich.");}
+        else {System.out.println("Ausfahrt nur mit entwertetem Ticket moeglich.");}
     }
 }
