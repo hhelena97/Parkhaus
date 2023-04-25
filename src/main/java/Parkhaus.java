@@ -1,22 +1,29 @@
+
+
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Parkhaus implements ParkhausInterface{
+public class Parkhaus implements ParkhausIF {
 
-    private double stundentarif; //wie teuer ist es eine Stunde in diesem Parkhaus zu parken? TODO: kann man das final machen?
+    private double stundentarif;    //wie teuer ist es eine Stunde in diesem Parkhaus zu parken? kann man das final machen?
     private double einnahmenTag;
     private double parkdauerTag;
+
     private int anzahlFreierParkplaetze; //insgesamt inkl. alle arten
     private int anzahlFreierNormalerParkplaetze; //anzahl normaler
     private int anzahlFreierEAutoParkplaetze; //anzahl e auto
     private int anzahlFreierBehindertenParkplaetze; //erklärt sich denke ich
     private int anzahlFreierMotorradParkplaetze; // -----------"--------------
+    private int parkplaetzeGesamt; //Anzahl der Parkplätze insgesamt, ob frei oder besetzt
+    private List<Ticket> aktiveTickets = new ArrayList<Ticket>();
+    private List<Ticket> entwerteteTickets = new ArrayList<Ticket>();
 
-    public int getAnzahlFreierParkplaetze() {
-        return anzahlFreierParkplaetze;
-    }
 
-    //brauchen wie beide Konstruktoren?
+
+
+    //brauchen wie beide Konstruktoren? //ja, ist hilfreich zum Testen
     public Parkhaus() {
 
         this.stundentarif = 0.0;
@@ -26,9 +33,26 @@ public class Parkhaus implements ParkhausInterface{
 
     public Parkhaus(double stdTarif) {
 
-        //super();    // Frage: rufe ich damit den Konstruktor ohne Parameter auf? Katharina: du rufst damit den Konstruktor auf aus der Klasse von der Parkhaus erbt, aber Parkhaus erbt doch von keiner Klasse... ich meine du müsstest da this(); benutzen statt super(); dann sollte der den Parkhaus() aufrufen
+        this();    // rufe den Konstruktor ohne Parameter auf
         this.stundentarif = stdTarif;
     }
+
+    //Konstruktor für Zwischenstufe bei dem man Anzahl normale Parkplätze festlegt
+    public Parkhaus(int normale_Parkplaetze){
+        this();
+        this.anzahlFreierNormalerParkplaetze = normale_Parkplaetze;
+    }
+
+    public Parkhaus(double stundentarif, int normaleParkplaetze, int EAutoParkplaetze, int behindertenParkplaetze, int motoradparkplaetze){
+        this.stundentarif = stundentarif;
+        parkplaetzeGesamt = normaleParkplaetze + behindertenParkplaetze + EAutoParkplaetze + motoradparkplaetze;
+        anzahlFreierNormalerParkplaetze = normaleParkplaetze;
+        anzahlFreierEAutoParkplaetze = behindertenParkplaetze;
+        anzahlFreierBehindertenParkplaetze = behindertenParkplaetze;
+        anzahlFreierMotorradParkplaetze = motoradparkplaetze;
+
+    }
+
 
     /**
      * die Methode "neuesTicket" ruft den Konstruktor für ein neues Ticket auf (setzt die Uhrzeit auf die aktuelle Uhrzeit, das Datum auf
@@ -38,6 +62,7 @@ public class Parkhaus implements ParkhausInterface{
      * @param art String in welchem steht, welche Art des Parkplatzes der Kunde gewählt hat
      * @return ein neues Ticket mit gesetzten Instanzvariablen
      */
+    @Override
     public Ticket neuesTicket(String art) {
         Ticket dasTicket = new Ticket(art);
         anzahlFreierParkplaetze--;
@@ -50,6 +75,8 @@ public class Parkhaus implements ParkhausInterface{
         } else {
             anzahlFreierMotorradParkplaetze--;
         }
+        //in aktiveTickets Liste schieben
+        aktiveTickets.add(dasTicket);
         return dasTicket;
     }
 
@@ -61,7 +88,7 @@ public class Parkhaus implements ParkhausInterface{
     @Override
     public void bezahleTicket(Ticket t) {
 
-        // TODO: Parkzeit berechnen     Katharina: kannst du jetzt mit der guten neuen Methode "zeitDifferenz" machen :)
+        // TODO: Parkzeit berechnen
         int dauer = t.zeitDifferenz();
         int stunden = dauer/60;
 
@@ -82,8 +109,17 @@ public class Parkhaus implements ParkhausInterface{
         t.entwerten();
     }
 
+
     // -----------------------------------------------------------------------------------------------------------------
     // Getter und Setter:
+
+    public int getParkplaetzeGesamt(){
+        return parkplaetzeGesamt;
+    }
+    public int getAnzahlFreierParkplaetze() {
+        anzahlFreierParkplaetze = anzahlFreierNormalerParkplaetze + anzahlFreierEAutoParkplaetze + anzahlFreierBehindertenParkplaetze + anzahlFreierMotorradParkplaetze;
+        return anzahlFreierParkplaetze;
+    }
 
     public double getStundentarif() {
         return stundentarif;
@@ -137,4 +173,19 @@ public class Parkhaus implements ParkhausInterface{
         this.anzahlFreierNormalerParkplaetze = i;
     }
 
+    public List<Ticket> getAktiveTickets() {
+        return aktiveTickets;
+    }
+
+    public void setAktiveTickets(List<Ticket> aktiveTickets) {
+        this.aktiveTickets = aktiveTickets;
+    }
+
+    public List<Ticket> getEntwerteteTickets() {
+        return entwerteteTickets;
+    }
+
+    public void setEntwerteteTickets(List<Ticket> entwerteteTickets) {
+        this.entwerteteTickets = entwerteteTickets;
+    }
 }
