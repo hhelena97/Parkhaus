@@ -2,6 +2,6 @@
 
 public interface SchrankeIF {
 
-    void ausfahren(Ticket ticket);
+    void ausfahren(Ticket ticket, Parkhaus parkhaus);
 
 }

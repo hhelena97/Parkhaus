@@ -4,9 +4,6 @@ import java.time.LocalTime;
 
 public class Schranke implements SchrankeIF {
 
-    private Parkhaus parkhaus;
-
-    public Schranke(Parkhaus zugehoerigesParkhaus){this.parkhaus = zugehoerigesParkhaus;}
 
     /**
      * "ausfahren" prüft, ob das Ticket entwertet wurde und die Zeit zum ausfahren noch reicht. Wenn die Bedingungen nicht
@@ -16,23 +13,23 @@ public class Schranke implements SchrankeIF {
      * @param ticket ist das eingesteckte Ticket
      */
     @Override
-    public void ausfahren(Ticket ticket) {
+    public void ausfahren(Ticket ticket, Parkhaus parkhaus) {
         if (ticket.getEntwertet()) {
             LocalTime timeStamp = LocalTime.now().minusMinutes(15);
             LocalTime uhrzeit = ticket.getUhrzeit();
-            if (uhrzeit.isAfter(timeStamp)){
+            if (uhrzeit.equals(timeStamp) || uhrzeit.isAfter(timeStamp)){
                 //Parkplatz freigeben:
                 String art = ticket.getArtDesParkplatzes();
-                this.parkhaus.setAnzahlFreierParkplaetze(this.parkhaus.getAnzahlFreierParkplaetze()+1);
+                parkhaus.setAnzahlFreierParkplaetze(parkhaus.getAnzahlFreierParkplaetze()+1);
                 //Für die speziellen Parkplätze:
                 if (art.equals("Normaler Parkplatz")) {
-                    this.parkhaus.setAnzahlFreierNormalerParkplaetze((this.parkhaus.getAnzahlFreierNormalerParkplaetze() + 1));
+                    parkhaus.setAnzahlFreierNormalerParkplaetze((parkhaus.getAnzahlFreierNormalerParkplaetze() + 1));
                 } else if (art.equals("E-Auto-Parkplatz")) {
-                    this.parkhaus.setAnzahlFreierNormalerParkplaetze((this.parkhaus.getAnzahlFreierEAutoParkplaetze() + 1));
+                    parkhaus.setAnzahlFreierEAutoParkplaetze((parkhaus.getAnzahlFreierEAutoParkplaetze() + 1));
                 } else if (art.equals("Behinderten-Parkplatz")) {
-                    this.parkhaus.setAnzahlFreierNormalerParkplaetze((this.parkhaus.getAnzahlFreierBehindertenParkplaetze() + 1));
+                    parkhaus.setAnzahlFreierBehindertenParkplaetze((parkhaus.getAnzahlFreierBehindertenParkplaetze() + 1));
                 } else {
-                    this.parkhaus.setAnzahlFreierNormalerParkplaetze((this.parkhaus.getAnzahlFreierMotorradParkplaetze() + 1));
+                    parkhaus.setAnzahlFreierMotorradParkplaetze((parkhaus.getAnzahlFreierMotorradParkplaetze() + 1));
                 }
                 System.out.println("Auf Wiedersehen!");
                 ticket = null;
