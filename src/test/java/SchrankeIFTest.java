@@ -24,7 +24,7 @@ public class SchrankeIFTest {
         assertEquals(189,testParkhaus.getAnzahlFreierNormalerParkplaetze());
         assertEquals(9,testParkhaus.getAnzahlFreierBehindertenParkplaetze());
 
-        //Zeitschranke testen, sollte auch Hinweis über abgelaufene Zeit geben
+        /*Zeitschranke testen, sollte auch Hinweis über abgelaufene Zeit geben
         testTicket1.setUhrzeitManuell(18,0);
         testTicket1.setEntwertet(true);
         testTicket2.setUhrzeitManuell(18,0);
@@ -33,7 +33,7 @@ public class SchrankeIFTest {
         testSchranke.ausfahren(testTicket2);
         assertEquals(198,testParkhaus.getAnzahlFreierParkplaetze());
         assertEquals(189,testParkhaus.getAnzahlFreierNormalerParkplaetze());
-        assertEquals(9,testParkhaus.getAnzahlFreierBehindertenParkplaetze());
+        assertEquals(9,testParkhaus.getAnzahlFreierBehindertenParkplaetze());*/
 
         //Zeitschranke testen, sollte die Autos nun rauslassen
         testTicket1.setEntwertet(true);

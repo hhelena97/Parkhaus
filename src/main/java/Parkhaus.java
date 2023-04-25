@@ -117,7 +117,7 @@ public class Parkhaus implements ParkhausIF {
         return parkplaetzeGesamt;
     }
     public int getAnzahlFreierParkplaetze() {
-        anzahlFreierParkplaetze = anzahlFreierNormalerParkplaetze + anzahlFreierEAutoParkplaetze + anzahlFreierBehindertenParkplaetze + anzahlFreierMotorradParkplaetze;
+        //anzahlFreierParkplaetze = anzahlFreierNormalerParkplaetze + anzahlFreierEAutoParkplaetze + anzahlFreierBehindertenParkplaetze + anzahlFreierMotorradParkplaetze;
         return anzahlFreierParkplaetze;
     }
 
@@ -137,16 +137,12 @@ public class Parkhaus implements ParkhausIF {
         this.anzahlFreierParkplaetze = i;
     }
 
-    public void setAnzahlFreieEAutoParkplaetze(int i) {
+    public void setAnzahlFreierEAutoParkplaetze(int i) {
         anzahlFreierEAutoParkplaetze = i;
     }
 
     public int getAnzahlFreierEAutoParkplaetze() {
         return anzahlFreierEAutoParkplaetze;
-    }
-
-    public void setAnzahlFreierEAutoParkplaetze(int anzahlFreierEAutoParkplaetze) {
-        this.anzahlFreierEAutoParkplaetze = anzahlFreierEAutoParkplaetze;
     }
 
     public int getAnzahlFreierBehindertenParkplaetze() {
@@ -161,8 +157,8 @@ public class Parkhaus implements ParkhausIF {
         return anzahlFreierMotorradParkplaetze;
     }
 
-    public void setAnzahlFreierMotorradParkplaetze(int anzahlFreierMotorradParkplaetze) {
-        this.anzahlFreierMotorradParkplaetze = anzahlFreierMotorradParkplaetze;
+    public void setAnzahlFreierMotorradParkplaetze(int i) {
+        this.anzahlFreierMotorradParkplaetze = i;
     }
 
     public int getAnzahlFreierNormalerParkplaetze() {

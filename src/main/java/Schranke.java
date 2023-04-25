@@ -24,18 +24,19 @@ public class Schranke implements SchrankeIF {
                 //Parkplatz freigeben:
                 String art = ticket.getArtDesParkplatzes();
                 this.parkhaus.setAnzahlFreierParkplaetze(this.parkhaus.getAnzahlFreierParkplaetze()+1);
+
                 //Für die speziellen Parkplätze:
                 if (art.equals("Normaler Parkplatz")) {
                     this.parkhaus.setAnzahlFreierNormalerParkplaetze((this.parkhaus.getAnzahlFreierNormalerParkplaetze() + 1));
                 } else if (art.equals("E-Auto-Parkplatz")) {
-                    this.parkhaus.setAnzahlFreierNormalerParkplaetze((this.parkhaus.getAnzahlFreierEAutoParkplaetze() + 1));
+                    this.parkhaus.setAnzahlFreierEAutoParkplaetze((this.parkhaus.getAnzahlFreierEAutoParkplaetze() + 1));
                 } else if (art.equals("Behinderten-Parkplatz")) {
-                    this.parkhaus.setAnzahlFreierNormalerParkplaetze((this.parkhaus.getAnzahlFreierBehindertenParkplaetze() + 1));
+                    this.parkhaus.setAnzahlFreierBehindertenParkplaetze((this.parkhaus.getAnzahlFreierBehindertenParkplaetze() + 1));
                 } else {
-                    this.parkhaus.setAnzahlFreierNormalerParkplaetze((this.parkhaus.getAnzahlFreierMotorradParkplaetze() + 1));
+                    this.parkhaus.setAnzahlFreierMotorradParkplaetze((this.parkhaus.getAnzahlFreierMotorradParkplaetze() + 1));
                 }
                 System.out.println("Auf Wiedersehen!");
-                ticket = null;
+                //ticket = null;
             }
             else {
                 ticket.setUhrzeit(); //Parkzeit neu starten
