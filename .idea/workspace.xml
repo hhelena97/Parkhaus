@@ -10,12 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c8babcc-fa48-4237-abd3-0928438973ad" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Parkhaus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Parkhaus.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Schranke.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Schranke.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SchrankeIF.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SchrankeIF.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/SchrankeIFTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SchrankeIFTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -34,29 +32,39 @@
     <option name="CUSTOM_FILTER" />
   </component>
   <component name="ProjectId" id="2OYnHGtld6o4BXA88Z8bVctklOQ" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/helen/Desktop/Studium/SS23/SE1/inf_se1_ss23_Team_19_sose23&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/helen/Desktop/Studium/SS23/SE1/inf_se1_ss23_Team_19_sose23/src/src/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "jdk.selected.JAVA_MODULE": "17",
+    "last_opened_file_path": "C:/Users/helen/Desktop/Studium/SS23/SE1/inf_se1_ss23_Team_19_sose23",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "onboarding.tips.debug.path": "C:/Users/helen/Desktop/Studium/SS23/SE1/inf_se1_ss23_Team_19_sose23/src/src/Main.java",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager">
+}]]></component>
+  <component name="RunManager" selected="JUnit.SchrankeIFTest.ausfahrenTest">
+    <configuration name="SchrankeIFTest.ausfahrenTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Team_19_sose23" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="SchrankeIFTest" />
+      <option name="METHOD_NAME" value="ausfahrenTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="inf_se1_ss23_Team_19_sose23" />
       <method v="2">
@@ -70,7 +78,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Tomcat 8.5.65" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.5.65" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+    <configuration name="Tomcat 8.5.88" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.5.88" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
         <artifact name="Team_19_sose23:war exploded">
@@ -80,7 +88,7 @@
         </artifact>
       </deployment>
       <server-settings>
-        <option name="BASE_DIRECTORY_NAME" value="1fbcfc2b-1e1a-42bf-98df-68745dd6562b" />
+        <option name="BASE_DIRECTORY_NAME" value="4dca884c-aa8a-4d02-8fe1-b1081e274d2b" />
       </server-settings>
       <predefined_log_file enabled="true" id="Tomcat" />
       <predefined_log_file enabled="true" id="Tomcat Catalina" />
@@ -88,7 +96,7 @@
       <predefined_log_file id="Tomcat Host Manager" />
       <predefined_log_file id="Tomcat Localhost Access" />
       <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="55203" />
+        <option name="DEBUG_PORT" value="63540" />
       </RunnerSettings>
       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
         <option name="USE_ENV_VARIABLES" value="true" />
@@ -157,6 +165,15 @@
         </option>
       </method>
     </configuration>
+    <list>
+      <item itemvalue="JUnit.SchrankeIFTest.ausfahrenTest" />
+      <item itemvalue="Tomcat Server.Tomcat 8.5.88" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.SchrankeIFTest.ausfahrenTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -168,26 +185,11 @@
       <updated>1681746293707</updated>
       <workItem from="1681746294730" duration="398000" />
       <workItem from="1681746777258" duration="93000" />
-      <workItem from="1682428620760" duration="2170000" />
-      <workItem from="1682434433922" duration="474000" />
-      <workItem from="1682434926914" duration="1420000" />
-      <workItem from="1682436373988" duration="3046000" />
-      <workItem from="1682441112975" duration="1902000" />
+      <workItem from="1682433783254" duration="4035000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
 </project>

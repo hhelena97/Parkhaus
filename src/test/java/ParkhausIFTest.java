@@ -14,7 +14,7 @@ class ParkhausIFTest {
         //Testparkhaus erstellen in dem die Werte geändert werden sollen wenn ein Auto reinfährt --> überprüfung weiter unten
         Parkhaus testParkhaus = new Parkhaus();
         testParkhaus.setAnzahlFreierParkplaetze(400);
-        testParkhaus.setAnzahlFreieEAutoParkplaetze(8);
+        testParkhaus.setAnzahlFreierEAutoParkplaetze(8);
         testParkhaus.setAnzahlFreierBehindertenParkplaetze(10);
         testParkhaus.setAnzahlFreierNormalerParkplaetze(362);
         testParkhaus.setAnzahlFreierMotorradParkplaetze(20);
