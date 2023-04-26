@@ -73,7 +73,7 @@ public class ParkhausServlet extends HttpServlet {
 
         if (request.getParameter("buttonNeuesTicketErstellen") != null)
         {
-            Ticket t = new Ticket(request.getParameter("parkplatzArt"));
+            Ticket t = p.neuesTicket(request.getParameter("parkplatzArt"));
             out.println("<p> Es wurde ein neues Ticket mit Parkplatzart: " + t.getArtDesParkplatzes() + " und ID: " + t.getTicketID() + " erstellt! </p><br>");
         }
     }
