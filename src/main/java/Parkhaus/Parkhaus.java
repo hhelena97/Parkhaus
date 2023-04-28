@@ -4,10 +4,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 
 public class Parkhaus implements ParkhausIF {
 
-    private double stundentarif;    //wie teuer ist es eine Stunde in diesem Parkhaus.Parkhaus zu parken? kann man das final machen?
+    private double stundentarif;    //wie teuer ist es eine Stunde in diesem Parkhaus zu parken? kann man das final machen?
     private double einnahmenTag;
     private double parkdauerTag;
 
@@ -50,12 +53,12 @@ public class Parkhaus implements ParkhausIF {
 
 
     /**
-     * die Methode "neuesTicket" ruft den Konstruktor für ein neues Parkhaus.Ticket auf (setzt die Uhrzeit auf die aktuelle Uhrzeit, das Datum auf
+     * die Methode "neuesTicket" ruft den Konstruktor für ein neues Ticket auf (setzt die Uhrzeit auf die aktuelle Uhrzeit, das Datum auf
      * das aktuelle Datum und die Art auf den mitgegebenen String "art"). Danach wird die Anzahl der freien Parkplätze um 1 verringert.
      * Und die Anzahl der jeweiligen freien Plätze der bestimmten Art werden auch um 1 verringert.
      *
      * @param art String in welchem steht, welche Art des Parkplatzes der Kunde gewählt hat
-     * @return ein neues Parkhaus.Ticket mit gesetzten Instanzvariablen
+     * @return ein neues Ticket mit gesetzten Instanzvariablen
      */
     @Override
     public Ticket neuesTicket(String art) {

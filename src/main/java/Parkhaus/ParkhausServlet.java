@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "Parkhaus.ParkhausServlet", value = "/parkhaus-servlet")
+@WebServlet(name = "ParkhausServlet", value = "/parkhaus-servlet")
 public class ParkhausServlet extends HttpServlet {
     public void init() {
         //existiert bereits ein Parkhaus im Context, dann wird das verwendet - sonst wird ein neues erstellt
@@ -23,7 +23,7 @@ public class ParkhausServlet extends HttpServlet {
         getServletContext().setAttribute("parkhaus", p);
 
 
-        //damit in den aktiven Tickets was drin steht (und ich musste da was ausprobieren), kann weg sobald es den Button zum neuen Parkhaus.Ticket erzeugen gibt
+        //damit in den aktiven Tickets was drin steht (und ich musste da was ausprobieren), kann weg sobald es den Button zum neuen Ticket erzeugen gibt
         System.out.println("erste ticketID: " +p.neuesTicket("Normaler Parkplatz").getTicketID());
         System.out.println("erste ticketID laut ArrayList: " +p.getAktiveTickets().get(0).getTicketID());
         System.out.println("erste ticketID: " +p.neuesTicket("Behinderten-Parkplatz").getTicketID());
@@ -71,6 +71,7 @@ public class ParkhausServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        PrintWriter out = response.getWriter();
         //hole das Parkhaus aus dem Context
         Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
         //führe je nach "action" verschiedene Dinge aus
@@ -80,7 +81,6 @@ public class ParkhausServlet extends HttpServlet {
             //erstellt ein neues Ticket mit der ausgewählten Parkplatzart
             Ticket t = p.neuesTicket(request.getParameter("ticketArt"));
 
-            PrintWriter out = response.getWriter();
             out.println("<p> Es wurde ein neues Ticket mit Parkplatzart: " + t.getArtDesParkplatzes() + " und ID: " + t.getTicketID() + " erstellt! </p><br>");
 
             System.out.println("Neues Ticket erstellt");
@@ -92,7 +92,6 @@ public class ParkhausServlet extends HttpServlet {
         } else if ("bezahlen".equals("action")){
             //Ticket t = p.Methode zum Suchen des Tickets in der Liste(request.getParameter("ticketID")
             //double preis = p.bezahleTicket(t);
-            PrintWriter out = response.getWriter();
             out.println("<p>Ticket entwertet</p>");
             //out.println("Preis: " + preis);
 
@@ -104,7 +103,6 @@ public class ParkhausServlet extends HttpServlet {
             //Ticket t = Methode zum Suchen des Tickets in der Liste(request.getParameter("ticketID")
             //Schranke erstellen
             //schranke.ausfahren(t)
-            PrintWriter out = response.getWriter();
             out.println("<p>Schranke geht auf</p>");
 
             //(über)schreibt die Liste aktiver und inaktiver Tickets im Context
@@ -121,7 +119,7 @@ public class ParkhausServlet extends HttpServlet {
         htmlString += "<html><body><h2>Zurzeit aktive Tickets: </h2>";
         int index = 0;
         for (Ticket i : p.getAktiveTickets()) {
-            htmlString += "<p>Parkhaus.Ticket" + p.getAktiveTickets().get(index).getTicketID()+ ", ";
+            htmlString += "<p>Ticket" + p.getAktiveTickets().get(index).getTicketID()+ ", ";
             htmlString += "Datum: " + p.getAktiveTickets().get(index).getDatum()+", ";
             htmlString += "Ankunftszeit: " + p.getAktiveTickets().get(index).getUhrzeit().getHour();
             if(p.getAktiveTickets().get(index).getUhrzeit().getMinute() <10) {
@@ -143,7 +141,7 @@ public class ParkhausServlet extends HttpServlet {
         htmlString += "<html><body><h2>Alle inaktiven Tickets: </h2>";
         int index = 0;
         for (Ticket i : p.getInaktiveTickets()) {
-            htmlString += "<p>Parkhaus.Ticket" + p.getInaktiveTickets().get(index).getTicketID()+ ", ";
+            htmlString += "<p>Ticket" + p.getInaktiveTickets().get(index).getTicketID()+ ", ";
             htmlString += "Datum: " + p.getInaktiveTickets().get(index).getDatum()+", ";
             htmlString += "Ausfahrzeit: " + p.getInaktiveTickets().get(index).getUhrzeit().getHour();
             if(p.getInaktiveTickets().get(index).getUhrzeit().getMinute() <10) {
@@ -158,7 +156,7 @@ public class ParkhausServlet extends HttpServlet {
         return htmlString;
     }
 
-    private String StringFuerNeuesTicketAuswahl()            // Parkhaus.Ticket-Auswahl mit Knopf
+    private String StringFuerNeuesTicketAuswahl()            // Ticket-Auswahl mit Knopf
     {
         String s = "";
         s += "<form method = \"POST\" target = \"_blank\">";
@@ -166,7 +164,7 @@ public class ParkhausServlet extends HttpServlet {
         s += "<input type = \"checkbox\" name = \"parkplatzArt\" value=\"Behinderten-Parkplatz\"  /> Behinderten Parkplatz</br>";
         s += "<input type = \"checkbox\" name = \"parkplatzArt\" value=\"E-Auto-Parkplatz\" /> E-Auto Parkplatz</br>";
         s += "<input type = \"checkbox\" name = \"parkplatzArt\" value=\"Motorrad-Parkplatz\" /> Motorrad Parkplatz</br>";
-        s += "<input type = \"submit\" name = \"buttonNeuesTicketErstellen\" value = \"Erstelle Parkhaus.Ticket\" />";
+        s += "<input type = \"submit\" name = \"buttonNeuesTicketErstellen\" value = \"Erstelle Ticket\" />";
         s += "</form>";
         return s;
     }

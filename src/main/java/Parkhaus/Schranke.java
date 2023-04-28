@@ -6,11 +6,11 @@ public class Schranke implements SchrankeIF {
 
 
     /**
-     * "ausfahren" prüft, ob das Parkhaus.Ticket entwertet wurde und die Zeit zum ausfahren noch reicht. Wenn die Bedingungen nicht
-     * erfüllt sind, wird ein entsprechender Hinweis ausgegeben. Ist das Parkhaus.Ticket entwertet und die Viertelstunde noch nicht um,
-     * wird das Parkhaus.Ticket auf null gesetzt, was das "schlucken" simulieren soll. Die Anzahl der freien Parkplätze wird um eins
+     * "ausfahren" prüft, ob das Ticket entwertet wurde und die Zeit zum ausfahren noch reicht. Wenn die Bedingungen nicht
+     * erfüllt sind, wird ein entsprechender Hinweis ausgegeben. Ist das Ticket entwertet und die Viertelstunde noch nicht um,
+     * wird das Ticket auf null gesetzt, was das "schlucken" simulieren soll. Die Anzahl der freien Parkplätze wird um eins
      * erhöht, entsprechend dem Parkplatz, der belegt war.
-     * @param ticket ist das eingesteckte Parkhaus.Ticket
+     * @param ticket ist das eingesteckte Ticket
      */
     @Override
     public void ausfahren(Ticket ticket, Parkhaus parkhaus) {
@@ -36,11 +36,13 @@ public class Schranke implements SchrankeIF {
             }
             else {
                 ticket.setUhrzeit(); //Parkzeit neu starten
+                //Sarah: Warum wird hier die Uhrzeit neu gesetzt. Die wird ja beim Entwerten schon aktuallisiert.
+                //Hier nochmal zu aktualsieren würde ja heißen, dass die Zeit zwischen Bezahlen und Schranke verschenkt wird.
                 ticket.setEntwertet(false);
-                System.out.println("Zeit zum Ausfahren ueberschritten, Zeitstempel zurueckgesetzt auf: " + ticket.getUhrzeitStunde() + ":" + ticket.getUhrzeitMin() +". Bitte entwerten Sie das Parkhaus.Ticket erneut am Automaten.");
+                System.out.println("Zeit zum Ausfahren ueberschritten, Zeitstempel zurueckgesetzt auf: " + ticket.getUhrzeitStunde() + ":" + ticket.getUhrzeitMin() +". Bitte entwerten Sie das Ticket erneut am Automaten.");
             }
 
         }
-        else {System.out.println("Ausfahrt nur mit entwertetem Parkhaus.Ticket moeglich.");}
+        else {System.out.println("Ausfahrt nur mit entwertetem Ticket moeglich.");}
     }
 }
