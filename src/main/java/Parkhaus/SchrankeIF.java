@@ -1,4 +1,4 @@
-
+package Parkhaus;
 
 public interface SchrankeIF {
 
