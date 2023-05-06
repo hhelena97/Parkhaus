@@ -1,5 +1,7 @@
+package Parkhaus;
 
-
+import Parkhaus.Parkhaus;
+import Parkhaus.Ticket;
 import org.junit.jupiter.api.Test;
 import java.time.LocalTime;
 
@@ -18,7 +20,7 @@ public class SchrankeIFTest {
         Ticket testTicket1 = testParkhaus.neuesTicket("Normaler Parkplatz");
         Ticket testTicket2 = testParkhaus.neuesTicket("Behinderten-Parkplatz");
 
-        //Schranke testen mit unbezahltem Ticket, sollte auch Hinweis ausgeben
+        //Parkhaus.Schranke testen mit unbezahltem Parkhaus.Ticket, sollte auch Hinweis ausgeben
         testSchranke.ausfahren(testTicket1, testParkhaus);
         testSchranke.ausfahren(testTicket2, testParkhaus);
         assertEquals(198,testParkhaus.getAnzahlFreierParkplaetze());

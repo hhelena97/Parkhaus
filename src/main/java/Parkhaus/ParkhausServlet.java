@@ -1,3 +1,6 @@
+package Parkhaus;
+
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -7,13 +10,17 @@ import java.io.PrintWriter;
 
 @WebServlet(name = "ParkhausServlet", value = "/parkhaus-servlet")
 public class ParkhausServlet extends HttpServlet {
-    private String message;         //hi :)
-    private Parkhaus p;
-
     public void init() {
-        message = "Das kule Parkhaus";
-        p = new Parkhaus(3, 100, 5, 5,10);
-        getServletConfig().getServletContext().setAttribute("parkhaus", p);
+        //existiert bereits ein Parkhaus im Context, dann wird das verwendet - sonst wird ein neues erstellt
+        Parkhaus p;
+        if (getServletContext().getAttribute("parkhaus") == null) {
+            p = new Parkhaus(3, 100, 5, 5, 10);
+            System.out.println("Neues Parkhaus erstellt");
+        } else {
+            p = (Parkhaus) getServletContext().getAttribute("parkhaus");
+            System.out.println("Parkhaus in init gefunden");
+        }
+        getServletContext().setAttribute("parkhaus", p);
 
 
         //damit in den aktiven Tickets was drin steht (und ich musste da was ausprobieren), kann weg sobald es den Button zum neuen Ticket erzeugen gibt
@@ -25,22 +32,19 @@ public class ParkhausServlet extends HttpServlet {
         p.neuesTicket("Normaler Parkplatz");
         p.neuesTicket("Normaler Parkplatz");
 
-        System.out.println("Parkhaus erstellt - Parkplätze: " + p.getAnzahlFreierParkplaetze());
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
+
+        request.setAttribute("parkhaus", p);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
+
         //System.out.println(request.getPathInfo()); //welchen Pfad hinter /parkhaus-servlet
-        response.setContentType("text/html");
 
-        //prüfe ob es ein Parkhaus gibt und wenn ja, verwende dieses Parkhaus
-        if (getServletConfig().getServletContext().getAttribute("parkhaus") == null){
-            p = new Parkhaus(3, 100, 5, 5,10);
-            getServletConfig().getServletContext().setAttribute("parkhaus", p);
-        } else {
-            p = (Parkhaus)getServletConfig().getServletContext().getAttribute("parkhaus");
-        }
+        /*Sarah: die Anzeige der freien Parkplätze hab ich in die index verschoben. Sonst brauchen wir das bei doGet und doPost
+        einverstanden?
 
-        // Hello
         PrintWriter out = response.getWriter();
         if(request.getPathInfo() != null && request.getPathInfo().equals("/aktiveTickets")) {
             out.println(StringFuerAktiveTicketsAuflistung(response)); //hier methode, die die Tickets zurückgibt
@@ -62,23 +66,55 @@ public class ParkhausServlet extends HttpServlet {
             out.println("<p> aktuell freie Behinderten-Parkplätze: " + p.getAnzahlFreierBehindertenParkplaetze() + "</p><br>");
             out.println("<p> aktuell freie Motorrad-Parkplätze: " + p.getAnzahlFreierMotorradParkplaetze() + "</p><br>");
             out.println("</body></html>");
-        }
+
+         */
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException
-    {
-        response.setContentType("text/html");
-
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         PrintWriter out = response.getWriter();
+        //hole das Parkhaus aus dem Context
+        Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
+        //führe je nach "action" verschiedene Dinge aus
+        String action = request.getParameter("action");
+        //Button Ticket erstellen
+        if("ticketErstellen".equals(action)){
+            //erstellt ein neues Ticket mit der ausgewählten Parkplatzart
+            Ticket t = p.neuesTicket(request.getParameter("ticketArt"));
 
-        if (request.getParameter("buttonNeuesTicketErstellen") != null)
-        {
-            Ticket t = p.neuesTicket(request.getParameter("parkplatzArt"));
             out.println("<p> Es wurde ein neues Ticket mit Parkplatzart: " + t.getArtDesParkplatzes() + " und ID: " + t.getTicketID() + " erstellt! </p><br>");
+
+            System.out.println("Neues Ticket erstellt");
+            System.out.println(t.toString());
+            //(über)schreibt die Liste aktiver Tickets im Context
+            getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
+            //request.setAttribute("Ticket-ID", t.getTicketID());
+
+        } else if ("bezahlen".equals("action")){
+            //Ticket t = p.Methode zum Suchen des Tickets in der Liste(request.getParameter("ticketID")
+            //double preis = p.bezahleTicket(t);
+            out.println("<p>Ticket entwertet</p>");
+            //out.println("Preis: " + preis);
+
+            //(über)schreibt die Liste aktiver Tickets im Context
+            getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
+            getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
+
+        } else if("schrankeOeffnen".equals("action")){
+            //Ticket t = Methode zum Suchen des Tickets in der Liste(request.getParameter("ticketID")
+            //Schranke erstellen
+            //schranke.ausfahren(t)
+            out.println("<p>Schranke geht auf</p>");
+
+            //(über)schreibt die Liste aktiver und inaktiver Tickets im Context
+            getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
+            getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
         }
+        request.setAttribute("parkhaus", p);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
-    
+
     private String StringFuerAktiveTicketsAuflistung(HttpServletResponse response) throws IOException{
+        Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
         String htmlString = "";
         htmlString += "<html><body><h2>Zurzeit aktive Tickets: </h2>";
         int index = 0;
@@ -98,7 +134,9 @@ public class ParkhausServlet extends HttpServlet {
         return htmlString;
     }
 
+
     public String StringFuerInaktiveTicketsAuflistung(HttpServletResponse response) throws IOException{
+        Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
         String htmlString = "";
         htmlString += "<html><body><h2>Alle inaktiven Tickets: </h2>";
         int index = 0;
@@ -130,6 +168,7 @@ public class ParkhausServlet extends HttpServlet {
         s += "</form>";
         return s;
     }
+
 
 
 

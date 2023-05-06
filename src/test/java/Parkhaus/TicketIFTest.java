@@ -1,6 +1,8 @@
-
+package Parkhaus;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import Parkhaus.Ticket;
 import org.junit.jupiter.api.Test;
 import java.time.LocalTime;
 

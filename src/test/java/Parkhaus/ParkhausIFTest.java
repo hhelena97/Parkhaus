@@ -1,5 +1,7 @@
+package Parkhaus;
 
-
+import Parkhaus.Parkhaus;
+import Parkhaus.Ticket;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -35,7 +37,7 @@ class ParkhausIFTest {
         assertEquals(testTicket3.getDatum(), LocalDate.now());
         assertEquals(testTicket4.getDatum(), LocalDate.now());
 
-        //ErstellungsZeit soll vor der jetzigen Zeit sein (da das Ticket 2 Zeilen vorher erstellt wurde und die Sekunden auch gemessen werden)
+        //ErstellungsZeit soll vor der jetzigen Zeit sein (da das Parkhaus.Ticket 2 Zeilen vorher erstellt wurde und die Sekunden auch gemessen werden)
         assertEquals(testTicket1.getUhrzeit().getHour(), LocalTime.now().getHour());
         assertEquals(testTicket1.getUhrzeit().getMinute(), LocalTime.now().getMinute());
         assertEquals(testTicket1.getUhrzeit().getSecond(), LocalTime.now().getSecond());
@@ -52,7 +54,7 @@ class ParkhausIFTest {
         assertEquals(testTicket4.getUhrzeit().getMinute(), LocalTime.now().getMinute());
         assertEquals(testTicket4.getUhrzeit().getSecond(), LocalTime.now().getSecond());
 
-        //Art des Parkplatzes soll dann in der Ticket-Instanzvariablen stehen
+        //Art des Parkplatzes soll dann in der Parkhaus.Ticket-Instanzvariablen stehen
         assertEquals("Normaler Parkplatz", testTicket1.getArtDesParkplatzes());
         assertEquals("E-Auto-Parkplatz", testTicket2.getArtDesParkplatzes());
         assertEquals("Behinderten-Parkplatz", testTicket3.getArtDesParkplatzes());

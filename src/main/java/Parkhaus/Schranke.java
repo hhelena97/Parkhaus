@@ -1,4 +1,4 @@
-
+package Parkhaus;
 
 import java.time.LocalTime;
 
@@ -36,6 +36,8 @@ public class Schranke implements SchrankeIF {
             }
             else {
                 ticket.setUhrzeit(); //Parkzeit neu starten
+                //Sarah: Warum wird hier die Uhrzeit neu gesetzt. Die wird ja beim Entwerten schon aktuallisiert.
+                //Hier nochmal zu aktualsieren würde ja heißen, dass die Zeit zwischen Bezahlen und Schranke verschenkt wird.
                 ticket.setEntwertet(false);
                 System.out.println("Zeit zum Ausfahren ueberschritten, Zeitstempel zurueckgesetzt auf: " + ticket.getUhrzeitStunde() + ":" + ticket.getUhrzeitMin() +". Bitte entwerten Sie das Ticket erneut am Automaten.");
             }

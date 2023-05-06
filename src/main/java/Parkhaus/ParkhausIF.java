@@ -1,7 +1,7 @@
-
+package Parkhaus;
 
 public interface ParkhausIF {
     public Ticket neuesTicket(String art);
 
-    public void bezahleTicket (Ticket t);
+    public double bezahleTicket (Ticket t);
 }
