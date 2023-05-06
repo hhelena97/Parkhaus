@@ -30,6 +30,7 @@
     </label>
     <button type="submit">Ticket erstellen</button>
 </form>
+<p>${parkhaus.StringFuerAktiveTicketsAuflistung()}</p>
 <br>
 <h2>Ticket bezahlen</h2>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">

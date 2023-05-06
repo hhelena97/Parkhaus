@@ -186,7 +186,7 @@ public class Parkhaus implements ParkhausIF {
         htmlString += "<h2>Zurzeit aktive Tickets: </h2>";
         int index = 0;
         for (Ticket i : this.getAktiveTickets()) {
-            htmlString += "<p>Parkhaus.Ticket" + this.getAktiveTickets().get(index).getTicketID()+ ", ";
+            htmlString += "<p>Ticket-ID: " + this.getAktiveTickets().get(index).getTicketID()+ ", ";
             htmlString += "Datum: " + this.getAktiveTickets().get(index).getDatum()+", ";
             htmlString += "Ankunftszeit: " + this.getAktiveTickets().get(index).getUhrzeit().getHour();
             if(this.getAktiveTickets().get(index).getUhrzeit().getMinute() <10) {
