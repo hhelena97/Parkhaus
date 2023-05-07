@@ -61,10 +61,10 @@ class ParkhausIFTest {
         assertEquals("Motorrad-Parkplatz", testTicket4.getArtDesParkplatzes());
 
         //Anzahl der besonderen Parkplätze muss sich jeweils auch verändern
-        assertTrue(testParkhaus.getAnzahlFreierNormalerParkplaetze() == 361);
-        assertTrue(testParkhaus.getAnzahlFreierEAutoParkplaetze() == 7);
-        assertTrue(testParkhaus.getAnzahlFreierBehindertenParkplaetze() == 9);
-        assertTrue(testParkhaus.getAnzahlFreierMotorradParkplaetze() == 19);
+        assertEquals(361, testParkhaus.getAnzahlFreierNormalerParkplaetze());
+        assertEquals(7, testParkhaus.getAnzahlFreierEAutoParkplaetze());
+        assertEquals(9, testParkhaus.getAnzahlFreierBehindertenParkplaetze());
+        assertEquals(19, testParkhaus.getAnzahlFreierMotorradParkplaetze());
 
         assertEquals(testTicket1, testParkhaus.getAktiveTickets().get(0));
         assertEquals(testTicket2, testParkhaus.getAktiveTickets().get(1));
@@ -91,11 +91,8 @@ class ParkhausIFTest {
 
 
         // Teste ob 'preis' auf 'einnahmenTag' gerechnet wurde
-        //Kommentar Sarah: Kommt erst später. Wir lernen in der nächsten Vorlesung, wie man so Zeug speichern kann
-        /* double erwarteteEinnahmenTag = p.getEinnahmenTag() + erwarteterPreis;
+        double erwarteteEinnahmenTag = p.getEinnahmenTag() + erwarteterPreis;
         assertEquals(erwarteteEinnahmenTag, p.getEinnahmenTag());
-
-         */
 
     }
 

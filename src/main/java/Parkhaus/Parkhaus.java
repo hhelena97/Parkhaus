@@ -49,6 +49,8 @@ public class Parkhaus implements ParkhausIF {
         anzahlFreierBehindertenParkplaetze = behindertenParkplaetze;
         anzahlFreierMotorradParkplaetze = motoradparkplaetze;
 
+        this.einnahmenTag = 0.0;
+
     }
 
 
@@ -97,13 +99,14 @@ public class Parkhaus implements ParkhausIF {
         }
 
         // TODO: Preis berechnen
-        t.setPreis(this.getStundentarif() * stunden);
+        double preis = this.getStundentarif() * stunden;
+        t.setPreis(preis);
         // -> angefangene Stunden berücksichtigen
 
         System.out.println("Zu bezahlender Preis: " + t.getPreis());
 
-        // für spätere Tasks: 'preis' auf 'einnahmenTag' rechnen :)
-        //einnahmenTag += preis;     //TODO: Test schreiben (eigentlich bevor ich das hier schreibe!)
+        //'preis' auf 'einnahmenTag' rechnen
+        einnahmenTag += preis;
 
         //in Real erst nach dem Bezahlen
         t.entwerten();

@@ -99,6 +99,7 @@ public class ParkhausServlet extends HttpServlet {
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
             getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
 
+
         } else if("schrankeOeffnen".equals(action)){
             //t ist das Ticket was ausgewählt wurde
             Ticket ticketAusfahren = null;
@@ -114,6 +115,7 @@ public class ParkhausServlet extends HttpServlet {
             //(über)schreibt die Liste aktiver und inaktiver Tickets im Context
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
             getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
+
         }
         request.setAttribute("parkhaus", p);
         request.getRequestDispatcher("index.jsp").forward(request, response);
