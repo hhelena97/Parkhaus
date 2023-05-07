@@ -31,11 +31,16 @@ public class Schranke implements SchrankeIF {
                 } else {
                     parkhaus.setAnzahlFreierMotorradParkplaetze((parkhaus.getAnzahlFreierMotorradParkplaetze() + 1));
                 }
+                //ticket wird zu inaktiven tickets hinzugefügt
+                parkhaus.getInaktiveTickets().add(ticket);
+                //ticket wird aus aktiven tickets rausgenommen
+                parkhaus.getAktiveTickets().remove(ticket);
+
                 System.out.println("Auf Wiedersehen!");
-                ticket = null;
+
             }
             else {
-                ticket.setUhrzeit(); //Parkzeit neu starten
+                //ticket.setUhrzeit(); //Parkzeit neu starten
                 //Sarah: Warum wird hier die Uhrzeit neu gesetzt. Die wird ja beim Entwerten schon aktuallisiert.
                 //Hier nochmal zu aktualsieren würde ja heißen, dass die Zeit zwischen Bezahlen und Schranke verschenkt wird.
                 ticket.setEntwertet(false);

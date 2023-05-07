@@ -89,8 +89,8 @@ public class ParkhausServlet extends HttpServlet {
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
             //request.setAttribute("Ticket-ID", t.getTicketID());
 
-        } else if ("bezahlen".equals("action")){
-            //Ticket t = p.Methode zum Suchen des Tickets in der Liste(request.getParameter("ticketID")
+        } else if ("bezahlen".equals(action)){
+            //Ticket t = p.Methode zum Suchen des Tickets in der Liste(request.getParameter("ticketID"))
             //double preis = p.bezahleTicket(t);
             out.println("<p>Ticket entwertet</p>");
             //out.println("Preis: " + preis);
@@ -99,11 +99,17 @@ public class ParkhausServlet extends HttpServlet {
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
             getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
 
-        } else if("schrankeOeffnen".equals("action")){
-            //Ticket t = Methode zum Suchen des Tickets in der Liste(request.getParameter("ticketID")
-            //Schranke erstellen
-            //schranke.ausfahren(t)
-            out.println("<p>Schranke geht auf</p>");
+        } else if("schrankeOeffnen".equals(action)){
+            //t ist das Ticket was ausgewählt wurde
+            Ticket ticketAusfahren = null;
+            for (Ticket ti: p.getAktiveTickets()) {
+                if(ti.getTicketID() == Integer.valueOf(request.getParameter("ticketID"))) {
+                    ticketAusfahren = ti;
+                }
+            }
+            Schranke schranke = new Schranke();
+            schranke.ausfahren(ticketAusfahren, p);
+            out.println("<p>Auf Wiedersehen!</p>");
 
             //(über)schreibt die Liste aktiver und inaktiver Tickets im Context
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());

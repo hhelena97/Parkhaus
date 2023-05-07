@@ -38,7 +38,7 @@
     <input type="text" name="ticketID" placeholder="Ticket-ID">
     <button type="submit">Preis anzeigen</button>
 </form>
-<h2>Ausfahrt Schranke</h2>
+<h2>Ausfahrt</h2>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
     <input type="hidden" name="action" value="schrankeOeffnen">
     <input type="text" name="ticketID" placeholder="Ticket-ID">
