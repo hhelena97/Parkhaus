@@ -90,7 +90,6 @@ public class Parkhaus implements ParkhausIF {
     @Override
     public double bezahleTicket(Ticket t) {
 
-        // TODO: Parkzeit berechnen
         int dauer = t.zeitDifferenz();
         int stunden = dauer/60;
 

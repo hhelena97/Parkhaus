@@ -90,14 +90,28 @@ public class ParkhausServlet extends HttpServlet {
             //request.setAttribute("Ticket-ID", t.getTicketID());
 
         } else if ("bezahlen".equals(action)){
-            //Ticket t = p.Methode zum Suchen des Tickets in der Liste(request.getParameter("ticketID"))
+            int len = p.getAktiveTickets().size();
+            for (int i = 0; i < len; i++)
+            {
+                if(p.getAktiveTickets().get(i).getTicketID() == Integer.parseInt(request.getParameter("ticketID")))
+                {
+                    Ticket t = p.getAktiveTickets().get(i);
+                    double preis = p.bezahleTicket(t); // muss ich das überhaupt speichern?
+                    //p.bezahleTicket(t); // reicht das nicht so?
+
+                    request.setAttribute("bezahleTicketX", t);
+                    request.setAttribute("preisTicketX", preis);
+                    //System.out.println("Ticket mit ID " + t.getTicketID() + " kostet: " + t.getPreis() + " Geld");
+                }
+            }
             //double preis = p.bezahleTicket(t);
-            out.println("<p>Ticket entwertet</p>");
+            //out.println("<p>Ticket entwertet</p>");
+            //System.out.println("Ticket bezahlen Methode");
             //out.println("Preis: " + preis);
 
             //(über)schreibt die Liste aktiver Tickets im Context
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
-            getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
+            //getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
 
 
         } else if("schrankeOeffnen".equals(action)){

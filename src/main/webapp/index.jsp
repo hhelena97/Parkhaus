@@ -2,6 +2,7 @@
 <%@ page import="Parkhaus.Parkhaus" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,6 +64,12 @@
 <% if (request.getAttribute("error") != null) { %>
     <p class="error" id="error"><%= request.getAttribute("error") %></p>
 <% } %>
+
+<!-- Mein Ansatz für die Ausgabe von Text, nachdem ich mit Sina drüber gesprochen habe. :) -->
+<c:if test="${not empty bezahleTicketX}">
+    <p>bezahle Ticket mit ID ${bezahleTicketX.getTicketID()} für ${preisTicketX} Euro</p>
+</c:if>
+
 
 </body>
 </html>
