@@ -10,6 +10,7 @@ public class Ticket implements TicketIF {
     private final String artDesParkplatzes;
     private double preis;
     private boolean entwertet;
+    private int parkdauerMin;
 
     public int getTicketID() {
         return ticketID;
@@ -24,7 +25,8 @@ public class Ticket implements TicketIF {
         this.uhrzeit = LocalTime.now();
         this.ticketID = identifikationsNummer++;
         this.artDesParkplatzes = "normaler Parkplatz";
-        entwertet = false;
+        this.parkdauerMin = 0;
+        this.entwertet = false;
     }
 
     public Ticket(String art) {
@@ -32,6 +34,7 @@ public class Ticket implements TicketIF {
         this.uhrzeit = LocalTime.now();
         this.ticketID = identifikationsNummer++;
         this.artDesParkplatzes = art;
+        this.parkdauerMin = 0;
         this.entwertet = false;
     }
 
@@ -55,10 +58,12 @@ public class Ticket implements TicketIF {
     public String getArtDesParkplatzes() {
         return artDesParkplatzes;
     }
-    public void setPreis(double preis){this.preis = preis;};
-    public double getPreis(){return this.preis;};
-    public void setEntwertet(boolean ft) {this.entwertet = ft;};
-    public boolean getEntwertet() {return this.entwertet;};
+    public void setPreis(double preis){this.preis = preis;}
+    public double getPreis(){return this.preis;}
+    public void setEntwertet(boolean ft) {this.entwertet = ft;}
+    public boolean getEntwertet() {return this.entwertet;}
+    public void setParkdauerMin(int dauer) {this.parkdauerMin += dauer;}
+    public int getParkdauerMin() {return this.parkdauerMin;}
     //public double getPreisTicket() {return preisTicket;}
 
     @Override
