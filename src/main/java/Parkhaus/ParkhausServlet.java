@@ -1,6 +1,7 @@
 package Parkhaus;
 
 import javax.servlet.ServletException;
+import javax.servlet.WriteListener;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,14 @@ public class ParkhausServlet extends HttpServlet {
         p.neuesTicket("E-Auto_Parkplatz");
         p.neuesTicket("Normaler Parkplatz");
         p.neuesTicket("Normaler Parkplatz");
+        Ticket ticket1 = p.getAktiveTickets().get(0);
+        Ticket ticket2 = p.getAktiveTickets().get(1);
+        ticket1.setParkdauerMin(30);
+        ticket2.setParkdauerMin(60);
+        p.bezahleTicket(ticket1);
+        p.bezahleTicket(ticket2);
+        p.ausfahren(ticket1);
+        p.ausfahren(ticket2);
 
     }
 
@@ -71,6 +80,7 @@ public class ParkhausServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
         PrintWriter out = response.getWriter();
         //hole das Parkhaus aus dem Context
         Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
@@ -121,13 +131,17 @@ public class ParkhausServlet extends HttpServlet {
                     ticketAusfahren = ti;
                 }
             }
-            Schranke schranke = new Schranke();
-            schranke.ausfahren(ticketAusfahren, p);
+
+            p.ausfahren(ticketAusfahren);
             out.println("<p>Auf Wiedersehen!</p>");
 
             //(über)schreibt die Liste aktiver und inaktiver Tickets im Context
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
             getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
+
+        }else if ("datenAuswerten".equals(action)){
+            //Zeige Datenauswertung
+            System.out.println(p.StringFuerStats());
 
         }
         request.setAttribute("parkhaus", p);

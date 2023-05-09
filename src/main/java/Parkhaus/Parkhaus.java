@@ -107,9 +107,54 @@ public class Parkhaus implements ParkhausIF {
         //'preis' auf 'einnahmenTag' rechnen
         einnahmenTag += preis;
 
+        //set parkdauer zur späteren auswertung
+        t.setParkdauerMin(dauer);
+
         //in Real erst nach dem Bezahlen
         t.entwerten();
         return t.getPreis();
+    }
+
+    /**
+     * "ausfahren" prüft, ob das Ticket entwertet wurde und die Zeit zum ausfahren noch reicht. Wenn die Bedingungen nicht
+     * erfüllt sind, wird ein entsprechender Hinweis ausgegeben. Ist das Ticket entwertet und die Viertelstunde noch nicht um,
+     * wird das Ticket inaktiv und die Anzahl der freien Parkplätze wird um eins erhöht, entsprechend dem Parkplatz, der belegt war.
+     * @param ticket ist das eingesteckte Ticket
+     */
+    @Override
+    public void ausfahren(Ticket ticket) {
+        if (ticket.getEntwertet()) {
+            LocalTime timeStamp = LocalTime.now().minusMinutes(15);
+            LocalTime uhrzeit = ticket.getUhrzeit();
+            if (uhrzeit.equals(timeStamp) || uhrzeit.isAfter(timeStamp)){
+                //Parkplatz freigeben:
+                String art = ticket.getArtDesParkplatzes();
+                this.setAnzahlFreierParkplaetze(this.getAnzahlFreierParkplaetze()+1);
+                //Für die speziellen Parkplätze:
+                if (art.equals("Normaler Parkplatz")) {
+                    this.setAnzahlFreierNormalerParkplaetze((this.getAnzahlFreierNormalerParkplaetze() + 1));
+                } else if (art.equals("E-Auto-Parkplatz")) {
+                    this.setAnzahlFreierEAutoParkplaetze((this.getAnzahlFreierEAutoParkplaetze() + 1));
+                } else if (art.equals("Behinderten-Parkplatz")) {
+                    this.setAnzahlFreierBehindertenParkplaetze((this.getAnzahlFreierBehindertenParkplaetze() + 1));
+                } else {
+                    this.setAnzahlFreierMotorradParkplaetze((this.getAnzahlFreierMotorradParkplaetze() + 1));
+                }
+                //ticket wird zu inaktiven tickets hinzugefügt
+                this.getInaktiveTickets().add(ticket);
+                //ticket wird aus aktiven tickets rausgenommen
+                this.getAktiveTickets().remove(ticket);
+
+                System.out.println("Auf Wiedersehen!");
+
+            }
+            else {
+                ticket.setEntwertet(false);
+                System.out.println("Zeit zum Ausfahren ueberschritten, Zeitstempel zurueckgesetzt auf: " + ticket.getUhrzeitStunde() + ":" + ticket.getUhrzeitMin() +". Bitte entwerten Sie das Ticket erneut am Automaten.");
+            }
+
+        }
+        else {System.out.println("Ausfahrt nur mit entwertetem Ticket moeglich.");}
     }
 
 
@@ -202,4 +247,23 @@ public class Parkhaus implements ParkhausIF {
         return htmlString;
     }
 
+    public String StringFuerStats(){
+
+        int av_parkdauer = 0;
+        double av_preis = 0.0;
+        int size = this.getInaktiveTickets().size();
+
+        if(size != 0) {
+            for (int i = 0; i < size; i++) {
+                av_parkdauer += this.getInaktiveTickets().get(i).getParkdauerMin();
+                av_preis += this.getInaktiveTickets().get(i).getPreis();
+            }
+            av_parkdauer /= size;
+            av_preis /= size;
+        }
+        String statsString = "<h2>Datenauswertungen: </h2><br>"+"Stand: "+LocalDate.now()+", "+LocalTime.now()+"<br>";
+        statsString += "<p>Tageseinnahmen: " +this.getEinnahmenTag()+"<br>"+"Durchschnittliche Parkdauer: "+av_parkdauer+"<br>"+"Durchnittlicher Ticketpreis: "+av_preis+"</p>";
+
+        return statsString;
+    }
 }
