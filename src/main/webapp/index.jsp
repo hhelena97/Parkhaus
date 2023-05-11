@@ -65,6 +65,7 @@
     <p class="error" id="error"><%= request.getAttribute("error") %></p>
 <% } %>
 
+<!--  Kommentar  -->
 <!-- Mein Ansatz für die Ausgabe von Text, nachdem ich mit Sina drüber gesprochen habe. :) -->
 <c:if test="${not empty bezahleTicketX}">
     <p>bezahle Ticket mit ID ${bezahleTicketX.getTicketID()} für ${preisTicketX} Euro</p>

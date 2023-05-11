@@ -96,12 +96,11 @@ public class ParkhausServlet extends HttpServlet {
                 if(p.getAktiveTickets().get(i).getTicketID() == Integer.parseInt(request.getParameter("ticketID")))
                 {
                     Ticket t = p.getAktiveTickets().get(i);
-                    double preis = p.bezahleTicket(t); // muss ich das überhaupt speichern?
-                    //p.bezahleTicket(t); // reicht das nicht so?
+                    double preis = p.bezahleTicket(t);
 
+                    // Um diese Elemente anzeigen zu können
                     request.setAttribute("bezahleTicketX", t);
                     request.setAttribute("preisTicketX", preis);
-                    //System.out.println("Ticket mit ID " + t.getTicketID() + " kostet: " + t.getPreis() + " Geld");
                 }
             }
             //double preis = p.bezahleTicket(t);
