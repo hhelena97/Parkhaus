@@ -39,10 +39,8 @@
     <input type="text" name="ticketID" placeholder="Ticket-ID">
     <button type="submit">Preis anzeigen</button>
 </form>
-<!--  Kommentar  -->
-<!-- Mein Ansatz für die Ausgabe von Text, nachdem ich mit Sina drüber gesprochen habe. :) -->
 <c:if test="${not empty bezahleTicketX}">
-    <p>bezahle Ticket mit ID ${bezahleTicketX.getTicketID()} für ${preisTicketX} Euro</p>
+    <p>Ticket ${bezahleTicketX.getTicketID()} hat für ${zeitTicketX} Minuten geparkt und ${preisTicketX} Euro gekostet.</p>
 </c:if>
 <h2>Ausfahrt</h2>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">

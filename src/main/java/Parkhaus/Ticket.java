@@ -11,11 +11,6 @@ public class Ticket implements TicketIF {
     private double preis;
     private boolean entwertet;
     private int parkdauerMin;
-
-    public int getTicketID() {
-        return ticketID;
-    }
-
     private int ticketID;
     private static int identifikationsNummer = 0;
 
@@ -38,6 +33,8 @@ public class Ticket implements TicketIF {
         this.entwertet = false;
     }
 
+
+
     // -----------------------------------------------------------------------------------------------------------------
     // Getter und Setter:
 
@@ -49,6 +46,10 @@ public class Ticket implements TicketIF {
         int h = this.getUhrzeitStunde();
         int m = this.getUhrzeitMin();
         return h + ":" + m;
+    }
+
+    public int getTicketID() {
+        return ticketID;
     }
     public void setUhrzeit() { this.uhrzeit = LocalTime.now();};
     public void setUhrzeitManuell(int stunden, int minuten){this.uhrzeit = LocalTime.of(stunden, minuten);};

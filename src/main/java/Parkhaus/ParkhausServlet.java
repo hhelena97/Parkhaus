@@ -24,7 +24,7 @@ public class ParkhausServlet extends HttpServlet {
         getServletContext().setAttribute("parkhaus", p);
 
 
-        //damit in den aktiven Tickets was drin steht (und ich musste da was ausprobieren), kann weg sobald es den Button zum neuen Ticket erzeugen gibt
+        //damit in den aktiven Tickets was drin steht (und ich musste da was ausprobieren), kann weg, sobald es den Button zum neuen Ticket erzeugen gibt
         System.out.println("erste ticketID: " +p.neuesTicket("Normaler Parkplatz").getTicketID());
         System.out.println("erste ticketID laut ArrayList: " +p.getAktiveTickets().get(0).getTicketID());
         System.out.println("erste ticketID: " +p.neuesTicket("Behinderten-Parkplatz").getTicketID());
@@ -40,43 +40,14 @@ public class ParkhausServlet extends HttpServlet {
         p.bezahleTicket(ticket2);
         p.ausfahren(ticket1);
         p.ausfahren(ticket2);
-
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
         Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
 
         request.setAttribute("parkhaus", p);
         request.getRequestDispatcher("index.jsp").forward(request, response);
-
-        //System.out.println(request.getPathInfo()); //welchen Pfad hinter /parkhaus-servlet
-
-        /*Sarah: die Anzeige der freien Parkplätze hab ich in die index verschoben. Sonst brauchen wir das bei doGet und doPost
-        einverstanden?
-
-        PrintWriter out = response.getWriter();
-        if(request.getPathInfo() != null && request.getPathInfo().equals("/aktiveTickets")) {
-            out.println(StringFuerAktiveTicketsAuflistung(response)); //hier methode, die die Tickets zurückgibt
-        }
-        else if (request.getPathInfo() != null && request.getPathInfo().equals("/neuesTicket"))
-        {
-            out.println(StringFuerNeuesTicketAuswahl());
-        }
-        else if(request.getPathInfo() != null && request.getPathInfo().equals("/inaktiveTickets")) {
-            out.println(StringFuerInaktiveTicketsAuflistung(response));
-        }
-        else {
-            out.println("<html><body>");
-            out.println("<h1>" + message + "</h1>");
-            out.println("<p> Parkplätze gesamt: " + p.getParkplaetzeGesamt() + "</p><br>");
-            out.println("<p> aktuell freie Parkplätze gesamt: " + p.getAnzahlFreierParkplaetze() + "</p><br>");
-            out.println("<p> aktuell freie normale Parkplätze: " + p.getAnzahlFreierNormalerParkplaetze() + "</p><br>");
-            out.println("<p> aktuell freie Parkplätze für E-Autos: " + p.getAnzahlFreierEAutoParkplaetze() + "</p><br>");
-            out.println("<p> aktuell freie Behinderten-Parkplätze: " + p.getAnzahlFreierBehindertenParkplaetze() + "</p><br>");
-            out.println("<p> aktuell freie Motorrad-Parkplätze: " + p.getAnzahlFreierMotorradParkplaetze() + "</p><br>");
-            out.println("</body></html>");
-
-         */
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -99,29 +70,28 @@ public class ParkhausServlet extends HttpServlet {
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
             //request.setAttribute("Ticket-ID", t.getTicketID());
 
-        } else if ("bezahlen".equals(action)){
+        } else if ("bezahlen".equals(action)) {
             int len = p.getAktiveTickets().size();
             for (int i = 0; i < len; i++)
             {
                 if(p.getAktiveTickets().get(i).getTicketID() == Integer.parseInt(request.getParameter("ticketID")))
                 {
                     Ticket t = p.getAktiveTickets().get(i);
-                    double preis = p.bezahleTicket(t);
+                    t.setPreis(p.bezahleTicket(t));
+                    double preis = t.getPreis();
 
-                    // Um diese Elemente anzeigen zu können
+                    t.setParkdauerMin(t.zeitDifferenz());
+                    int parkzeit = t.getParkdauerMin();
+
+                    // Um diese Elemente anzeigen zu können:
                     request.setAttribute("bezahleTicketX", t);
                     request.setAttribute("preisTicketX", preis);
+                    request.setAttribute("zeitTicketX", parkzeit);
                 }
             }
-            //double preis = p.bezahleTicket(t);
-            //out.println("<p>Ticket entwertet</p>");
-            //System.out.println("Ticket bezahlen Methode");
-            //out.println("Preis: " + preis);
 
             //(über)schreibt die Liste aktiver Tickets im Context
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
-            //getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
-
 
         } else if("schrankeOeffnen".equals(action)){
             //t ist das Ticket was ausgewählt wurde
