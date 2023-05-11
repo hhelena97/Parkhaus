@@ -17,7 +17,6 @@ public class ParkhausServlet extends HttpServlet {
         if (getServletContext().getAttribute("parkhaus") == null) {
             p = new Parkhaus(3, 100, 5, 5, 10);
             System.out.println("Neues Parkhaus erstellt");
-            System.out.println("Stundentarif: " + p.getStundentarif());
         } else {
             p = (Parkhaus) getServletContext().getAttribute("parkhaus");
             System.out.println("Parkhaus in init gefunden");
@@ -53,17 +52,22 @@ public class ParkhausServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        PrintWriter out = response.getWriter();
+        //PrintWriter out = response.getWriter();
         //hole das Parkhaus aus dem Context
         Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
         //führe je nach "action" verschiedene Dinge aus
         String action = request.getParameter("action");
         //Button Ticket erstellen
-        if("ticketErstellen".equals(action)){
+        if("start".equals(action)){
+            p = new Parkhaus(3, 100, 5, 5, 10);
+            getServletContext().setAttribute("parkhaus", p);
+            System.out.println("Neues Parkhaus in start erstellt");
+        }
+        else if("ticketErstellen".equals(action)){
             //erstellt ein neues Ticket mit der ausgewählten Parkplatzart
             Ticket t = p.neuesTicket(request.getParameter("ticketArt"));
 
-            out.println("<p> Es wurde ein neues Ticket mit Parkplatzart: " + t.getArtDesParkplatzes() + " und ID: " + t.getTicketID() + " erstellt! </p><br>");
+            //out.println("<p> Es wurde ein neues Ticket mit Parkplatzart: " + t.getArtDesParkplatzes() + " und ID: " + t.getTicketID() + " erstellt! </p><br>");
 
             System.out.println("Neues Ticket erstellt");
             System.out.println(t.toString());
@@ -105,7 +109,7 @@ public class ParkhausServlet extends HttpServlet {
 
             String nachricht = p.ausfahren(ticketAusfahren);
             request.setAttribute("NachrichtX", nachricht);
-            out.println("<p>Auf Wiedersehen!</p>");
+            //out.println("<p>Auf Wiedersehen!</p>");
 
             //(über)schreibt die Liste aktiver und inaktiver Tickets im Context
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
