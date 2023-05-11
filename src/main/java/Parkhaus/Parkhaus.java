@@ -122,7 +122,7 @@ public class Parkhaus implements ParkhausIF {
      * @param ticket ist das eingesteckte Ticket
      */
     @Override
-    public void ausfahren(Ticket ticket) {
+    public String ausfahren(Ticket ticket) {
         if (ticket.getEntwertet()) {
             LocalTime timeStamp = LocalTime.now().minusMinutes(15);
             LocalTime uhrzeit = ticket.getUhrzeit();
@@ -145,16 +145,16 @@ public class Parkhaus implements ParkhausIF {
                 //ticket wird aus aktiven tickets rausgenommen
                 this.getAktiveTickets().remove(ticket);
 
-                System.out.println("Auf Wiedersehen!");
+                return"Auf Wiedersehen!";
 
             }
             else {
                 ticket.setEntwertet(false);
-                System.out.println("Zeit zum Ausfahren ueberschritten, Zeitstempel zurueckgesetzt auf: " + ticket.getUhrzeitStunde() + ":" + ticket.getUhrzeitMin() +". Bitte entwerten Sie das Ticket erneut am Automaten.");
+                return"Zeit zum Ausfahren überschritten, Zeitstempel zurückgesetzt auf: " + ticket.getUhrzeitStunde() + ":" + ticket.getUhrzeitMin() +". Bitte entwerten Sie das Ticket erneut am Automaten.";
             }
 
         }
-        else {System.out.println("Ausfahrt nur mit entwertetem Ticket moeglich.");}
+        else {return"Ausfahrt nur mit entwertetem Ticket möglich.";}
     }
 
 
@@ -245,6 +245,10 @@ public class Parkhaus implements ParkhausIF {
             index++;
         }
         return htmlString;
+    }
+
+    public String ausfahrenNachrichten(String nachricht) {
+        return "<p>" + nachricht + "</p>";
     }
 
     public String StringFuerStats(){

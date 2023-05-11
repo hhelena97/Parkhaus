@@ -5,5 +5,5 @@ public interface ParkhausIF {
 
     double bezahleTicket (Ticket t);
 
-    void ausfahren(Ticket ticket);
+    String ausfahren(Ticket ticket);
 }

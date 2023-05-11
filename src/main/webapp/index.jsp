@@ -39,12 +39,21 @@
     <input type="text" name="ticketID" placeholder="Ticket-ID">
     <button type="submit">Preis anzeigen</button>
 </form>
+<!--  Kommentar  -->
+<!-- Mein Ansatz für die Ausgabe von Text, nachdem ich mit Sina drüber gesprochen habe. :) -->
+<c:if test="${not empty bezahleTicketX}">
+    <p>bezahle Ticket mit ID ${bezahleTicketX.getTicketID()} für ${preisTicketX} Euro</p>
+</c:if>
 <h2>Ausfahrt</h2>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
     <input type="hidden" name="action" value="schrankeOeffnen">
     <input type="text" name="ticketID" placeholder="Ticket-ID">
     <button type="submit">Schranke oeffnen</button>
 </form>
+<c:if test="${not empty NachrichtX}">
+    <p>${NachrichtX}</p>
+</c:if>
+<p></p>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
     <button type="submit" name="action" value="datenAuswerten">Daten auswerten</button>
 </form>
@@ -66,11 +75,7 @@
     <p class="error" id="error"><%= request.getAttribute("error") %></p>
 <% } %>
 
-<!--  Kommentar  -->
-<!-- Mein Ansatz für die Ausgabe von Text, nachdem ich mit Sina drüber gesprochen habe. :) -->
-<c:if test="${not empty bezahleTicketX}">
-    <p>bezahle Ticket mit ID ${bezahleTicketX.getTicketID()} für ${preisTicketX} Euro</p>
-</c:if>
+
 
 
 </body>
