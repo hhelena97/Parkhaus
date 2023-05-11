@@ -23,8 +23,6 @@ public class Parkhaus implements ParkhausIF {
     private int parkplaetzeGesamt; //Anzahl der Parkplätze insgesamt, ob frei oder besetzt
     private List<Ticket> aktiveTickets = new ArrayList<Ticket>();
     private List<Ticket> inaktiveTickets = new ArrayList<Ticket>();
-    private LocalTime Oeffnungszeit;
-    private LocalTime Schliessungszeit;
 
 
 
@@ -35,31 +33,24 @@ public class Parkhaus implements ParkhausIF {
         this.stundentarif = 0.0;
         this.einnahmenTag = 0.0;
         this.parkdauerTag = 0.0;
-        Oeffnungszeit = setUhrzeitManuell(8, 0);
-        Schliessungszeit = setUhrzeitManuell(23, 0);
     }
 
     public Parkhaus(double stdTarif) {
 
         this();    // rufe den Konstruktor ohne Parameter auf
         this.stundentarif = stdTarif;
-        Oeffnungszeit = setUhrzeitManuell(8, 0);
-        Schliessungszeit = setUhrzeitManuell(23, 0);
     }
 
 
     public Parkhaus(double stundentarif, int normaleParkplaetze, int EAutoParkplaetze, int behindertenParkplaetze, int motoradparkplaetze){
         this.stundentarif = stundentarif;
         parkplaetzeGesamt = normaleParkplaetze + behindertenParkplaetze + EAutoParkplaetze + motoradparkplaetze;
-        anzahlFreierParkplaetze = parkplaetzeGesamt;
         anzahlFreierNormalerParkplaetze = normaleParkplaetze;
         anzahlFreierEAutoParkplaetze = behindertenParkplaetze;
         anzahlFreierBehindertenParkplaetze = behindertenParkplaetze;
         anzahlFreierMotorradParkplaetze = motoradparkplaetze;
 
         this.einnahmenTag = 0.0;
-        Oeffnungszeit = setUhrzeitManuell(8, 0);
-        Schliessungszeit = setUhrzeitManuell(23, 0);
 
     }
 
@@ -73,27 +64,101 @@ public class Parkhaus implements ParkhausIF {
      * @return ein neues Ticket mit gesetzten Instanzvariablen
      */
     @Override
-    public Ticket neuesTicket(String art) throws ParkplaetzeBelegtException{
-
-        if (this.anzahlFreierParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien Parkplaetze verfuegbar!");}
-        Ticket dasTicket = new Ticket(art, this);
+    public Ticket neuesTicket(String art) {
+        Ticket dasTicket = new Ticket(art);
         anzahlFreierParkplaetze--;
         if(art.equals("Normaler Parkplatz")) {
-            if (this.anzahlFreierNormalerParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien normalen Parkplaetze verfuegbar!");}
-            else anzahlFreierNormalerParkplaetze--;
-        } else if(art.equals("E-Auto-Parkplatz")){
-            if (this.anzahlFreierEAutoParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien E-Auto-Parkplaetze verfuegbar!");}
-            else anzahlFreierEAutoParkplaetze--;
+            anzahlFreierNormalerParkplaetze--;
+        } else if(art.equals("E-Auto-Parkplatz")) {
+            anzahlFreierEAutoParkplaetze--;
         } else if(art.equals("Behinderten-Parkplatz")) {
-            if (this.anzahlFreierBehindertenParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien Behindertenparkplaetze verfuegbar!");}
-            else anzahlFreierBehindertenParkplaetze--;
-        } else {if (this.anzahlFreierMotorradParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien Motorradparkplaetze verfuegbar!");}
-            else anzahlFreierMotorradParkplaetze--;
+            anzahlFreierBehindertenParkplaetze--;
+        } else {
+            anzahlFreierMotorradParkplaetze--;
         }
         //in aktiveTickets Liste schieben
         aktiveTickets.add(dasTicket);
         return dasTicket;
     }
+
+
+    /**
+     * Die Methode 'bezahleTicket' ...
+     *
+     * @param t
+     * @return den zu bezahlenden Preis als double
+     */
+    @Override
+    public double bezahleTicket(Ticket t) {
+
+        int dauer = t.zeitDifferenz();
+        int stunden = dauer/60;
+
+        if (dauer%60 != 0) {
+            stunden++;
+        }
+
+        // TODO: Preis berechnen
+        double preis = this.getStundentarif() * stunden;
+        t.setPreis(preis);
+        // -> angefangene Stunden berücksichtigen
+
+        System.out.println("Zu bezahlender Preis: " + t.getPreis());
+
+        //'preis' auf 'einnahmenTag' rechnen
+        einnahmenTag += preis;
+
+        //set parkdauer zur späteren auswertung
+        t.setParkdauerMin(dauer);
+
+        //in Real erst nach dem Bezahlen
+        t.entwerten();
+        return t.getPreis();
+    }
+
+    /**
+     * "ausfahren" prüft, ob das Ticket entwertet wurde und die Zeit zum ausfahren noch reicht. Wenn die Bedingungen nicht
+     * erfüllt sind, wird ein entsprechender Hinweis ausgegeben. Ist das Ticket entwertet und die Viertelstunde noch nicht um,
+     * wird das Ticket inaktiv und die Anzahl der freien Parkplätze wird um eins erhöht, entsprechend dem Parkplatz, der belegt war.
+     * @param ticket ist das eingesteckte Ticket
+     * @return Nachricht, die dem Besucher angezeigt werden soll
+     */
+    @Override
+    public String ausfahren(Ticket ticket) {
+        if (ticket.getEntwertet()) {
+            LocalTime timeStamp = LocalTime.now().minusMinutes(15);
+            LocalTime uhrzeit = ticket.getUhrzeit();
+            if (uhrzeit.equals(timeStamp) || uhrzeit.isAfter(timeStamp)){
+                //Parkplatz freigeben:
+                String art = ticket.getArtDesParkplatzes();
+                this.setAnzahlFreierParkplaetze(this.getAnzahlFreierParkplaetze()+1);
+                //Für die speziellen Parkplätze:
+                if (art.equals("Normaler Parkplatz")) {
+                    this.setAnzahlFreierNormalerParkplaetze((this.getAnzahlFreierNormalerParkplaetze() + 1));
+                } else if (art.equals("E-Auto-Parkplatz")) {
+                    this.setAnzahlFreierEAutoParkplaetze((this.getAnzahlFreierEAutoParkplaetze() + 1));
+                } else if (art.equals("Behinderten-Parkplatz")) {
+                    this.setAnzahlFreierBehindertenParkplaetze((this.getAnzahlFreierBehindertenParkplaetze() + 1));
+                } else {
+                    this.setAnzahlFreierMotorradParkplaetze((this.getAnzahlFreierMotorradParkplaetze() + 1));
+                }
+                //ticket wird zu inaktiven tickets hinzugefügt
+                this.getInaktiveTickets().add(ticket);
+                //ticket wird aus aktiven tickets rausgenommen
+                this.getAktiveTickets().remove(ticket);
+
+                return"Auf Wiedersehen!";
+
+            }
+            else {
+                ticket.setEntwertet(false);
+                return"Zeit zum Ausfahren überschritten, Zeitstempel zurückgesetzt auf: " + ticket.getUhrzeitStunde() + ":" + ticket.getUhrzeitMin() +". Bitte entwerten Sie das Ticket erneut am Automaten.";
+            }
+
+        }
+        else {return"Ausfahrt nur mit entwertetem Ticket möglich.";}
+    }
+
 
     // -----------------------------------------------------------------------------------------------------------------
     // Getter und Setter:
@@ -105,22 +170,7 @@ public class Parkhaus implements ParkhausIF {
         anzahlFreierParkplaetze = anzahlFreierNormalerParkplaetze + anzahlFreierEAutoParkplaetze + anzahlFreierBehindertenParkplaetze + anzahlFreierMotorradParkplaetze;
         return anzahlFreierParkplaetze;
     }
-
-    public LocalTime getOeffnungszeit() {
-        return Oeffnungszeit;
-    }
-
-    public void setOeffnungszeit(LocalTime oeffnungszeit) {
-        Oeffnungszeit = oeffnungszeit;
-    }
-
-    public LocalTime getSchliessungszeit() {
-        return Schliessungszeit;
-    }
-
-    public void setSchliessungszeit(LocalTime schliessungszeit) {
-        Schliessungszeit = schliessungszeit;
-    }
+    //Wo kommt diese "anzahlFreierParkplaetze" her, wenn man die nicht berechnet? Das ist doch keine Konstante, die man beim Konstruktor festlegt.
 
     public double getStundentarif() {
         return stundentarif;
@@ -129,7 +179,6 @@ public class Parkhaus implements ParkhausIF {
     public double getEinnahmenTag() {
         return einnahmenTag;
     }
-    public void setEinnahmenTag(double einnahmenTag) {this.einnahmenTag = einnahmenTag;}
 
     public double getParkdauerTag() {
         return parkdauerTag;
@@ -147,14 +196,6 @@ public class Parkhaus implements ParkhausIF {
         return anzahlFreierEAutoParkplaetze;
     }
 
-    public String getUhrzeitStringParkhaus(LocalTime time) {
-        if(time.getMinute()<10) {
-            return time.getHour() + ":0" + time.getMinute();
-        } else {
-            return time.getHour() + ":" + time.getMinute();
-        }
-    }
-
     public int getAnzahlFreierBehindertenParkplaetze() {
         return anzahlFreierBehindertenParkplaetze;
     }
@@ -162,8 +203,6 @@ public class Parkhaus implements ParkhausIF {
     public void setAnzahlFreierBehindertenParkplaetze(int i) {
         this.anzahlFreierBehindertenParkplaetze = i;
     }
-
-    public LocalTime setUhrzeitManuell(int stunden, int minuten){return LocalTime.of(stunden, minuten);};
 
     public int getAnzahlFreierMotorradParkplaetze() {
         return anzahlFreierMotorradParkplaetze;
@@ -209,12 +248,6 @@ public class Parkhaus implements ParkhausIF {
         return htmlString;
     }
 
-    public void resetTicketListen(){
-        this.aktiveTickets = new ArrayList<Ticket>();
-        this.inaktiveTickets = new ArrayList<Ticket>();
-        Ticket.setIdentifikationsNummer();
-    }
-
     public String ausfahrenNachrichten(String nachricht) {
         return "<p>" + nachricht + "</p>";
     }
@@ -224,32 +257,18 @@ public class Parkhaus implements ParkhausIF {
         int av_parkdauer = 0;
         double av_preis = 0.0;
         int size = this.getInaktiveTickets().size();
-        int thisMonth = LocalDate.now().getMonthValue();
-        double einnahmenMonat = 0;
-        int besucherCount = this.getInaktiveTickets().size()+this.getAktiveTickets().size();
 
         if(size != 0) {
             for (int i = 0; i < size; i++) {
                 av_parkdauer += this.getInaktiveTickets().get(i).getParkdauerMin();
                 av_preis += this.getInaktiveTickets().get(i).getPreis();
-                //Monatseinnahmen
-                if (this.getInaktiveTickets().get(i).getDatum().getMonthValue() == thisMonth){
-                    einnahmenMonat += this.getInaktiveTickets().get(i).getPreis();
-                }
             }
             av_parkdauer /= size;
             av_preis /= size;
         }
-
         String statsString = "<h2>Datenauswertungen: </h2><br>"+"Stand: "+LocalDate.now()+", "+LocalTime.now().truncatedTo(ChronoUnit.SECONDS)+"<br>";
-        statsString += "<p>Durchschnittliche Parkdauer: "+av_parkdauer+" min<br>"+"Durchschnittlicher Ticketpreis: "+av_preis+" Euro<br>";
-        statsString += "Tageseinnahmen: " +this.getEinnahmenTag()+" Euro<br>"+"Monatseinnahmen: "+einnahmenMonat+" Euro<br>"+"Besucher insgesamt: " +besucherCount+"</p>";
+        statsString += "<p>Tageseinnahmen: " +this.getEinnahmenTag()+" Euro<br>"+"Durchschnittliche Parkdauer: "+av_parkdauer+" min<br>"+"Durchnittlicher Ticketpreis: "+av_preis+" Euro</p>";
 
         return statsString;
-    }
-
-    public void OeffnungszeitenAendern(LocalTime oe, LocalTime sc) {
-        this.Oeffnungszeit = oe;
-        this.Schliessungszeit = sc;
     }
 }

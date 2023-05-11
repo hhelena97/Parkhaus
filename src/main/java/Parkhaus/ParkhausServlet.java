@@ -1,12 +1,13 @@
 package Parkhaus;
 
 import javax.servlet.ServletException;
+import javax.servlet.WriteListener;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalTime;
+import java.io.PrintWriter;
 
 @WebServlet(name = "ParkhausServlet", value = "/parkhaus-servlet")
 public class ParkhausServlet extends HttpServlet {
@@ -25,7 +26,21 @@ public class ParkhausServlet extends HttpServlet {
 
 
         //damit in den aktiven Tickets was drin steht (und ich musste da was ausprobieren), kann weg, sobald es den Button zum neuen Ticket erzeugen gibt
-        // verschoben in den Button Testtickets
+        System.out.println("erste ticketID: " +p.neuesTicket("Normaler Parkplatz").getTicketID());
+        System.out.println("erste ticketID laut ArrayList: " +p.getAktiveTickets().get(0).getTicketID());
+        System.out.println("erste ticketID: " +p.neuesTicket("Behinderten-Parkplatz").getTicketID());
+        System.out.println("erste ticketID laut ArrayList: " +p.getAktiveTickets().get(1).getTicketID());
+        p.neuesTicket("E-Auto_Parkplatz");
+        p.neuesTicket("Normaler Parkplatz");
+        p.neuesTicket("Normaler Parkplatz");
+        Ticket ticket1 = p.getAktiveTickets().get(0);
+        Ticket ticket2 = p.getAktiveTickets().get(1);
+        ticket1.setParkdauerMin(30);
+        ticket2.setParkdauerMin(60);
+        p.bezahleTicket(ticket1);
+        p.bezahleTicket(ticket2);
+        p.ausfahren(ticket1);
+        p.ausfahren(ticket2);
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -44,188 +59,89 @@ public class ParkhausServlet extends HttpServlet {
         //führe je nach "action" verschiedene Dinge aus
         String action = request.getParameter("action");
         //Button Ticket erstellen
-        if ("start".equals(action)) {
-            p.resetTicketListen();
-            getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
-            getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
+        if("start".equals(action)){
             p = new Parkhaus(3, 100, 5, 5, 10);
             getServletContext().setAttribute("parkhaus", p);
-            //Exception-Nachrichten ausblenden
-            if (getServletContext().getAttribute("TicketErstellenException") != null) {
-                getServletContext().removeAttribute("TicketErstellenException");
-            }
-            if (getServletContext().getAttribute("AusfahrenException") != null) {
-                getServletContext().removeAttribute("AusfahrenException");
-            }
-            if (getServletContext().getAttribute("BezahlenException") != null) {
-                getServletContext().removeAttribute("BezahlenException");
-            }
-        } else if ("Testtickets".equals(action)) {
-            try {
-                System.out.println("erste ticketID: " + p.neuesTicket("Normaler Parkplatz").getTicketID());
-                System.out.println("erste ticketID laut ArrayList: " + p.getAktiveTickets().get(0).getTicketID());
-                System.out.println("erste ticketID: " + p.neuesTicket("Behinderten-Parkplatz").getTicketID());
-                System.out.println("erste ticketID laut ArrayList: " + p.getAktiveTickets().get(1).getTicketID());
-                p.neuesTicket("E-Auto-Parkplatz");
-                p.neuesTicket("Normaler Parkplatz");
-                p.neuesTicket("Normaler Parkplatz");
-                Ticket ticket1 = p.getAktiveTickets().get(0);
-                Ticket ticket2 = p.getAktiveTickets().get(1);
-                ticket1.setParkdauerMin(30);
-                ticket2.setParkdauerMin(60);
-                ticket1.bezahlen();
-                ticket2.bezahlen();
-                ticket1.ausfahren();
-                ticket2.ausfahren();
-            } catch (ParkplaetzeBelegtException e1) {
-                getServletContext().setAttribute("TicketErstellenException", e1.getMessage());
-            } catch (TicketNichtGefundenException e2) {
-                getServletContext().setAttribute("AusfahrenException", e2.getMessage());
-            }
-        } else if ("ticketErstellen".equals(action)) {
+            System.out.println("Neues Parkhaus in start erstellt");
+        }
+        else if("ticketErstellen".equals(action)){
             //erstellt ein neues Ticket mit der ausgewählten Parkplatzart
-            try {
-                Ticket t = p.neuesTicket(request.getParameter("ticketArt"));
+            Ticket t = p.neuesTicket(request.getParameter("ticketArt"));
 
-                //out.println("<p> Es wurde ein neues Ticket mit Parkplatzart: " + t.getArtDesParkplatzes() + " und ID: " + t.getTicketID() + " erstellt! </p><br>");
+            //out.println("<p> Es wurde ein neues Ticket mit Parkplatzart: " + t.getArtDesParkplatzes() + " und ID: " + t.getTicketID() + " erstellt! </p><br>");
 
-                System.out.println("Neues Ticket erstellt");
-                System.out.println(t.toString());
-                //(über)schreibt die Liste aktiver Tickets im Context
-                getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
-            } catch (ParkplaetzeBelegtException e) {
-                getServletContext().setAttribute("TicketErstellenException", e.getMessage());
-            }
-
+            System.out.println("Neues Ticket erstellt");
+            System.out.println(t.toString());
+            //(über)schreibt die Liste aktiver Tickets im Context
+            getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
 
         } else if ("bezahlen".equals(action)) {
-
-            //Exception-Nachrichten ausblenden
-            if (getServletContext().getAttribute("BezahlenException") != null) {
-                getServletContext().removeAttribute("BezahlenException");
-            }
-            if (getServletContext().getAttribute("TicketErstellenException") != null) {
-                getServletContext().removeAttribute("TicketErstellenException");
-            }
-
             int len = p.getAktiveTickets().size();
-            try {
-                for (int i = 0; i < len; i++) {
-                    if (p.getAktiveTickets().get(i).getTicketID() == Integer.parseInt(request.getParameter("ticketID"))) {
+            for (int i = 0; i < len; i++)
+            {
+                if(p.getAktiveTickets().get(i).getTicketID() == Integer.parseInt(request.getParameter("ticketID")))
+                {
+                    Ticket t = p.getAktiveTickets().get(i);
+                    t.setPreis(p.bezahleTicket(t));
+                    double preis = t.getPreis();
 
-                        Ticket t = p.getAktiveTickets().get(i);
-                        t.setPreis(t.bezahlen());
-                        double preis = t.getPreis();
-                        double rabattEuro = preis * t.getRabatt();
-                        int parkzeit = t.getParkdauerMin();
+                    t.setParkdauerMin(t.zeitDifferenz());
+                    int parkzeit = t.getParkdauerMin();
 
-                        // Um diese Elemente anzeigen zu können:
-                        request.setAttribute("bezahleTicketX", t);
-                        request.setAttribute("preisTicketX", preis);
-                        request.setAttribute("rabattBezahlenX", rabattEuro);
-                        request.setAttribute("zeitTicketX", parkzeit);
-
-                        if (getServletContext().getAttribute("BezahlenException") != null) {
-                            getServletContext().removeAttribute("BezahlenException");
-                        }
-                    }
+                    // Um diese Elemente anzeigen zu können:
+                    request.setAttribute("bezahleTicketX", t);
+                    request.setAttribute("preisTicketX", preis);
+                    request.setAttribute("zeitTicketX", parkzeit);
                 }
-                if (getServletContext().getAttribute("bezahleTicketX") == null) {
-                    Exception e1 = new TicketNichtGefundenException("Ticket nicht gefunden. Zur Zahlung bereite Tickets unter 'aktive Tickets'.");
-                    getServletContext().setAttribute("BezahlenException", e1.getMessage());
-                }
-            } catch (NumberFormatException e2) {
-                //Do nothing
             }
 
             //(über)schreibt die Liste aktiver Tickets im Context
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
 
-        } else if ("schrankeOeffnen".equals(action)) {
-
-            if (getServletContext().getAttribute("AusfahrenException") != null) {
-                getServletContext().removeAttribute("AusfahrenException");
-            }
+        } else if("schrankeOeffnen".equals(action)){
             //t ist das Ticket was ausgewählt wurde
-            try {
-                Ticket ticketAusfahren = null;
-                for (Ticket ti : p.getAktiveTickets()) {
-                    if (ti.getTicketID() == Integer.valueOf(request.getParameter("ticketID"))) {
-                        ticketAusfahren = ti;
-                    }
+            Ticket ticketAusfahren = null;
+            for (Ticket ti: p.getAktiveTickets()) {
+                if(ti.getTicketID() == Integer.valueOf(request.getParameter("ticketID"))) {
+                    ticketAusfahren = ti;
                 }
-
-                String nachricht = ticketAusfahren.ausfahren();
-                request.setAttribute("NachrichtX", nachricht);
-            } catch (TicketNichtGefundenException e1) {
-                getServletContext().setAttribute("AusfahrenException", e1.getMessage());
-            } catch (NumberFormatException e2) {
-                //Do nothing
             }
+
+            String nachricht = p.ausfahren(ticketAusfahren);
+            request.setAttribute("NachrichtX", nachricht);
+            //out.println("<p>Auf Wiedersehen!</p>");
 
             //(über)schreibt die Liste aktiver und inaktiver Tickets im Context
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
             getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
 
-        } else if ("rabattGeben".equals(action)) {
-            // Rabatt geben (später auf Betreiberseite)
-            int len = p.getAktiveTickets().size();
-            double rabatt = 0;
-            for (int i = 0; i < len; i++) {
-                if (p.getAktiveTickets().get(i).getTicketID() == Integer.parseInt(request.getParameter("ticketID"))) {
-
-                    Ticket t = p.getAktiveTickets().get(i);
-                    if (request.getParameter("rabatt").equals("Personalrabatt (10 %)")) {
-                        rabatt = 0.1;
-                    } else if (request.getParameter("rabatt").equals("Besucher EKZ (20 %)")) {
-                        rabatt = 0.2;
-
-                    } else if (request.getParameter("rabatt").equals("Treuerabatt (25 %)")) {
-                        rabatt = 0.2;
-                    }
-                    t.setRabatt(rabatt);
-                    System.out.println("Rabatt: " + rabatt);
-
-                    // Um diese Elemente anzeigen zu können:
-                    request.setAttribute("rabattTicketX", t);
-                    request.setAttribute("rabattX", (rabatt * 100));
-                }
-            }
-        } else if ("datenAuswerten".equals(action)) {
+        }else if ("datenAuswerten".equals(action)){
             //Zeige Datenauswertung
             String stats = p.StringFuerStats();
-            request.setAttribute("datenauswertung", stats);
+            request.setAttribute("datenauswertung",stats);
 
-        } else if ("aktiveTickets".equals(action)) {
+        }else if ("aktiveTickets".equals(action)){
             request.getRequestDispatcher("aktiveTickets.jsp").forward(request, response);
-
-        }else if ("Betreiberansicht".equals(action)) {
-            request.getRequestDispatcher("Betreiberansicht.jsp").forward(request, response);
-        }else if ("ÖffnungszeitenÄndern".equals(action)) {
-            System.out.println("Ändern");
-            p.OeffnungszeitenAendern((LocalTime) getServletContext().getAttribute("Öffnen"), (LocalTime) getServletContext().getAttribute("Schließen"));
-            /*p.setOeffnungszeit((LocalTime) getServletContext().getAttribute("Öffnen"));
-            p.setSchliessungszeit((LocalTime) getServletContext().getAttribute("Schließen"));*/
         }
         request.setAttribute("parkhaus", p);
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
-    private String StringFuerAktiveTicketsAuflistung(HttpServletResponse response) throws IOException {
+    private String StringFuerAktiveTicketsAuflistung(HttpServletResponse response) throws IOException{
         Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
         String htmlString = "";
         htmlString += "<html><body><h2>Zurzeit aktive Tickets: </h2>";
         int index = 0;
         for (Ticket i : p.getAktiveTickets()) {
-            htmlString += "<p>Ticket" + p.getAktiveTickets().get(index).getTicketID() + ", ";
-            htmlString += "Datum: " + p.getAktiveTickets().get(index).getDatum() + ", ";
+            htmlString += "<p>Ticket" + p.getAktiveTickets().get(index).getTicketID()+ ", ";
+            htmlString += "Datum: " + p.getAktiveTickets().get(index).getDatum()+", ";
             htmlString += "Ankunftszeit: " + p.getAktiveTickets().get(index).getUhrzeit().getHour();
-            if (p.getAktiveTickets().get(index).getUhrzeit().getMinute() < 10) {
+            if(p.getAktiveTickets().get(index).getUhrzeit().getMinute() <10) {
                 htmlString += ":0" + p.getAktiveTickets().get(index).getUhrzeit().getMinute() + ", ";
             } else {
                 htmlString += ":" + p.getAktiveTickets().get(index).getUhrzeit().getMinute() + ", ";
             }
-            htmlString += "Parkplatzart: " + p.getAktiveTickets().get(index).getArtDesParkplatzes() + "</p>";
+            htmlString += "Parkplatzart: " + p.getAktiveTickets().get(index).getArtDesParkplatzes()+ "</p>";
             index++;
         }
         htmlString += "</body></html>";
@@ -233,21 +149,21 @@ public class ParkhausServlet extends HttpServlet {
     }
 
 
-    public String StringFuerInaktiveTicketsAuflistung(HttpServletResponse response) throws IOException {
+    public String StringFuerInaktiveTicketsAuflistung(HttpServletResponse response) throws IOException{
         Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
         String htmlString = "";
         htmlString += "<html><body><h2>Alle inaktiven Tickets: </h2>";
         int index = 0;
         for (Ticket i : p.getInaktiveTickets()) {
-            htmlString += "<p>Ticket" + p.getInaktiveTickets().get(index).getTicketID() + ", ";
-            htmlString += "Datum: " + p.getInaktiveTickets().get(index).getDatum() + ", ";
+            htmlString += "<p>Ticket" + p.getInaktiveTickets().get(index).getTicketID()+ ", ";
+            htmlString += "Datum: " + p.getInaktiveTickets().get(index).getDatum()+", ";
             htmlString += "Ausfahrzeit: " + p.getInaktiveTickets().get(index).getUhrzeit().getHour();
-            if (p.getInaktiveTickets().get(index).getUhrzeit().getMinute() < 10) {
+            if(p.getInaktiveTickets().get(index).getUhrzeit().getMinute() <10) {
                 htmlString += ":0" + p.getInaktiveTickets().get(index).getUhrzeit().getMinute() + ", ";
             } else {
                 htmlString += ":" + p.getInaktiveTickets().get(index).getUhrzeit().getMinute() + ", ";
             }
-            htmlString += "Parkplatzart: " + p.getInaktiveTickets().get(index).getArtDesParkplatzes() + "</p>";
+            htmlString += "Parkplatzart: " + p.getInaktiveTickets().get(index).getArtDesParkplatzes()+ "</p>";
             index++;
         }
         htmlString += "</body></html>";
@@ -266,6 +182,8 @@ public class ParkhausServlet extends HttpServlet {
         s += "</form>";
         return s;
     }
+
+
 
 
     public void destroy() {
