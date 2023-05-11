@@ -51,21 +51,6 @@ public class ParkhausServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        System.out.println("hier"+request.getPathInfo()); //welchen Pfad hinter /parkhaus-servlet
-        PrintWriter out = response.getWriter();
-        /*if(request.getPathInfo() != null && request.getPathInfo().equals("/aktiveTickets")) {
-            out.println(StringFuerAktiveTicketsAuflistung(response)); //hier methode, die die Tickets zurückgibt
-        }
-        else if (request.getPathInfo() != null && request.getPathInfo().equals("/neuesTicket"))
-        {
-            out.println(StringFuerNeuesTicketAuswahl());
-        }
-        else if(request.getPathInfo() != null && request.getPathInfo().equals("/inaktiveTickets")) {
-            out.println(StringFuerInaktiveTicketsAuflistung(response));
-        }*/
-
-
-        //PrintWriter out = response.getWriter();
         //hole das Parkhaus aus dem Context
         Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
         //führe je nach "action" verschiedene Dinge aus
