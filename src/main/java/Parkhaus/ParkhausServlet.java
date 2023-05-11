@@ -132,7 +132,8 @@ public class ParkhausServlet extends HttpServlet {
                 }
             }
 
-            p.ausfahren(ticketAusfahren);
+            String nachricht = p.ausfahren(ticketAusfahren);
+            request.setAttribute("NachrichtX", nachricht);
             out.println("<p>Auf Wiedersehen!</p>");
 
             //(über)schreibt die Liste aktiver und inaktiver Tickets im Context
