@@ -81,7 +81,6 @@ public class ParkhausServlet extends HttpServlet {
             System.out.println(t.toString());
             //(über)schreibt die Liste aktiver Tickets im Context
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
-            //request.setAttribute("Ticket-ID", t.getTicketID());
 
         } else if ("bezahlen".equals(action)) {
             int len = p.getAktiveTickets().size();
@@ -128,6 +127,8 @@ public class ParkhausServlet extends HttpServlet {
             String stats = p.StringFuerStats();
             request.setAttribute("datenauswertung",stats);
 
+        }else if ("aktiveTickets".equals(action)){
+            request.getRequestDispatcher("aktiveTickets.jsp").forward(request, response);
         }
         request.setAttribute("parkhaus", p);
         request.getRequestDispatcher("index.jsp").forward(request, response);
