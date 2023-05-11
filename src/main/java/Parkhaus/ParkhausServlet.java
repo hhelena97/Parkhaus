@@ -17,6 +17,7 @@ public class ParkhausServlet extends HttpServlet {
         if (getServletContext().getAttribute("parkhaus") == null) {
             p = new Parkhaus(3, 100, 5, 5, 10);
             System.out.println("Neues Parkhaus erstellt");
+            System.out.println("Stundentarif: " + p.getStundentarif());
         } else {
             p = (Parkhaus) getServletContext().getAttribute("parkhaus");
             System.out.println("Parkhaus in init gefunden");
@@ -24,7 +25,7 @@ public class ParkhausServlet extends HttpServlet {
         getServletContext().setAttribute("parkhaus", p);
 
 
-        //damit in den aktiven Tickets was drin steht (und ich musste da was ausprobieren), kann weg sobald es den Button zum neuen Ticket erzeugen gibt
+        //damit in den aktiven Tickets was drin steht (und ich musste da was ausprobieren), kann weg, sobald es den Button zum neuen Ticket erzeugen gibt
         System.out.println("erste ticketID: " +p.neuesTicket("Normaler Parkplatz").getTicketID());
         System.out.println("erste ticketID laut ArrayList: " +p.getAktiveTickets().get(0).getTicketID());
         System.out.println("erste ticketID: " +p.neuesTicket("Behinderten-Parkplatz").getTicketID());
@@ -40,10 +41,10 @@ public class ParkhausServlet extends HttpServlet {
         p.bezahleTicket(ticket2);
         p.ausfahren(ticket1);
         p.ausfahren(ticket2);
-
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
         Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
 
         request.setAttribute("parkhaus", p);
@@ -51,36 +52,51 @@ public class ParkhausServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+        //PrintWriter out = response.getWriter();
         //hole das Parkhaus aus dem Context
         Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
         //führe je nach "action" verschiedene Dinge aus
         String action = request.getParameter("action");
         //Button Ticket erstellen
-        if("ticketErstellen".equals(action)){
+        if("start".equals(action)){
+            p = new Parkhaus(3, 100, 5, 5, 10);
+            getServletContext().setAttribute("parkhaus", p);
+            System.out.println("Neues Parkhaus in start erstellt");
+        }
+        else if("ticketErstellen".equals(action)){
             //erstellt ein neues Ticket mit der ausgewählten Parkplatzart
             Ticket t = p.neuesTicket(request.getParameter("ticketArt"));
 
+            //out.println("<p> Es wurde ein neues Ticket mit Parkplatzart: " + t.getArtDesParkplatzes() + " und ID: " + t.getTicketID() + " erstellt! </p><br>");
+
+            System.out.println("Neues Ticket erstellt");
+            System.out.println(t.toString());
             //(über)schreibt die Liste aktiver Tickets im Context
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
 
-        } else if ("bezahlen".equals(action)){
+        } else if ("bezahlen".equals(action)) {
             int len = p.getAktiveTickets().size();
             for (int i = 0; i < len; i++)
             {
                 if(p.getAktiveTickets().get(i).getTicketID() == Integer.parseInt(request.getParameter("ticketID")))
                 {
                     Ticket t = p.getAktiveTickets().get(i);
-                    double preis = p.bezahleTicket(t);
+                    t.setPreis(p.bezahleTicket(t));
+                    double preis = t.getPreis();
 
-                    // Um diese Elemente anzeigen zu können
+                    t.setParkdauerMin(t.zeitDifferenz());
+                    int parkzeit = t.getParkdauerMin();
+
+                    // Um diese Elemente anzeigen zu können:
                     request.setAttribute("bezahleTicketX", t);
                     request.setAttribute("preisTicketX", preis);
+                    request.setAttribute("zeitTicketX", parkzeit);
                 }
             }
 
             //(über)schreibt die Liste aktiver Tickets im Context
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
-
 
         } else if("schrankeOeffnen".equals(action)){
             //t ist das Ticket was ausgewählt wurde
@@ -93,6 +109,7 @@ public class ParkhausServlet extends HttpServlet {
 
             String nachricht = p.ausfahren(ticketAusfahren);
             request.setAttribute("NachrichtX", nachricht);
+            //out.println("<p>Auf Wiedersehen!</p>");
 
             //(über)schreibt die Liste aktiver und inaktiver Tickets im Context
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());

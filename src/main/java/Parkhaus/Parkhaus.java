@@ -167,7 +167,7 @@ public class Parkhaus implements ParkhausIF {
         return parkplaetzeGesamt;
     }
     public int getAnzahlFreierParkplaetze() {
-        //anzahlFreierParkplaetze = anzahlFreierNormalerParkplaetze + anzahlFreierEAutoParkplaetze + anzahlFreierBehindertenParkplaetze + anzahlFreierMotorradParkplaetze;
+        anzahlFreierParkplaetze = anzahlFreierNormalerParkplaetze + anzahlFreierEAutoParkplaetze + anzahlFreierBehindertenParkplaetze + anzahlFreierMotorradParkplaetze;
         return anzahlFreierParkplaetze;
     }
     //Wo kommt diese "anzahlFreierParkplaetze" her, wenn man die nicht berechnet? Das ist doch keine Konstante, die man beim Konstruktor festlegt.
@@ -184,8 +184,6 @@ public class Parkhaus implements ParkhausIF {
         return parkdauerTag;
     }
 
-    //Sarah: Wofür ist diese Methode? Ich dachte, freie Parkplätze ergeben sich aus den Gesamtparkplätzen - allen belegten Parkplätzen
-    //oder ist das eine Methode für manche Tests?
     public void setAnzahlFreierParkplaetze(int i) {
         this.anzahlFreierParkplaetze = i;
     }
@@ -221,6 +219,7 @@ public class Parkhaus implements ParkhausIF {
     public void setAnzahlFreierNormalerParkplaetze(int i) {
         this.anzahlFreierNormalerParkplaetze = i;
     }
+
 
     public List<Ticket> getAktiveTickets() {
         return aktiveTickets;
