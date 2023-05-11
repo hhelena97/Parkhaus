@@ -48,14 +48,12 @@ public class ParkhausServlet extends HttpServlet {
 
         request.setAttribute("parkhaus", p);
         request.getRequestDispatcher("index.jsp").forward(request, response);
+    }
 
-        //System.out.println(request.getPathInfo()); //welchen Pfad hinter /parkhaus-servlet
-
-        /*Sarah: die Anzeige der freien Parkplätze hab ich in die index verschoben. Sonst brauchen wir das bei doGet und doPost
-        einverstanden?
-
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        System.out.println("hier"+request.getPathInfo()); //welchen Pfad hinter /parkhaus-servlet
         PrintWriter out = response.getWriter();
-        if(request.getPathInfo() != null && request.getPathInfo().equals("/aktiveTickets")) {
+        /*if(request.getPathInfo() != null && request.getPathInfo().equals("/aktiveTickets")) {
             out.println(StringFuerAktiveTicketsAuflistung(response)); //hier methode, die die Tickets zurückgibt
         }
         else if (request.getPathInfo() != null && request.getPathInfo().equals("/neuesTicket"))
@@ -64,24 +62,10 @@ public class ParkhausServlet extends HttpServlet {
         }
         else if(request.getPathInfo() != null && request.getPathInfo().equals("/inaktiveTickets")) {
             out.println(StringFuerInaktiveTicketsAuflistung(response));
-        }
-        else {
-            out.println("<html><body>");
-            out.println("<h1>" + message + "</h1>");
-            out.println("<p> Parkplätze gesamt: " + p.getParkplaetzeGesamt() + "</p><br>");
-            out.println("<p> aktuell freie Parkplätze gesamt: " + p.getAnzahlFreierParkplaetze() + "</p><br>");
-            out.println("<p> aktuell freie normale Parkplätze: " + p.getAnzahlFreierNormalerParkplaetze() + "</p><br>");
-            out.println("<p> aktuell freie Parkplätze für E-Autos: " + p.getAnzahlFreierEAutoParkplaetze() + "</p><br>");
-            out.println("<p> aktuell freie Behinderten-Parkplätze: " + p.getAnzahlFreierBehindertenParkplaetze() + "</p><br>");
-            out.println("<p> aktuell freie Motorrad-Parkplätze: " + p.getAnzahlFreierMotorradParkplaetze() + "</p><br>");
-            out.println("</body></html>");
+        }*/
 
-         */
-    }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
-        PrintWriter out = response.getWriter();
+        //PrintWriter out = response.getWriter();
         //hole das Parkhaus aus dem Context
         Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
         //führe je nach "action" verschiedene Dinge aus
@@ -91,13 +75,8 @@ public class ParkhausServlet extends HttpServlet {
             //erstellt ein neues Ticket mit der ausgewählten Parkplatzart
             Ticket t = p.neuesTicket(request.getParameter("ticketArt"));
 
-            out.println("<p> Es wurde ein neues Ticket mit Parkplatzart: " + t.getArtDesParkplatzes() + " und ID: " + t.getTicketID() + " erstellt! </p><br>");
-
-            System.out.println("Neues Ticket erstellt");
-            System.out.println(t.toString());
             //(über)schreibt die Liste aktiver Tickets im Context
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
-            //request.setAttribute("Ticket-ID", t.getTicketID());
 
         } else if ("bezahlen".equals(action)){
             int len = p.getAktiveTickets().size();
@@ -113,14 +92,9 @@ public class ParkhausServlet extends HttpServlet {
                     request.setAttribute("preisTicketX", preis);
                 }
             }
-            //double preis = p.bezahleTicket(t);
-            //out.println("<p>Ticket entwertet</p>");
-            //System.out.println("Ticket bezahlen Methode");
-            //out.println("Preis: " + preis);
 
             //(über)schreibt die Liste aktiver Tickets im Context
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
-            //getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
 
 
         } else if("schrankeOeffnen".equals(action)){
@@ -134,7 +108,6 @@ public class ParkhausServlet extends HttpServlet {
 
             String nachricht = p.ausfahren(ticketAusfahren);
             request.setAttribute("NachrichtX", nachricht);
-            out.println("<p>Auf Wiedersehen!</p>");
 
             //(über)schreibt die Liste aktiver und inaktiver Tickets im Context
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
@@ -145,6 +118,8 @@ public class ParkhausServlet extends HttpServlet {
             String stats = p.StringFuerStats();
             request.setAttribute("datenauswertung",stats);
 
+        }else if ("aktiveTickets".equals(action)){
+            request.getRequestDispatcher("aktiveTickets.jsp").forward(request, response);
         }
         request.setAttribute("parkhaus", p);
         request.getRequestDispatcher("index.jsp").forward(request, response);

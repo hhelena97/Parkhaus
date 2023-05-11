@@ -121,6 +121,7 @@ public class Parkhaus implements ParkhausIF {
      * erfüllt sind, wird ein entsprechender Hinweis ausgegeben. Ist das Ticket entwertet und die Viertelstunde noch nicht um,
      * wird das Ticket inaktiv und die Anzahl der freien Parkplätze wird um eins erhöht, entsprechend dem Parkplatz, der belegt war.
      * @param ticket ist das eingesteckte Ticket
+     * @return Nachricht, die dem Besucher angezeigt werden soll
      */
     @Override
     public String ausfahren(Ticket ticket) {
