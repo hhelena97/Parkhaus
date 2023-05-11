@@ -2,6 +2,7 @@ package Parkhaus;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
@@ -265,8 +266,8 @@ public class Parkhaus implements ParkhausIF {
             av_parkdauer /= size;
             av_preis /= size;
         }
-        String statsString = "<h2>Datenauswertungen: </h2><br>"+"Stand: "+LocalDate.now()+", "+LocalTime.now()+"<br>";
-        statsString += "<p>Tageseinnahmen: " +this.getEinnahmenTag()+"<br>"+"Durchschnittliche Parkdauer: "+av_parkdauer+"<br>"+"Durchnittlicher Ticketpreis: "+av_preis+"</p>";
+        String statsString = "<h2>Datenauswertungen: </h2><br>"+"Stand: "+LocalDate.now()+", "+LocalTime.now().truncatedTo(ChronoUnit.SECONDS)+"<br>";
+        statsString += "<p>Tageseinnahmen: " +this.getEinnahmenTag()+" Euro<br>"+"Durchschnittliche Parkdauer: "+av_parkdauer+" min<br>"+"Durchnittlicher Ticketpreis: "+av_preis+" Euro</p>";
 
         return statsString;
     }
