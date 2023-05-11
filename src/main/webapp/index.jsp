@@ -44,8 +44,9 @@
     <input type="text" name="ticketID" placeholder="Ticket-ID">
     <button type="submit">Schranke oeffnen</button>
 </form>
-<h2>Datenauswertungen</h2>
-<p>Tageseinnahmen: ${parkhaus.getEinnahmenTag()}</p>
+<form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
+    <button type="submit" name="action" value="datenAuswerten">Daten auswerten</button>
+</form>
 
 <% if (request.getAttribute("parkhaus") != null){ %>
     <% if (request.getAttribute("ticketliste") != null) { %>
