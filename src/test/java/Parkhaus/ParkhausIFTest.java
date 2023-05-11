@@ -97,10 +97,7 @@ class ParkhausIFTest {
     @Test
     void ausfahrenTest(){
 
-        Parkhaus testParkhaus = new Parkhaus();
-        testParkhaus.setAnzahlFreierParkplaetze(200);
-        testParkhaus.setAnzahlFreierNormalerParkplaetze(190);
-        testParkhaus.setAnzahlFreierBehindertenParkplaetze(10);
+        Parkhaus testParkhaus = new Parkhaus(2.0,190,0,10,0);
         Ticket testTicket1 = testParkhaus.neuesTicket("Normaler Parkplatz");
         Ticket testTicket2 = testParkhaus.neuesTicket("Behinderten-Parkplatz");
 

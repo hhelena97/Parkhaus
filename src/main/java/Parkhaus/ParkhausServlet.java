@@ -142,7 +142,8 @@ public class ParkhausServlet extends HttpServlet {
 
         }else if ("datenAuswerten".equals(action)){
             //Zeige Datenauswertung
-            System.out.println(p.StringFuerStats());
+            String stats = p.StringFuerStats();
+            request.setAttribute("datenauswertung",stats);
 
         }
         request.setAttribute("parkhaus", p);

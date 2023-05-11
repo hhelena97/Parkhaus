@@ -57,6 +57,9 @@
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
     <button type="submit" name="action" value="datenAuswerten">Daten auswerten</button>
 </form>
+<c:if test="${not empty datenauswertung}">
+    <p>${datenauswertung}</p>
+</c:if>
 
 <% if (request.getAttribute("parkhaus") != null){ %>
     <% if (request.getAttribute("ticketliste") != null) { %>
