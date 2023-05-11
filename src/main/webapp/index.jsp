@@ -22,6 +22,8 @@
 <p>Anzahl freier Motorrad-Parkplaetze: ${parkhaus.getAnzahlFreierMotorradParkplaetze()}</p>
 <p>Preis je Stunde: ${parkhaus.getStundentarif()} Euro</p>
 <br>
+<p>Preis je Stunde: ${parkhaus.getStundentarif()} Euro</p>
+<br>
 <h2>Einfahrt</h2>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet"> <!--Was ist das und was macht das?-->
     <input type="hidden" name="action" value="ticketErstellen">

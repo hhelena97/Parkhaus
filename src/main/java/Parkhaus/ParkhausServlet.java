@@ -17,6 +17,7 @@ public class ParkhausServlet extends HttpServlet {
         if (getServletContext().getAttribute("parkhaus") == null) {
             p = new Parkhaus(3, 100, 5, 5, 10);
             System.out.println("Neues Parkhaus erstellt");
+            System.out.println("Stundentarif: " + p.getStundentarif());
         } else {
             p = (Parkhaus) getServletContext().getAttribute("parkhaus");
             System.out.println("Parkhaus in init gefunden");
