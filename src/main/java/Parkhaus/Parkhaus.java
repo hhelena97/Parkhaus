@@ -169,7 +169,7 @@ public class Parkhaus implements ParkhausIF {
         anzahlFreierParkplaetze = anzahlFreierNormalerParkplaetze + anzahlFreierEAutoParkplaetze + anzahlFreierBehindertenParkplaetze + anzahlFreierMotorradParkplaetze;
         return anzahlFreierParkplaetze;
     }
-    //Wo kommt diese "anzahlFreierParkplaetze" her, wenn man die nicht berechnet? Das ist doch keine Konstante, die man beim Konstruktor festlegt.
+
 
     public double getStundentarif() {
         return stundentarif;
@@ -245,6 +245,11 @@ public class Parkhaus implements ParkhausIF {
             index++;
         }
         return htmlString;
+    }
+
+    public void resetTicketListen(){
+        this.aktiveTickets = new ArrayList<Ticket>();
+        this.inaktiveTickets = new ArrayList<Ticket>();
     }
 
     public String ausfahrenNachrichten(String nachricht) {
