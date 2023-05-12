@@ -15,6 +15,11 @@
     <input type="hidden" name="action" value="start">
     <button type="submit">Start/Reset</button>
 </form>
+<br>
+<form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
+    <input type="hidden" name="action" value="Testtickets">
+    <button type="submit">Testtickets erstellen</button>
+</form>
 <p>Anzahl Parkplaetze in diesem Parkhaus: ${parkhaus.getParkplaetzeGesamt()}</p>
 <p>Anzahl freier normaler Parkplaetze: ${parkhaus.getAnzahlFreierNormalerParkplaetze()}</p>
 <p>Anzahl freier Behinderten-Parkplaetze: ${parkhaus.getAnzahlFreierBehindertenParkplaetze()}</p>

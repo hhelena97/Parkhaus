@@ -26,21 +26,7 @@ public class ParkhausServlet extends HttpServlet {
 
 
         //damit in den aktiven Tickets was drin steht (und ich musste da was ausprobieren), kann weg, sobald es den Button zum neuen Ticket erzeugen gibt
-        System.out.println("erste ticketID: " +p.neuesTicket("Normaler Parkplatz").getTicketID());
-        System.out.println("erste ticketID laut ArrayList: " +p.getAktiveTickets().get(0).getTicketID());
-        System.out.println("erste ticketID: " +p.neuesTicket("Behinderten-Parkplatz").getTicketID());
-        System.out.println("erste ticketID laut ArrayList: " +p.getAktiveTickets().get(1).getTicketID());
-        p.neuesTicket("E-Auto_Parkplatz");
-        p.neuesTicket("Normaler Parkplatz");
-        p.neuesTicket("Normaler Parkplatz");
-        Ticket ticket1 = p.getAktiveTickets().get(0);
-        Ticket ticket2 = p.getAktiveTickets().get(1);
-        ticket1.setParkdauerMin(30);
-        ticket2.setParkdauerMin(60);
-        p.bezahleTicket(ticket1);
-        p.bezahleTicket(ticket2);
-        p.ausfahren(ticket1);
-        p.ausfahren(ticket2);
+       // verschoben in den Button Testtickets
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -60,16 +46,27 @@ public class ParkhausServlet extends HttpServlet {
         String action = request.getParameter("action");
         //Button Ticket erstellen
         if("start".equals(action)){
-            //this.init();
-            //getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
-
-            //p = new Parkhaus(3, 100, 5, 5, 10);
-
-
-            //getServletContext().setAttribute("parkhaus", p);
-            //p.resetTicketListen();
-            //getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
-            //getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
+            p.resetTicketListen();
+            getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
+            getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
+            p = new Parkhaus(3, 100, 5, 5, 10);
+            getServletContext().setAttribute("parkhaus", p);
+        } else if("Testtickets".equals(action)){
+            System.out.println("erste ticketID: " +p.neuesTicket("Normaler Parkplatz").getTicketID());
+            System.out.println("erste ticketID laut ArrayList: " +p.getAktiveTickets().get(0).getTicketID());
+            System.out.println("erste ticketID: " +p.neuesTicket("Behinderten-Parkplatz").getTicketID());
+            System.out.println("erste ticketID laut ArrayList: " +p.getAktiveTickets().get(1).getTicketID());
+            p.neuesTicket("E-Auto_Parkplatz");
+            p.neuesTicket("Normaler Parkplatz");
+            p.neuesTicket("Normaler Parkplatz");
+            Ticket ticket1 = p.getAktiveTickets().get(0);
+            Ticket ticket2 = p.getAktiveTickets().get(1);
+            ticket1.setParkdauerMin(30);
+            ticket2.setParkdauerMin(60);
+            p.bezahleTicket(ticket1);
+            p.bezahleTicket(ticket2);
+            p.ausfahren(ticket1);
+            p.ausfahren(ticket2);
         }
         else if("ticketErstellen".equals(action)){
             //erstellt ein neues Ticket mit der ausgewählten Parkplatzart
