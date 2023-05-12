@@ -60,9 +60,16 @@ public class ParkhausServlet extends HttpServlet {
         String action = request.getParameter("action");
         //Button Ticket erstellen
         if("start".equals(action)){
-            p = new Parkhaus(3, 100, 5, 5, 10);
-            getServletContext().setAttribute("parkhaus", p);
-            System.out.println("Neues Parkhaus in start erstellt");
+            //this.init();
+            //getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
+
+            //p = new Parkhaus(3, 100, 5, 5, 10);
+
+
+            //getServletContext().setAttribute("parkhaus", p);
+            //p.resetTicketListen();
+            //getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
+            //getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
         }
         else if("ticketErstellen".equals(action)){
             //erstellt ein neues Ticket mit der ausgewählten Parkplatzart
