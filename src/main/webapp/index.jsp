@@ -15,24 +15,13 @@
     <input type="hidden" name="action" value="start">
     <button type="submit">Start/Reset</button>
 </form>
-<br>
-<br>
-<form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
-    <input type="hidden" name="action" value="Betreiberansicht">
-    <label> Zur Betreiberansicht:  </label>
-    <button type="submit">Admin</button>
-</form>
-<br>
-<br>
-<form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
-    <input type="hidden" name="action" value="Testtickets">
-    <button type="submit">Testtickets erstellen</button>
-</form>
 <p>Anzahl Parkplaetze in diesem Parkhaus: ${parkhaus.getParkplaetzeGesamt()}</p>
 <p>Anzahl freier normaler Parkplaetze: ${parkhaus.getAnzahlFreierNormalerParkplaetze()}</p>
 <p>Anzahl freier Behinderten-Parkplaetze: ${parkhaus.getAnzahlFreierBehindertenParkplaetze()}</p>
 <p>Anzahl freier E-Auto-Parkplaetze: ${parkhaus.getAnzahlFreierEAutoParkplaetze()}</p>
 <p>Anzahl freier Motorrad-Parkplaetze: ${parkhaus.getAnzahlFreierMotorradParkplaetze()}</p>
+<p>Preis je Stunde: ${parkhaus.getStundentarif()} Euro</p>
+<br>
 <p>Preis je Stunde: ${parkhaus.getStundentarif()} Euro</p>
 <br>
 <h2>Einfahrt</h2>
@@ -48,9 +37,6 @@
     </label>
     <button type="submit">Ticket erstellen</button>
 </form>
-<c:if test="${not empty TicketErstellenException}">
-    <p>${TicketErstellenException}</p>
-</c:if>
 <br>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
 <input type="hidden" name="action" value="aktiveTickets">
@@ -65,10 +51,6 @@
 </form>
 <c:if test="${not empty bezahleTicketX}">
     <p>Ticket ${bezahleTicketX.getTicketID()} hat für ${zeitTicketX} Minuten geparkt und ${preisTicketX} Euro gekostet.</p>
-    <p>Für dieses Ticket wurden ${rabattBezahlenX} Euro Rabatt gegeben.</p>
-</c:if>
-<c:if test="${empty bezahleTicketX}">
-    <p>${BezahlenException}</p>
 </c:if>
 <h2>Ausfahrt</h2>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
@@ -79,31 +61,7 @@
 <c:if test="${not empty NachrichtX}">
     <p>${NachrichtX}</p>
 </c:if>
-<c:if test="${not empty AusfahrenException}">
-    <p>${AusfahrenException}</p>
-</c:if>
 <p></p>
-
-
-<br>
-<h2>Rabatt geben</h2>
-<form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet"> <!--Was ist das und was macht das?-->
-    <input type="hidden" name="action" value="rabattGeben">
-    <input type="text" name="ticketID" placeholder="Ticket-ID">
-        <select name="rabatt" size="1">
-            <option selected>keinen (0 %)</option>
-            <option>Personalrabatt (10 %)</option>
-            <option>Besucher EKZ (20 %)</option>
-            <option>Treuerabatt (25 %)</option>
-        </select>
-    </label>
-    <button type="submit">Rabatt geben</button>
-</form>
-<c:if test="${not empty rabattTicketX}">
-    <p>Ticket ${rabattTicketX.getTicketID()} hat einen Rabatt von ${rabattX} % bekommen.</p>
-</c:if>
-<br>
-
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
     <button type="submit" name="action" value="datenAuswerten">Daten auswerten</button>
 </form>
