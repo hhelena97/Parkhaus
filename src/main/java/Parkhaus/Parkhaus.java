@@ -45,6 +45,7 @@ public class Parkhaus implements ParkhausIF {
     public Parkhaus(double stundentarif, int normaleParkplaetze, int EAutoParkplaetze, int behindertenParkplaetze, int motoradparkplaetze){
         this.stundentarif = stundentarif;
         parkplaetzeGesamt = normaleParkplaetze + behindertenParkplaetze + EAutoParkplaetze + motoradparkplaetze;
+        anzahlFreierParkplaetze = parkplaetzeGesamt;
         anzahlFreierNormalerParkplaetze = normaleParkplaetze;
         anzahlFreierEAutoParkplaetze = behindertenParkplaetze;
         anzahlFreierBehindertenParkplaetze = behindertenParkplaetze;
@@ -64,17 +65,22 @@ public class Parkhaus implements ParkhausIF {
      * @return ein neues Ticket mit gesetzten Instanzvariablen
      */
     @Override
-    public Ticket neuesTicket(String art) {
+    public Ticket neuesTicket(String art) throws ParkplaetzeBelegtException{
+
+        if (this.anzahlFreierParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien Parkplaetze verfuegbar!");}
         Ticket dasTicket = new Ticket(art);
         anzahlFreierParkplaetze--;
         if(art.equals("Normaler Parkplatz")) {
-            anzahlFreierNormalerParkplaetze--;
-        } else if(art.equals("E-Auto-Parkplatz")) {
-            anzahlFreierEAutoParkplaetze--;
+            if (this.anzahlFreierNormalerParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien normalen Parkplaetze verfuegbar!");}
+            else anzahlFreierNormalerParkplaetze--;
+        } else if(art.equals("E-Auto-Parkplatz")){
+            if (this.anzahlFreierEAutoParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien E-Auto-Parkplaetze verfuegbar!");}
+            else anzahlFreierEAutoParkplaetze--;
         } else if(art.equals("Behinderten-Parkplatz")) {
-            anzahlFreierBehindertenParkplaetze--;
-        } else {
-            anzahlFreierMotorradParkplaetze--;
+            if (this.anzahlFreierBehindertenParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien Behindertenparkplaetze verfuegbar!");}
+            else anzahlFreierBehindertenParkplaetze--;
+        } else {if (this.anzahlFreierMotorradParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien Motorradparkplaetze verfuegbar!");}
+            else anzahlFreierMotorradParkplaetze--;
         }
         //in aktiveTickets Liste schieben
         aktiveTickets.add(dasTicket);
@@ -262,17 +268,25 @@ public class Parkhaus implements ParkhausIF {
         int av_parkdauer = 0;
         double av_preis = 0.0;
         int size = this.getInaktiveTickets().size();
+        int thisMonth = LocalDate.now().getMonthValue();
+        double einnahmenMonat = 0;
 
         if(size != 0) {
             for (int i = 0; i < size; i++) {
                 av_parkdauer += this.getInaktiveTickets().get(i).getParkdauerMin();
                 av_preis += this.getInaktiveTickets().get(i).getPreis();
+                //Monatseinnahmen
+                if (this.getInaktiveTickets().get(i).getDatum().getMonthValue() == thisMonth){
+                    einnahmenMonat += this.getInaktiveTickets().get(i).getPreis();
+                }
             }
             av_parkdauer /= size;
             av_preis /= size;
         }
+
         String statsString = "<h2>Datenauswertungen: </h2><br>"+"Stand: "+LocalDate.now()+", "+LocalTime.now().truncatedTo(ChronoUnit.SECONDS)+"<br>";
-        statsString += "<p>Tageseinnahmen: " +this.getEinnahmenTag()+" Euro<br>"+"Durchschnittliche Parkdauer: "+av_parkdauer+" min<br>"+"Durchnittlicher Ticketpreis: "+av_preis+" Euro</p>";
+        statsString += "<p>Tageseinnahmen: " +this.getEinnahmenTag()+" Euro<br>"+"Monatseinnahmen: "+einnahmenMonat+" Euro<br>";
+        statsString += "Durchschnittliche Parkdauer: "+av_parkdauer+" min<br>"+"Durchschnittlicher Ticketpreis: "+av_preis+" Euro</p>";
 
         return statsString;
     }

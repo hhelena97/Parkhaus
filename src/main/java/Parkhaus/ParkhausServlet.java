@@ -51,33 +51,43 @@ public class ParkhausServlet extends HttpServlet {
             getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
             p = new Parkhaus(3, 100, 5, 5, 10);
             getServletContext().setAttribute("parkhaus", p);
+            if (getServletContext().getAttribute("TicketErstellenException")!= null){getServletContext().removeAttribute("TicketErstellenException");}
         } else if("Testtickets".equals(action)){
-            System.out.println("erste ticketID: " +p.neuesTicket("Normaler Parkplatz").getTicketID());
-            System.out.println("erste ticketID laut ArrayList: " +p.getAktiveTickets().get(0).getTicketID());
-            System.out.println("erste ticketID: " +p.neuesTicket("Behinderten-Parkplatz").getTicketID());
-            System.out.println("erste ticketID laut ArrayList: " +p.getAktiveTickets().get(1).getTicketID());
-            p.neuesTicket("E-Auto_Parkplatz");
-            p.neuesTicket("Normaler Parkplatz");
-            p.neuesTicket("Normaler Parkplatz");
-            Ticket ticket1 = p.getAktiveTickets().get(0);
-            Ticket ticket2 = p.getAktiveTickets().get(1);
-            ticket1.setParkdauerMin(30);
-            ticket2.setParkdauerMin(60);
-            p.bezahleTicket(ticket1);
-            p.bezahleTicket(ticket2);
-            p.ausfahren(ticket1);
-            p.ausfahren(ticket2);
+            try {
+                System.out.println("erste ticketID: " +p.neuesTicket("Normaler Parkplatz").getTicketID());
+                System.out.println("erste ticketID laut ArrayList: " +p.getAktiveTickets().get(0).getTicketID());
+                System.out.println("erste ticketID: " +p.neuesTicket("Behinderten-Parkplatz").getTicketID());
+                System.out.println("erste ticketID laut ArrayList: " +p.getAktiveTickets().get(1).getTicketID());
+                p.neuesTicket("E-Auto_Parkplatz");
+                p.neuesTicket("Normaler Parkplatz");
+                p.neuesTicket("Normaler Parkplatz");
+                Ticket ticket1 = p.getAktiveTickets().get(0);
+                Ticket ticket2 = p.getAktiveTickets().get(1);
+                ticket1.setParkdauerMin(30);
+                ticket2.setParkdauerMin(60);
+                p.bezahleTicket(ticket1);
+                p.bezahleTicket(ticket2);
+                p.ausfahren(ticket1);
+                p.ausfahren(ticket2);}
+            catch (ParkplaetzeBelegtException e){
+                getServletContext().setAttribute("TicketErstellenException",e.getMessage());
+            }
         }
         else if("ticketErstellen".equals(action)){
             //erstellt ein neues Ticket mit der ausgewählten Parkplatzart
-            Ticket t = p.neuesTicket(request.getParameter("ticketArt"));
+            try {
+                Ticket t = p.neuesTicket(request.getParameter("ticketArt"));
 
-            //out.println("<p> Es wurde ein neues Ticket mit Parkplatzart: " + t.getArtDesParkplatzes() + " und ID: " + t.getTicketID() + " erstellt! </p><br>");
+                //out.println("<p> Es wurde ein neues Ticket mit Parkplatzart: " + t.getArtDesParkplatzes() + " und ID: " + t.getTicketID() + " erstellt! </p><br>");
 
-            System.out.println("Neues Ticket erstellt");
-            System.out.println(t.toString());
-            //(über)schreibt die Liste aktiver Tickets im Context
-            getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
+                System.out.println("Neues Ticket erstellt");
+                System.out.println(t.toString());
+                //(über)schreibt die Liste aktiver Tickets im Context
+                getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
+            }catch (ParkplaetzeBelegtException e){
+                getServletContext().setAttribute("TicketErstellenException",e);
+            }
+
 
         } else if ("bezahlen".equals(action)) {
             int len = p.getAktiveTickets().size();
@@ -96,6 +106,8 @@ public class ParkhausServlet extends HttpServlet {
                     request.setAttribute("bezahleTicketX", t);
                     request.setAttribute("preisTicketX", preis);
                     request.setAttribute("zeitTicketX", parkzeit);
+
+                    if (getServletContext().getAttribute("TicketErstellenException")!= null){getServletContext().removeAttribute("TicketErstellenException");}
                 }
             }
 
