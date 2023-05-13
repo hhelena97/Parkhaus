@@ -42,6 +42,9 @@
     </label>
     <button type="submit">Ticket erstellen</button>
 </form>
+<c:if test="${not empty TicketErstellenException}">
+    <p>${TicketErstellenException}</p>
+</c:if>
 <br>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
 <input type="hidden" name="action" value="aktiveTickets">
