@@ -55,6 +55,9 @@
 <c:if test="${not empty bezahleTicketX}">
     <p>Ticket ${bezahleTicketX.getTicketID()} hat für ${zeitTicketX} Minuten geparkt und ${preisTicketX} Euro gekostet.</p>
 </c:if>
+<c:if test="${not empty BezahlenException}">
+    <p>${BezahlenException}</p>
+</c:if>
 <h2>Ausfahrt</h2>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
     <input type="hidden" name="action" value="schrankeOeffnen">
@@ -63,6 +66,9 @@
 </form>
 <c:if test="${not empty NachrichtX}">
     <p>${NachrichtX}</p>
+</c:if>
+<c:if test="${not empty AusfahrenException}">
+    <p>${AusfahrenException}</p>
 </c:if>
 <p></p>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
