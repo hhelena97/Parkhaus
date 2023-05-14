@@ -43,22 +43,28 @@ public class ParkhausServlet extends HttpServlet {
         //führe je nach "action" verschiedene Dinge aus
         String action = request.getParameter("action");
         //Button Ticket erstellen
-        if("start".equals(action)){
+        if ("start".equals(action)) {
             p.resetTicketListen();
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
             getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
             p = new Parkhaus(3, 100, 5, 5, 10);
             getServletContext().setAttribute("parkhaus", p);
             //Exception-Nachrichten ausblenden
-            if (getServletContext().getAttribute("TicketErstellenException")!= null){getServletContext().removeAttribute("TicketErstellenException");}
-            if (getServletContext().getAttribute("AusfahrenException")!= null){getServletContext().removeAttribute("AusfahrenException");}
-            if (getServletContext().getAttribute("BezahlenException")!= null){getServletContext().removeAttribute("BezahlenException");}
-        } else if("Testtickets".equals(action)){
+            if (getServletContext().getAttribute("TicketErstellenException") != null) {
+                getServletContext().removeAttribute("TicketErstellenException");
+            }
+            if (getServletContext().getAttribute("AusfahrenException") != null) {
+                getServletContext().removeAttribute("AusfahrenException");
+            }
+            if (getServletContext().getAttribute("BezahlenException") != null) {
+                getServletContext().removeAttribute("BezahlenException");
+            }
+        } else if ("Testtickets".equals(action)) {
             try {
-                System.out.println("erste ticketID: " +p.neuesTicket("Normaler Parkplatz").getTicketID());
-                System.out.println("erste ticketID laut ArrayList: " +p.getAktiveTickets().get(0).getTicketID());
-                System.out.println("erste ticketID: " +p.neuesTicket("Behinderten-Parkplatz").getTicketID());
-                System.out.println("erste ticketID laut ArrayList: " +p.getAktiveTickets().get(1).getTicketID());
+                System.out.println("erste ticketID: " + p.neuesTicket("Normaler Parkplatz").getTicketID());
+                System.out.println("erste ticketID laut ArrayList: " + p.getAktiveTickets().get(0).getTicketID());
+                System.out.println("erste ticketID: " + p.neuesTicket("Behinderten-Parkplatz").getTicketID());
+                System.out.println("erste ticketID laut ArrayList: " + p.getAktiveTickets().get(1).getTicketID());
                 p.neuesTicket("E-Auto_Parkplatz");
                 p.neuesTicket("Normaler Parkplatz");
                 p.neuesTicket("Normaler Parkplatz");
@@ -70,13 +76,12 @@ public class ParkhausServlet extends HttpServlet {
                 p.bezahleTicket(ticket2);
                 p.ausfahren(ticket1);
                 p.ausfahren(ticket2);
-            }catch (ParkplaetzeBelegtException e1){
-                getServletContext().setAttribute("TicketErstellenException",e1.getMessage());
-            }catch (TicketNichtGefundenException e2){
-                if (e2.getMessage().equals("Ticket nicht gefunden.")){ getServletContext().setAttribute("AusfahrenException",e2.getMessage());
-                } else {getServletContext().setAttribute("BezahlenException",e2.getMessage());}
-            }
+            } catch (ParkplaetzeBelegtException e1) {
+                getServletContext().setAttribute("TicketErstellenException", e1.getMessage());
+            } catch (TicketNichtGefundenException e2) {
+                getServletContext().setAttribute("AusfahrenException", e2.getMessage());}
         }
+
         else if("ticketErstellen".equals(action)){
             //erstellt ein neues Ticket mit der ausgewählten Parkplatzart
             try {
@@ -118,10 +123,10 @@ public class ParkhausServlet extends HttpServlet {
                             getServletContext().removeAttribute("BezahlenException");
                         }
 
-                    } else {
-                        Exception e1 = new TicketNichtGefundenException("Ticket nicht gefunden. Zur Zahlung bereite Tickets unter 'aktive Tickets'.");
-                        getServletContext().setAttribute("BezahlenException", e1.getMessage());
                     }
+                } if(getServletContext().getAttribute("bezahleTicketX") == null) {
+                    Exception e1 = new TicketNichtGefundenException("Ticket nicht gefunden. Zur Zahlung bereite Tickets unter 'aktive Tickets'.");
+                    getServletContext().setAttribute("BezahlenException", e1.getMessage());
                 }
             }catch (NumberFormatException e2){
                 //Do nothing

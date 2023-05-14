@@ -60,7 +60,7 @@
 <c:if test="${not empty bezahleTicketX}">
     <p>Ticket ${bezahleTicketX.getTicketID()} hat für ${zeitTicketX} Minuten geparkt und ${preisTicketX} Euro gekostet.</p>
 </c:if>
-<c:if test="${not empty BezahlenException}">
+<c:if test="${empty bezahleTicketX}">
     <p>${BezahlenException}</p>
 </c:if>
 <h2>Ausfahrt</h2>
