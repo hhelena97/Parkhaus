@@ -5,5 +5,5 @@ public interface ParkhausIF {
 
     double bezahleTicket (Ticket t);
 
-    String ausfahren(Ticket ticket);
+    String ausfahren(Ticket ticket) throws TicketNichtGefundenException;
 }

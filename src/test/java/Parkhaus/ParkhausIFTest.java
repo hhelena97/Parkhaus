@@ -82,13 +82,14 @@ class ParkhausIFTest {
     @Test
     void bezahleTicketTest() {
 
+
         Parkhaus p = new Parkhaus(2.1);
         Ticket t = new Ticket("Normaler Parkplatz");
         t.setUhrzeitManuell(16, 30);
         p.bezahleTicket(t);
 
         // Teste ob 'preis' richtig berechnet wurde
-        double erwarteterPreis = p.getStundentarif()*t.zeitDifferenz();
+        double erwarteterPreis = p.getStundentarif() * t.zeitDifferenz();
         //assertEquals(erwarteterPreis, t.getPreis());
 
 
@@ -137,8 +138,10 @@ class ParkhausIFTest {
             System.out.println(testParkhaus.getAnzahlFreierParkplaetze());
             assertEquals(200, testParkhaus.getAnzahlFreierParkplaetze());
             assertEquals(10, testParkhaus.getAnzahlFreierBehindertenParkplaetze());
-        }catch (ParkplaetzeBelegtException e){
+        }catch (ParkplaetzeBelegtException e1){
             System.out.println("Keine freien Parkplaetze");
+        }catch (TicketNichtGefundenException e2){
+            System.out.println("Ticket nicht gefunden");
         }
     }
 
