@@ -97,12 +97,11 @@ public class Parkhaus implements ParkhausIF {
     @Override
     public double bezahleTicket(Ticket t) {
 
+
         int dauer = t.zeitDifferenz();
         int stunden = dauer/60;
 
-        if (dauer%60 != 0) {
-            stunden++;
-        }
+        if (dauer%60 != 0) {stunden++;}
 
         // TODO: Preis berechnen
         double preis = this.getStundentarif() * stunden;
@@ -130,8 +129,10 @@ public class Parkhaus implements ParkhausIF {
      * @return Nachricht, die dem Besucher angezeigt werden soll
      */
     @Override
-    public String ausfahren(Ticket ticket) {
-        if (ticket.getEntwertet()) {
+    public String ausfahren(Ticket ticket) throws TicketNichtGefundenException{
+
+        if(ticket == null){throw new TicketNichtGefundenException("Ticket nicht gefunden.");
+        }else if (ticket.getEntwertet()) {
             LocalTime timeStamp = LocalTime.now().minusMinutes(15);
             LocalTime uhrzeit = ticket.getUhrzeit();
             if (uhrzeit.equals(timeStamp) || uhrzeit.isAfter(timeStamp)){
@@ -158,7 +159,7 @@ public class Parkhaus implements ParkhausIF {
             }
             else {
                 ticket.setEntwertet(false);
-                return"Zeit zum Ausfahren überschritten, Zeitstempel zurückgesetzt auf: " + ticket.getUhrzeitStunde() + ":" + ticket.getUhrzeitMin() +". Bitte entwerten Sie das Ticket erneut am Automaten.";
+                return"Zeit zum Ausfahren überschritten, Zeitstempel zurückgesetzt auf: " + ticket.getUhrzeit().truncatedTo(ChronoUnit.MINUTES) +". Bitte entwerten Sie das Ticket erneut am Automaten.";
             }
 
         }
@@ -265,6 +266,7 @@ public class Parkhaus implements ParkhausIF {
         int size = this.getInaktiveTickets().size();
         int thisMonth = LocalDate.now().getMonthValue();
         double einnahmenMonat = 0;
+        int besucherCount = this.getInaktiveTickets().size()+this.getAktiveTickets().size();
 
         if(size != 0) {
             for (int i = 0; i < size; i++) {
@@ -280,8 +282,8 @@ public class Parkhaus implements ParkhausIF {
         }
 
         String statsString = "<h2>Datenauswertungen: </h2><br>"+"Stand: "+LocalDate.now()+", "+LocalTime.now().truncatedTo(ChronoUnit.SECONDS)+"<br>";
-        statsString += "<p>Tageseinnahmen: " +this.getEinnahmenTag()+" Euro<br>"+"Monatseinnahmen: "+einnahmenMonat+" Euro<br>";
-        statsString += "Durchschnittliche Parkdauer: "+av_parkdauer+" min<br>"+"Durchschnittlicher Ticketpreis: "+av_preis+" Euro</p>";
+        statsString += "<p>Durchschnittliche Parkdauer: "+av_parkdauer+" min<br>"+"Durchschnittlicher Ticketpreis: "+av_preis+" Euro<br>";
+        statsString += "Tageseinnahmen: " +this.getEinnahmenTag()+" Euro<br>"+"Monatseinnahmen: "+einnahmenMonat+" Euro<br>"+"Besucher insgesamt: " +besucherCount+"</p>";
 
         return statsString;
     }
