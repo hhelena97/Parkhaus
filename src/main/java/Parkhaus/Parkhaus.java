@@ -258,6 +258,7 @@ public class Parkhaus implements ParkhausIF {
     public void resetTicketListen(){
         this.aktiveTickets = new ArrayList<Ticket>();
         this.inaktiveTickets = new ArrayList<Ticket>();
+        Ticket.setIdentifikationsNummer();
     }
 
     public String ausfahrenNachrichten(String nachricht) {

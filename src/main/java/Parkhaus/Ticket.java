@@ -42,6 +42,10 @@ public class Ticket implements TicketIF {
     public int getUhrzeitStunde() {return this.uhrzeit.getHour();}
     public int getUhrzeitMin(){return this.uhrzeit.getMinute();}
 
+    public static void setIdentifikationsNummer(){
+        identifikationsNummer = 0;
+    }
+
     public String getUhrzeitString() {
         int h = this.getUhrzeitStunde();
         int m = this.getUhrzeitMin();
