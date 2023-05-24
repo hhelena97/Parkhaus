@@ -16,6 +16,14 @@
     <button type="submit">Start/Reset</button>
 </form>
 <br>
+<br>
+<form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
+    <input type="hidden" name="action" value="Betreiberansicht">
+    <label> Zur Betreiberansicht:  </label>
+    <button type="submit">Admin</button>
+</form>
+<br>
+<br>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
     <input type="hidden" name="action" value="Testtickets">
     <button type="submit">Testtickets erstellen</button>

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalTime;
 
 @WebServlet(name = "ParkhausServlet", value = "/parkhaus-servlet")
 public class ParkhausServlet extends HttpServlet {
@@ -166,6 +167,14 @@ public class ParkhausServlet extends HttpServlet {
 
         }else if ("aktiveTickets".equals(action)){
             request.getRequestDispatcher("aktiveTickets.jsp").forward(request, response);
+
+        }else if ("Betreiberansicht".equals(action)) {
+            request.getRequestDispatcher("Betreiberansicht.jsp").forward(request, response);
+        }else if ("ÖffnungszeitenÄndern".equals(action)) {
+            System.out.println("Ändern");
+            p.OeffnungszeitenAendern((LocalTime) getServletContext().getAttribute("Öffnen"), (LocalTime) getServletContext().getAttribute("Schließen"));
+            /*p.setOeffnungszeit((LocalTime) getServletContext().getAttribute("Öffnen"));
+            p.setSchliessungszeit((LocalTime) getServletContext().getAttribute("Schließen"));*/
         }
         request.setAttribute("parkhaus", p);
         request.getRequestDispatcher("index.jsp").forward(request, response);
