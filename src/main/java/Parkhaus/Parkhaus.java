@@ -102,18 +102,21 @@ public class Parkhaus implements ParkhausIF {
         int stunden = dauer/60;
 
         if (dauer%60 != 0) {stunden++;}
-
-        // TODO: Preis berechnen
-        double preis = this.getStundentarif() * stunden;
-        t.setPreis(preis);
         // -> angefangene Stunden berücksichtigen
+
+        double preis = (this.getStundentarif() * stunden);
+        double rabatt = preis * t.getRabatt();
+        preis = preis - rabatt;
+        t.setPreis(preis);
+
+
 
         System.out.println("Zu bezahlender Preis: " + t.getPreis());
 
         //'preis' auf 'einnahmenTag' rechnen
         einnahmenTag += preis;
 
-        //set parkdauer zur späteren auswertung
+        //set parkdauer zur späteren Auswertung
         t.setParkdauerMin(dauer);
 
         //in Real erst nach dem Bezahlen

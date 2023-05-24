@@ -9,6 +9,7 @@ public class Ticket implements TicketIF {
     private LocalTime uhrzeit;
     private final String artDesParkplatzes;
     private double preis;
+    private double rabatt;
     private boolean entwertet;
     private int parkdauerMin;
     private int ticketID;
@@ -65,6 +66,8 @@ public class Ticket implements TicketIF {
     }
     public void setPreis(double preis){this.preis = preis;}
     public double getPreis(){return this.preis;}
+    public double getRabatt() {return rabatt;}
+    public void setRabatt(double rabatt) {this.rabatt = rabatt;}
     public void setEntwertet(boolean ft) {this.entwertet = ft;}
     public boolean getEntwertet() {return this.entwertet;}
     public void setParkdauerMin(int dauer) {this.parkdauerMin += dauer;}
