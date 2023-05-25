@@ -233,7 +233,8 @@ public class Parkhaus implements ParkhausIF {
         int size = this.getInaktiveTickets().size();
         int thisMonth = LocalDate.now().getMonthValue();
         double einnahmenMonat = 0;
-        int besucherCount = this.getInaktiveTickets().size()+this.getAktiveTickets().size();
+        int besucherCount = this.getAktiveTickets().size();
+        int besucherInsgesamt = besucherCount + this.getInaktiveTickets().size();
 
         if(size != 0) {
             for (int i = 0; i < size; i++) {
@@ -248,9 +249,10 @@ public class Parkhaus implements ParkhausIF {
             av_preis /= size;
         }
 
-        String statsString = "<h2>Datenauswertungen: </h2><br>"+"Stand: "+LocalDate.now()+", "+LocalTime.now().truncatedTo(ChronoUnit.SECONDS)+"<br>";
-        statsString += "<p>Durchschnittliche Parkdauer: "+av_parkdauer+" min<br>"+"Durchschnittlicher Ticketpreis: "+av_preis+" Euro<br>";
-        statsString += "Tageseinnahmen: " +this.getEinnahmenTag()+" Euro<br>"+"Monatseinnahmen: "+einnahmenMonat+" Euro<br>"+"Besucher insgesamt: " +besucherCount+"</p>";
+        String statsString = "Stand: "+LocalDate.now()+", "+LocalTime.now().truncatedTo(ChronoUnit.SECONDS)+"<br>";
+        statsString += "<p>Besucherzahl aktuell: "+besucherCount+"<br>"+"Besucher insgesamt: " +besucherInsgesamt+"<br>";
+        statsString += "Tageseinnahmen: " +this.getEinnahmenTag()+" Euro<br>"+"Monatseinnahmen: "+einnahmenMonat+" Euro<br>";
+        statsString += "Durchschnittliche Parkdauer: "+av_parkdauer+" min<br>"+"Durchschnittlicher Ticketpreis: "+av_preis+" Euro</p>";
 
         return statsString;
     }

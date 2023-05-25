@@ -22,13 +22,13 @@
     <button type="submit">Admin</button>
 </form>
 <br>
-
+<p>Öffnungszeiten: ${parkhaus.getUhrzeitStringParkhaus(parkhaus.getOeffnungszeit())} bis ${parkhaus.getUhrzeitStringParkhaus(parkhaus.getSchliessungszeit())}</p>
+<br>
 <p>Anzahl Parkplaetze in diesem Parkhaus: ${parkhaus.getParkplaetzeGesamt()}</p>
 <p>Anzahl freier normaler Parkplaetze: ${parkhaus.getAnzahlFreierNormalerParkplaetze()}</p>
 <p>Anzahl freier Behinderten-Parkplaetze: ${parkhaus.getAnzahlFreierBehindertenParkplaetze()}</p>
 <p>Anzahl freier E-Auto-Parkplaetze: ${parkhaus.getAnzahlFreierEAutoParkplaetze()}</p>
 <p>Anzahl freier Motorrad-Parkplaetze: ${parkhaus.getAnzahlFreierMotorradParkplaetze()}</p>
-<p>Preis je Stunde: ${parkhaus.getStundentarif()} Euro</p>
 <br>
 <p>Preis je Stunde: ${parkhaus.getStundentarif()} Euro</p>
 <br>
@@ -100,13 +100,6 @@
     <p>Ticket ${rabattTicketX.getTicketID()} hat einen Rabatt von ${rabattX} % bekommen.</p>
 </c:if>
 <br>
-
-<form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
-    <button type="submit" name="action" value="datenAuswerten">Daten auswerten</button>
-</form>
-<c:if test="${not empty datenauswertung}">
-    <p>${datenauswertung}</p>
-</c:if>
 
 <% if (request.getAttribute("parkhaus") != null){ %>
     <% if (request.getAttribute("ticketliste") != null) { %>

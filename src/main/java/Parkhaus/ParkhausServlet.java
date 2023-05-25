@@ -101,12 +101,7 @@ public class ParkhausServlet extends HttpServlet {
         } else if ("bezahlen".equals(action)) {
 
             //Exception-Nachrichten ausblenden
-            if (getServletContext().getAttribute("BezahlenException") != null) {
-                getServletContext().removeAttribute("BezahlenException");
-            }
-            if (getServletContext().getAttribute("TicketErstellenException") != null) {
-                getServletContext().removeAttribute("TicketErstellenException");
-            }
+            NachrichtenAusblenden();
 
             int len = p.getAktiveTickets().size();
             try {
@@ -143,9 +138,9 @@ public class ParkhausServlet extends HttpServlet {
 
         } else if ("schrankeOeffnen".equals(action)) {
 
-            if (getServletContext().getAttribute("AusfahrenException") != null) {
-                getServletContext().removeAttribute("AusfahrenException");
-            }
+            //Exception-Nachrichten ausblenden
+            NachrichtenAusblenden();
+
             //t ist das Ticket was ausgewählt wurde
             try {
                 Ticket ticketAusfahren = null;
@@ -191,11 +186,6 @@ public class ParkhausServlet extends HttpServlet {
                     request.setAttribute("rabattX", (rabatt * 100));
                 }
             }
-        } else if ("datenAuswerten".equals(action)) {
-            //Zeige Datenauswertung
-            String stats = p.StringFuerStats();
-            request.setAttribute("datenauswertung", stats);
-
         } else if ("aktiveTickets".equals(action)) {
             request.getRequestDispatcher("aktiveTickets.jsp").forward(request, response);
 
@@ -267,6 +257,17 @@ public class ParkhausServlet extends HttpServlet {
         return s;
     }
 
+    private void NachrichtenAusblenden (){
+        if (getServletContext().getAttribute("TicketErstellenException") != null) {
+            getServletContext().removeAttribute("TicketErstellenException");
+        }
+        if (getServletContext().getAttribute("BezahlenException") != null) {
+            getServletContext().removeAttribute("BezahlenException");
+        }
+        if (getServletContext().getAttribute("AusfahrenException") != null) {
+            getServletContext().removeAttribute("AusfahrenException");
+        }
+    }
 
     public void destroy() {
     }
