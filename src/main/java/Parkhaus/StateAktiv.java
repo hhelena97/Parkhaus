@@ -1,8 +1,5 @@
 package Parkhaus;
 
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-
 public class StateAktiv extends State{
 
     public StateAktiv(Ticket t) {
