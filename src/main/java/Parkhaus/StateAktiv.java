@@ -40,7 +40,7 @@ public class StateAktiv extends State{
 
 
 
-    public String ausfahren(Ticket t) {
+    public String ausfahren() {
         if(ticket == null){throw new TicketNichtGefundenException("Ticket nicht gefunden.");
         }else if (ticket.getEntwertet()) {
             LocalTime timeStamp = LocalTime.now().minusMinutes(15);
