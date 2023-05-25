@@ -1,6 +1,6 @@
 package Parkhaus;
 
-public interface StateInterface {
+public interface StateIF {
 
     public double bezahlen();
     public String ausfahren();

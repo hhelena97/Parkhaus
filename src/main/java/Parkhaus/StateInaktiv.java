@@ -3,7 +3,7 @@ package Parkhaus;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
-public class StateInaktiv extends State{
+public class StateInaktiv extends State implements StateIF{
     public StateInaktiv(Ticket t) {
         super(t);
         this.next = null;
@@ -75,4 +75,4 @@ public class StateInaktiv extends State{
         }
         else {return"Ausfahrt nur mit entwertetem Ticket möglich.";}    }
 }
-}
+

@@ -202,6 +202,7 @@ public class ParkhausServlet extends HttpServlet {
         }else if ("Betreiberansicht".equals(action)) {
             request.getRequestDispatcher("Betreiberansicht.jsp").forward(request, response);
         }else if ("ÖffnungszeitenÄndern".equals(action)) {
+            request.getRequestDispatcher("Betreiberansicht.jsp").forward(request, response);
             System.out.println("Ändern");
             p.OeffnungszeitenAendern((LocalTime) getServletContext().getAttribute("Öffnen"), (LocalTime) getServletContext().getAttribute("Schließen"));
             /*p.setOeffnungszeit((LocalTime) getServletContext().getAttribute("Öffnen"));
