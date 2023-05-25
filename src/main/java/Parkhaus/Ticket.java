@@ -5,6 +5,8 @@ import java.time.LocalTime;
 
 public class Ticket implements TicketIF {
 
+    State zustand = null;
+
     private LocalDate datum;
     private LocalTime uhrzeit;
     private final String artDesParkplatzes;
