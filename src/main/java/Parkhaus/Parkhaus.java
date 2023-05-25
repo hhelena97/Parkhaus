@@ -68,7 +68,7 @@ public class Parkhaus implements ParkhausIF {
     public Ticket neuesTicket(String art) throws ParkplaetzeBelegtException{
 
         if (this.anzahlFreierParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien Parkplaetze verfuegbar!");}
-        Ticket dasTicket = new Ticket(art);
+        Ticket dasTicket = new Ticket(art,this);
         anzahlFreierParkplaetze--;
         if(art.equals("Normaler Parkplatz")) {
             if (this.anzahlFreierNormalerParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien normalen Parkplaetze verfuegbar!");}
@@ -191,6 +191,9 @@ public class Parkhaus implements ParkhausIF {
         return einnahmenTag;
     }
 
+    public void setEinnahmenTag(double einnahmenTag) {
+        this.einnahmenTag = einnahmenTag;
+    }
     public double getParkdauerTag() {
         return parkdauerTag;
     }

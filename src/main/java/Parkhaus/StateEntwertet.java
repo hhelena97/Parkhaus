@@ -11,34 +11,11 @@ public class StateEntwertet extends State{
     }
 
 
-    public double bezahlen() {
-        int dauer = ticket.zeitDifferenz();
-        int stunden = dauer/60;
-
-        if (dauer%60 != 0) {stunden++;}
-        // -> angefangene Stunden berücksichtigen
-
-        double preis = (ticket.getParkhaus().getStundentarif() * stunden);
-        double rabatt = preis * ticket.getRabatt();
-        preis = preis - rabatt;
-        ticket.setPreis(preis);
-
-        //'preis' auf 'einnahmenTag' rechnen
-        ticket.getParkhaus().setEinnahmenTag(ticket.getParkhaus().getEinnahmenTag() + preis);
-
-        //set parkdauer zur späteren Auswertung
-        ticket.setParkdauerMin(dauer);
-
-        //in Real erst nach dem Bezahlen
-        ticket.entwerten();
-
-        //Zustand nicht ändern
-        //this.ticket.zustand = next;
-
-        return ticket.getPreis();
+    public double bezahlen() throws TicketNichtGefundenException{
+        throw new TicketNichtGefundenException("Ticket bereits bezahlt");
     }
 
-    public String ausfahren() {
+    public String ausfahren() throws TicketNichtGefundenException {
         if(ticket == null){throw new TicketNichtGefundenException("Ticket nicht gefunden.");
         }else if (ticket.getEntwertet()) {
             LocalTime timeStamp = LocalTime.now().minusMinutes(15);
@@ -80,4 +57,3 @@ public class StateEntwertet extends State{
         }
         else {return"Ausfahrt nur mit entwertetem Ticket möglich.";}    }
     }
-}
