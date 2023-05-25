@@ -17,6 +17,10 @@ public class Ticket implements TicketIF {
     private int parkdauerMin;
     private int ticketID;
     private static int identifikationsNummer = 0;
+    public Parkhaus getParkhaus() {
+        return parkhaus;
+    }
+
     private Parkhaus parkhaus;
 
     //Test-Konstruktor damit man sich nicht immer ein Parkhaus.Ticket mit "Parkhaus.Ticket-Art" erstellen muss zum Testen
