@@ -19,7 +19,11 @@ public class State {
 
     State next = null;
     State previous = null;
+    Ticket ticket = null;
 
+    public State(Ticket t) {
+        this.ticket = t;
 
+    }
 
 }
