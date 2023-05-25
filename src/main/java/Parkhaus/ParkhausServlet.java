@@ -191,11 +191,6 @@ public class ParkhausServlet extends HttpServlet {
                     request.setAttribute("rabattX", (rabatt * 100));
                 }
             }
-        } else if ("datenAuswerten".equals(action)) {
-            //Zeige Datenauswertung
-            String stats = p.StringFuerStats();
-            request.setAttribute("datenauswertung", stats);
-
         } else if ("aktiveTickets".equals(action)) {
             request.getRequestDispatcher("aktiveTickets.jsp").forward(request, response);
 

@@ -6,6 +6,8 @@
 <body>
 <h1>Betreiberansicht</h1>
 <br>
+<h2>Datenauswertungen</h2>
+<p>${parkhaus.StringFuerStats()}</p>
 <h2>Öffnungszeiten ändern</h2>
 <p>Aktuelle Öffnungszeiten: ${parkhaus.getUhrzeitStringParkhaus(parkhaus.getOeffnungszeit())} bis ${parkhaus.getUhrzeitStringParkhaus(parkhaus.getSchliessungszeit())}</p>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
