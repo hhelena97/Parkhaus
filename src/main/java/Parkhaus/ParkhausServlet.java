@@ -146,6 +146,9 @@ public class ParkhausServlet extends HttpServlet {
             if (getServletContext().getAttribute("AusfahrenException") != null) {
                 getServletContext().removeAttribute("AusfahrenException");
             }
+            if (getServletContext().getAttribute("BezahlenException") != null) {
+                getServletContext().removeAttribute("BezahlenException");
+            }
             //t ist das Ticket was ausgewählt wurde
             try {
                 Ticket ticketAusfahren = null;
@@ -171,25 +174,29 @@ public class ParkhausServlet extends HttpServlet {
             // Rabatt geben (später auf Betreiberseite)
             int len = p.getAktiveTickets().size();
             double rabatt = 0;
-            for (int i = 0; i < len; i++) {
-                if (p.getAktiveTickets().get(i).getTicketID() == Integer.parseInt(request.getParameter("ticketID"))) {
+            try {
+                for (int i = 0; i < len; i++) {
+                    if (p.getAktiveTickets().get(i).getTicketID() == Integer.parseInt(request.getParameter("ticketID"))) {
 
-                    Ticket t = p.getAktiveTickets().get(i);
-                    if (request.getParameter("rabatt").equals("Personalrabatt (10 %)")) {
-                        rabatt = 0.1;
-                    } else if (request.getParameter("rabatt").equals("Besucher EKZ (20 %)")) {
-                        rabatt = 0.2;
+                        Ticket t = p.getAktiveTickets().get(i);
+                        if (request.getParameter("rabatt").equals("Personalrabatt (10 %)")) {
+                            rabatt = 0.1;
+                        } else if (request.getParameter("rabatt").equals("Besucher EKZ (20 %)")) {
+                            rabatt = 0.2;
 
-                    } else if (request.getParameter("rabatt").equals("Treuerabatt (25 %)")) {
-                        rabatt = 0.2;
+                        } else if (request.getParameter("rabatt").equals("Treuerabatt (25 %)")) {
+                            rabatt = 0.2;
+                        }
+                        t.setRabatt(rabatt);
+                        System.out.println("Rabatt: " + rabatt);
+
+                        // Um diese Elemente anzeigen zu können:
+                        request.setAttribute("rabattTicketX", t);
+                        request.setAttribute("rabattX", (rabatt * 100));
                     }
-                    t.setRabatt(rabatt);
-                    System.out.println("Rabatt: " + rabatt);
-
-                    // Um diese Elemente anzeigen zu können:
-                    request.setAttribute("rabattTicketX", t);
-                    request.setAttribute("rabattX", (rabatt * 100));
                 }
+            }catch(NumberFormatException e){
+                //Do nothing
             }
         } else if ("aktiveTickets".equals(action)) {
             request.getRequestDispatcher("aktiveTickets.jsp").forward(request, response);
