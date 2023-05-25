@@ -98,10 +98,14 @@ public class Ticket implements TicketIF {
      */
     @Override
     public void entwerten() {
+        //this.zustand.entwerten();
+
         this.setEntwertet(true);
         this.setUhrzeit();
         System.out.println("Sie haben um " + getUhrzeitStunde() + ":" + getUhrzeitMin() + " Uhr bezahlt und koennen mit diesem Parkhaus.Ticket in der naechsten Viertel Stunde die Parkhaus.Schranke oeffnen.");
+
     }
+
 
 
     /**
