@@ -15,6 +15,14 @@
     <input type="hidden" name="action" value="start">
     <button type="submit">Start/Reset</button>
 </form>
+<br>
+<form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
+    <input type="hidden" name="action" value="Betreiberansicht">
+    <label> Zur Betreiberansicht:  </label>
+    <button type="submit">Admin</button>
+</form>
+<br>
+
 <p>Anzahl Parkplaetze in diesem Parkhaus: ${parkhaus.getParkplaetzeGesamt()}</p>
 <p>Anzahl freier normaler Parkplaetze: ${parkhaus.getAnzahlFreierNormalerParkplaetze()}</p>
 <p>Anzahl freier Behinderten-Parkplaetze: ${parkhaus.getAnzahlFreierBehindertenParkplaetze()}</p>
