@@ -48,6 +48,7 @@ public class ParkhausServlet extends HttpServlet {
             p.resetTicketListen();
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
             getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
+            getServletContext().setAttribute("Stundentarif", p.getStundentarif());
             p = new Parkhaus(3, 100, 5, 5, 10);
             getServletContext().setAttribute("parkhaus", p);
             //Exception-Nachrichten ausblenden
@@ -202,11 +203,16 @@ public class ParkhausServlet extends HttpServlet {
         }else if ("Betreiberansicht".equals(action)) {
             request.getRequestDispatcher("Betreiberansicht.jsp").forward(request, response);
         }else if ("ÖffnungszeitenÄndern".equals(action)) {
-            System.out.println("Ändern");
+            System.out.println("Öffnungszeiten ändern");
             p.OeffnungszeitenAendern((LocalTime) getServletContext().getAttribute("Öffnen"), (LocalTime) getServletContext().getAttribute("Schließen"));
             /*p.setOeffnungszeit((LocalTime) getServletContext().getAttribute("Öffnen"));
             p.setSchliessungszeit((LocalTime) getServletContext().getAttribute("Schließen"));*/
-        }
+        } else if ("StudentarifAendern".equals(action)) {
+            //noch Fehler
+
+            getServletContext().setAttribute("Stundentarif", "Preis");
+            System.out.println("Stundentarif ändern in " + getServletContext().getAttribute("Stundentarif"));
+    }
         request.setAttribute("parkhaus", p);
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
