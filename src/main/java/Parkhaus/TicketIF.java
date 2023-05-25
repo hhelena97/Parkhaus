@@ -10,6 +10,6 @@ public interface TicketIF {
 
     public double bezahlen();
 
-    public String ausfahren();
+    public String ausfahren() throws TicketNichtGefundenException;
 
 }

@@ -95,13 +95,6 @@ public class Parkhaus implements ParkhausIF {
         return dasTicket;
     }
 
-
-
-
-
-
-
-
     // -----------------------------------------------------------------------------------------------------------------
     // Getter und Setter:
 
