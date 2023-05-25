@@ -76,7 +76,7 @@ public class Parkhaus implements ParkhausIF {
     public Ticket neuesTicket(String art) throws ParkplaetzeBelegtException{
 
         if (this.anzahlFreierParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien Parkplaetze verfuegbar!");}
-        Ticket dasTicket = new Ticket(art);
+        Ticket dasTicket = new Ticket(art, this);
         anzahlFreierParkplaetze--;
         if(art.equals("Normaler Parkplatz")) {
             if (this.anzahlFreierNormalerParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien normalen Parkplaetze verfuegbar!");}
@@ -96,86 +96,10 @@ public class Parkhaus implements ParkhausIF {
     }
 
 
-    /**
-     * Die Methode 'bezahleTicket' ...
-     *
-     * @param t
-     * @return den zu bezahlenden Preis als double
-     */
-    @Override
-    public double bezahleTicket(Ticket t) {
-
-
-        int dauer = t.zeitDifferenz();
-        int stunden = dauer/60;
-
-        if (dauer%60 != 0) {stunden++;}
-        // -> angefangene Stunden berücksichtigen
-
-        double preis = (this.getStundentarif() * stunden);
-        double rabatt = preis * t.getRabatt();
-        preis = preis - rabatt;
-        t.setPreis(preis);
 
 
 
-        System.out.println("Zu bezahlender Preis: " + t.getPreis());
 
-        //'preis' auf 'einnahmenTag' rechnen
-        einnahmenTag += preis;
-
-        //set parkdauer zur späteren Auswertung
-        t.setParkdauerMin(dauer);
-
-        //in Real erst nach dem Bezahlen
-        t.entwerten();
-        return t.getPreis();
-    }
-
-    /**
-     * "ausfahren" prüft, ob das Ticket entwertet wurde und die Zeit zum ausfahren noch reicht. Wenn die Bedingungen nicht
-     * erfüllt sind, wird ein entsprechender Hinweis ausgegeben. Ist das Ticket entwertet und die Viertelstunde noch nicht um,
-     * wird das Ticket inaktiv und die Anzahl der freien Parkplätze wird um eins erhöht, entsprechend dem Parkplatz, der belegt war.
-     * @param ticket ist das eingesteckte Ticket
-     * @return Nachricht, die dem Besucher angezeigt werden soll
-     */
-    @Override
-    public String ausfahren(Ticket ticket) throws TicketNichtGefundenException{
-
-        if(ticket == null){throw new TicketNichtGefundenException("Ticket nicht gefunden.");
-        }else if (ticket.getEntwertet()) {
-            LocalTime timeStamp = LocalTime.now().minusMinutes(15);
-            LocalTime uhrzeit = ticket.getUhrzeit();
-            if (uhrzeit.equals(timeStamp) || uhrzeit.isAfter(timeStamp)){
-                //Parkplatz freigeben:
-                String art = ticket.getArtDesParkplatzes();
-                this.setAnzahlFreierParkplaetze(this.getAnzahlFreierParkplaetze()+1);
-                //Für die speziellen Parkplätze:
-                if (art.equals("Normaler Parkplatz")) {
-                    this.setAnzahlFreierNormalerParkplaetze((this.getAnzahlFreierNormalerParkplaetze() + 1));
-                } else if (art.equals("E-Auto-Parkplatz")) {
-                    this.setAnzahlFreierEAutoParkplaetze((this.getAnzahlFreierEAutoParkplaetze() + 1));
-                } else if (art.equals("Behinderten-Parkplatz")) {
-                    this.setAnzahlFreierBehindertenParkplaetze((this.getAnzahlFreierBehindertenParkplaetze() + 1));
-                } else {
-                    this.setAnzahlFreierMotorradParkplaetze((this.getAnzahlFreierMotorradParkplaetze() + 1));
-                }
-                //ticket wird zu inaktiven tickets hinzugefügt
-                this.getInaktiveTickets().add(ticket);
-                //ticket wird aus aktiven tickets rausgenommen
-                this.getAktiveTickets().remove(ticket);
-
-                return"Auf Wiedersehen!";
-
-            }
-            else {
-                ticket.setEntwertet(false);
-                return"Zeit zum Ausfahren überschritten, Zeitstempel zurückgesetzt auf: " + ticket.getUhrzeit().truncatedTo(ChronoUnit.MINUTES) +". Bitte entwerten Sie das Ticket erneut am Automaten.";
-            }
-
-        }
-        else {return"Ausfahrt nur mit entwertetem Ticket möglich.";}
-    }
 
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -212,6 +136,7 @@ public class Parkhaus implements ParkhausIF {
     public double getEinnahmenTag() {
         return einnahmenTag;
     }
+    public void setEinnahmenTag(double einnahmenTag) {this.einnahmenTag = einnahmenTag;}
 
     public double getParkdauerTag() {
         return parkdauerTag;

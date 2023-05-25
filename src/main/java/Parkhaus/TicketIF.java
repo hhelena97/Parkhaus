@@ -8,5 +8,8 @@ public interface TicketIF {
     public int zeitDifferenz();
     //vergleicht die Zeit des Tickets mit der aktuellen Zeit und gibt die Parkzeit in Minuten zurueck
 
+    public double bezahlen();
+
+    public String ausfahren();
 
 }

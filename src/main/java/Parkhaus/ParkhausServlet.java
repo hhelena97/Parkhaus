@@ -73,10 +73,10 @@ public class ParkhausServlet extends HttpServlet {
                 Ticket ticket2 = p.getAktiveTickets().get(1);
                 ticket1.setParkdauerMin(30);
                 ticket2.setParkdauerMin(60);
-                p.bezahleTicket(ticket1);
-                p.bezahleTicket(ticket2);
-                p.ausfahren(ticket1);
-                p.ausfahren(ticket2);
+                ticket1.bezahlen();
+                ticket2.bezahlen();
+                ticket1.ausfahren();
+                ticket2.ausfahren();
             } catch (ParkplaetzeBelegtException e1) {
                 getServletContext().setAttribute("TicketErstellenException", e1.getMessage());
             } catch (TicketNichtGefundenException e2) {
@@ -114,7 +114,7 @@ public class ParkhausServlet extends HttpServlet {
                     if (p.getAktiveTickets().get(i).getTicketID() == Integer.parseInt(request.getParameter("ticketID"))) {
 
                         Ticket t = p.getAktiveTickets().get(i);
-                        t.setPreis(p.bezahleTicket(t));
+                        t.setPreis(t.bezahlen());
                         double preis = t.getPreis();
                         double rabattEuro = preis * t.getRabatt();
                         int parkzeit = t.getParkdauerMin();
@@ -155,7 +155,7 @@ public class ParkhausServlet extends HttpServlet {
                     }
                 }
 
-                String nachricht = p.ausfahren(ticketAusfahren);
+                String nachricht = ticketAusfahren.ausfahren();
                 request.setAttribute("NachrichtX", nachricht);
             } catch (TicketNichtGefundenException e1) {
                 getServletContext().setAttribute("AusfahrenException", e1.getMessage());
