@@ -116,7 +116,7 @@ public class ParkhausServlet extends HttpServlet {
                         Ticket t = p.getAktiveTickets().get(i);
                         t.setPreis(t.bezahlen());
                         double preis = t.getPreis();
-                        double rabattEuro = preis * t.getRabatt();
+                        double rabattEuro = t.getRabattEuro();
                         int parkzeit = t.getParkdauerMin();
 
                         // Um diese Elemente anzeigen zu können:
@@ -181,10 +181,10 @@ public class ParkhausServlet extends HttpServlet {
                         rabatt = 0.2;
 
                     } else if (request.getParameter("rabatt").equals("Treuerabatt (25 %)")) {
-                        rabatt = 0.2;
+                        rabatt = 0.25;
                     }
-                    t.setRabatt(rabatt);
-                    System.out.println("Rabatt: " + rabatt);
+                    t.setRabattProzent(rabatt);
+                    //System.out.println("Rabatt: " + rabatt);
 
                     // Um diese Elemente anzeigen zu können:
                     request.setAttribute("rabattTicketX", t);

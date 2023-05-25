@@ -19,8 +19,8 @@ public class StateAktiv extends State{
         // -> angefangene Stunden berücksichtigen
 
         double preis = (ticket.getParkhaus().getStundentarif() * stunden);
-        double rabatt = preis * ticket.getRabatt();
-        preis = preis - rabatt;
+        ticket.setRabattEuro(preis * ticket.getRabattProzent());
+        preis = preis - ticket.getRabattEuro();
         ticket.setPreis(preis);
 
         //'preis' auf 'einnahmenTag' rechnen

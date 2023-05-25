@@ -12,7 +12,10 @@ public class Ticket implements TicketIF {
     private LocalTime uhrzeit;
     private final String artDesParkplatzes;
     private double preis;
-    private double rabatt;
+
+
+    private double rabattProzent;
+    private double rabattEuro;
     private boolean entwertet;
     private int parkdauerMin;
     private int ticketID;
@@ -75,8 +78,10 @@ public class Ticket implements TicketIF {
     }
     public void setPreis(double preis){this.preis = preis;}
     public double getPreis(){return this.preis;}
-    public double getRabatt() {return rabatt;}
-    public void setRabatt(double rabatt) {this.rabatt = rabatt;}
+    public double getRabattProzent() {return rabattProzent;}
+    public void setRabattProzent(double rabattProzent) {this.rabattProzent = rabattProzent;}
+    public double getRabattEuro() {return rabattEuro;}
+    public void setRabattEuro(double rabattEuro) {this.rabattEuro = rabattEuro;}
     public void setEntwertet(boolean ft) {this.entwertet = ft;}
     public boolean getEntwertet() {return this.entwertet;}
     public void setParkdauerMin(int dauer) {this.parkdauerMin += dauer;}
@@ -173,7 +178,6 @@ public class Ticket implements TicketIF {
      */
     public double bezahlen() {
 
-
         int dauer = this.zeitDifferenz();
         int stunden = dauer/60;
 
@@ -181,8 +185,8 @@ public class Ticket implements TicketIF {
         // -> angefangene Stunden berücksichtigen
 
         double preis = (parkhaus.getStundentarif() * stunden);
-        double rabatt = preis * this.getRabatt();
-        preis = preis - rabatt;
+        this.setRabattEuro(preis * this.getRabattProzent());
+        preis = preis - this.getRabattEuro();
         this.setPreis(preis);
 
         //'preis' auf 'einnahmenTag' rechnen
