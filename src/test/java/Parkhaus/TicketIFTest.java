@@ -40,4 +40,70 @@ class TicketIFTest {
 
     }
 
+    @Test
+    void bezahleTicketTest() {
+
+
+        Parkhaus p = new Parkhaus(2.1);
+        Ticket t = new Ticket("Normaler Parkplatz",p);
+        t.setUhrzeitManuell(16, 30);
+        t.bezahlen();
+
+        // Teste ob 'preis' richtig berechnet wurde
+        double erwarteterPreis = p.getStundentarif() * t.zeitDifferenz();
+        //assertEquals(erwarteterPreis, t.getPreis());
+
+
+        // Teste ob 'preis' auf 'einnahmenTag' gerechnet wurde
+        double erwarteteEinnahmenTag = p.getEinnahmenTag() + erwarteterPreis;
+        assertEquals(erwarteteEinnahmenTag, p.getEinnahmenTag());
+
+    }
+
+    @Test
+    void ausfahrenTest(){
+
+        try {
+            Parkhaus testParkhaus = new Parkhaus(2.0, 190, 0, 10, 0);
+            Ticket testTicket1 = testParkhaus.neuesTicket("Normaler Parkplatz");
+            Ticket testTicket2 = testParkhaus.neuesTicket("Behinderten-Parkplatz");
+
+            //Ausfahren testen mit unbezahltem Ticket, sollte auch Hinweis ausgeben
+            testTicket1.ausfahren();
+            testTicket2.ausfahren();
+            assertEquals(198, testParkhaus.getAnzahlFreierParkplaetze());
+            assertEquals(189, testParkhaus.getAnzahlFreierNormalerParkplaetze());
+            assertEquals(9, testParkhaus.getAnzahlFreierBehindertenParkplaetze());
+
+            //Zeitschranke testen, sollte auch Hinweis über abgelaufene Zeit geben
+            LocalTime testUhrzeit = LocalTime.now().minusMinutes(20);
+            testTicket1.setUhrzeitManuell(testUhrzeit.getHour(), testUhrzeit.getMinute());
+            testTicket1.setEntwertet(true);
+            testTicket2.setUhrzeitManuell(testUhrzeit.getHour(), testUhrzeit.getMinute());
+            testTicket2.setEntwertet(true);
+            testTicket1.ausfahren();
+            testTicket2.ausfahren();
+            assertEquals(198, testParkhaus.getAnzahlFreierParkplaetze());
+            assertEquals(189, testParkhaus.getAnzahlFreierNormalerParkplaetze());
+            assertEquals(9, testParkhaus.getAnzahlFreierBehindertenParkplaetze());
+
+            //Zeitschranke testen, sollte die Autos nun rauslassen
+            testTicket1.setEntwertet(true);
+            testTicket1.setUhrzeitManuell(LocalTime.now().getHour(), LocalTime.now().getMinute());
+            testTicket1.ausfahren();
+            assertEquals(199, testParkhaus.getAnzahlFreierParkplaetze());
+            assertEquals(190, testParkhaus.getAnzahlFreierNormalerParkplaetze());
+            testTicket2.setEntwertet(true);
+            testTicket2.setUhrzeitManuell(LocalTime.now().getHour(), LocalTime.now().getMinute());
+            testTicket2.ausfahren();
+            System.out.println(testParkhaus.getAnzahlFreierParkplaetze());
+            assertEquals(200, testParkhaus.getAnzahlFreierParkplaetze());
+            assertEquals(10, testParkhaus.getAnzahlFreierBehindertenParkplaetze());
+        }catch (ParkplaetzeBelegtException e1){
+            System.out.println("Keine freien Parkplaetze");
+        }catch (TicketNichtGefundenException e2){
+            System.out.println("Ticket nicht gefunden");
+        }
+    }
+
 }

@@ -2,8 +2,6 @@ package Parkhaus;
 
 public interface ParkhausIF {
     Ticket neuesTicket(String art) throws ParkplaetzeBelegtException;
-
-    double bezahleTicket (Ticket t);
-
-    String ausfahren(Ticket ticket) throws TicketNichtGefundenException;
+    public double bezahleTicket(Ticket t);
+    public String ausfahren(Ticket ticket) throws TicketNichtGefundenException;
 }

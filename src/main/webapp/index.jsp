@@ -15,24 +15,13 @@
     <input type="hidden" name="action" value="start">
     <button type="submit">Start/Reset</button>
 </form>
-<br>
-<br>
-<form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
-    <input type="hidden" name="action" value="Betreiberansicht">
-    <label> Zur Betreiberansicht:  </label>
-    <button type="submit">Admin</button>
-</form>
-<br>
-<br>
-<form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
-    <input type="hidden" name="action" value="Testtickets">
-    <button type="submit">Testtickets erstellen</button>
-</form>
 <p>Anzahl Parkplaetze in diesem Parkhaus: ${parkhaus.getParkplaetzeGesamt()}</p>
 <p>Anzahl freier normaler Parkplaetze: ${parkhaus.getAnzahlFreierNormalerParkplaetze()}</p>
 <p>Anzahl freier Behinderten-Parkplaetze: ${parkhaus.getAnzahlFreierBehindertenParkplaetze()}</p>
 <p>Anzahl freier E-Auto-Parkplaetze: ${parkhaus.getAnzahlFreierEAutoParkplaetze()}</p>
 <p>Anzahl freier Motorrad-Parkplaetze: ${parkhaus.getAnzahlFreierMotorradParkplaetze()}</p>
+<p>Preis je Stunde: ${parkhaus.getStundentarif()} Euro</p>
+<br>
 <p>Preis je Stunde: ${parkhaus.getStundentarif()} Euro</p>
 <br>
 <h2>Einfahrt</h2>

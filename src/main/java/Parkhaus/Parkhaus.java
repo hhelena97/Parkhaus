@@ -23,8 +23,6 @@ public class Parkhaus implements ParkhausIF {
     private int parkplaetzeGesamt; //Anzahl der Parkplätze insgesamt, ob frei oder besetzt
     private List<Ticket> aktiveTickets = new ArrayList<Ticket>();
     private List<Ticket> inaktiveTickets = new ArrayList<Ticket>();
-    private LocalTime Oeffnungszeit;
-    private LocalTime Schliessungszeit;
 
 
 
@@ -35,16 +33,12 @@ public class Parkhaus implements ParkhausIF {
         this.stundentarif = 0.0;
         this.einnahmenTag = 0.0;
         this.parkdauerTag = 0.0;
-        Oeffnungszeit = setUhrzeitManuell(8, 0);
-        Schliessungszeit = setUhrzeitManuell(23, 0);
     }
 
     public Parkhaus(double stdTarif) {
 
         this();    // rufe den Konstruktor ohne Parameter auf
         this.stundentarif = stdTarif;
-        Oeffnungszeit = setUhrzeitManuell(8, 0);
-        Schliessungszeit = setUhrzeitManuell(23, 0);
     }
 
 
@@ -58,8 +52,6 @@ public class Parkhaus implements ParkhausIF {
         anzahlFreierMotorradParkplaetze = motoradparkplaetze;
 
         this.einnahmenTag = 0.0;
-        Oeffnungszeit = setUhrzeitManuell(8, 0);
-        Schliessungszeit = setUhrzeitManuell(23, 0);
 
     }
 
@@ -76,7 +68,7 @@ public class Parkhaus implements ParkhausIF {
     public Ticket neuesTicket(String art) throws ParkplaetzeBelegtException{
 
         if (this.anzahlFreierParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien Parkplaetze verfuegbar!");}
-        Ticket dasTicket = new Ticket(art);
+        Ticket dasTicket = new Ticket(art,this);
         anzahlFreierParkplaetze--;
         if(art.equals("Normaler Parkplatz")) {
             if (this.anzahlFreierNormalerParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien normalen Parkplaetze verfuegbar!");}
@@ -188,22 +180,7 @@ public class Parkhaus implements ParkhausIF {
         anzahlFreierParkplaetze = anzahlFreierNormalerParkplaetze + anzahlFreierEAutoParkplaetze + anzahlFreierBehindertenParkplaetze + anzahlFreierMotorradParkplaetze;
         return anzahlFreierParkplaetze;
     }
-
-    public LocalTime getOeffnungszeit() {
-        return Oeffnungszeit;
-    }
-
-    public void setOeffnungszeit(LocalTime oeffnungszeit) {
-        Oeffnungszeit = oeffnungszeit;
-    }
-
-    public LocalTime getSchliessungszeit() {
-        return Schliessungszeit;
-    }
-
-    public void setSchliessungszeit(LocalTime schliessungszeit) {
-        Schliessungszeit = schliessungszeit;
-    }
+    //Wo kommt diese "anzahlFreierParkplaetze" her, wenn man die nicht berechnet? Das ist doch keine Konstante, die man beim Konstruktor festlegt.
 
     public double getStundentarif() {
         return stundentarif;
@@ -213,6 +190,9 @@ public class Parkhaus implements ParkhausIF {
         return einnahmenTag;
     }
 
+    public void setEinnahmenTag(double einnahmenTag) {
+        this.einnahmenTag = einnahmenTag;
+    }
     public double getParkdauerTag() {
         return parkdauerTag;
     }
@@ -229,14 +209,6 @@ public class Parkhaus implements ParkhausIF {
         return anzahlFreierEAutoParkplaetze;
     }
 
-    public String getUhrzeitStringParkhaus(LocalTime time) {
-        if(time.getMinute()<10) {
-            return time.getHour() + ":0" + time.getMinute();
-        } else {
-            return time.getHour() + ":" + time.getMinute();
-        }
-    }
-
     public int getAnzahlFreierBehindertenParkplaetze() {
         return anzahlFreierBehindertenParkplaetze;
     }
@@ -244,8 +216,6 @@ public class Parkhaus implements ParkhausIF {
     public void setAnzahlFreierBehindertenParkplaetze(int i) {
         this.anzahlFreierBehindertenParkplaetze = i;
     }
-
-    public LocalTime setUhrzeitManuell(int stunden, int minuten){return LocalTime.of(stunden, minuten);};
 
     public int getAnzahlFreierMotorradParkplaetze() {
         return anzahlFreierMotorradParkplaetze;
@@ -291,12 +261,6 @@ public class Parkhaus implements ParkhausIF {
         return htmlString;
     }
 
-    public void resetTicketListen(){
-        this.aktiveTickets = new ArrayList<Ticket>();
-        this.inaktiveTickets = new ArrayList<Ticket>();
-        Ticket.setIdentifikationsNummer();
-    }
-
     public String ausfahrenNachrichten(String nachricht) {
         return "<p>" + nachricht + "</p>";
     }
@@ -328,10 +292,5 @@ public class Parkhaus implements ParkhausIF {
         statsString += "Tageseinnahmen: " +this.getEinnahmenTag()+" Euro<br>"+"Monatseinnahmen: "+einnahmenMonat+" Euro<br>"+"Besucher insgesamt: " +besucherCount+"</p>";
 
         return statsString;
-    }
-
-    public void OeffnungszeitenAendern(LocalTime oe, LocalTime sc) {
-        this.Oeffnungszeit = oe;
-        this.Schliessungszeit = sc;
     }
 }
