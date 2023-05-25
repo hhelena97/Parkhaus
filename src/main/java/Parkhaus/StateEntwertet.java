@@ -70,6 +70,10 @@ public class StateEntwertet extends State{
             }
             else {
                 ticket.setEntwertet(false);
+                //Zustand zum vorherigen (aktiven) ändern
+                this.ticket.zustand = previous;
+
+
                 return"Zeit zum Ausfahren überschritten, Zeitstempel zurückgesetzt auf: " + ticket.getUhrzeit().truncatedTo(ChronoUnit.MINUTES) +". Bitte entwerten Sie das Ticket erneut am Automaten.";
             }
 
