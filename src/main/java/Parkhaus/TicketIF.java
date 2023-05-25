@@ -11,5 +11,4 @@ public interface TicketIF {
     public double bezahlen();
 
     public String ausfahren() throws TicketNichtGefundenException;
-
 }
