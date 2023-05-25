@@ -11,7 +11,7 @@ public class StateInaktiv extends State{
         return 0;
     }
 
-    public String ausfahren(Ticket t) {
+    public String ausfahren() {
         return null;
     }
 }
