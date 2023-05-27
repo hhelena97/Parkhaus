@@ -242,6 +242,21 @@ public class Parkhaus implements ParkhausIF {
         return htmlString;
     }
 
+    public String StringFuerInaktiveTicketsAuflistung() {
+        String htmlString = "";
+        htmlString += "<h2>Zurzeit inaktive Tickets: </h2>";
+        int index = 0;
+        for (Ticket i : this.getInaktiveTickets()) {
+            htmlString += "<p>Ticket-ID: " + this.getInaktiveTickets().get(index).getTicketID()+ ", ";
+            htmlString += "Datum: " + this.getInaktiveTickets().get(index).getDatum()+", ";
+            htmlString += "Dauer: " + this.getInaktiveTickets().get(index).getParkdauerMin()+", ";
+            htmlString += "Preis: " + this.getInaktiveTickets().get(index).getPreis()+", ";
+            htmlString += "Parkplatzart: " + this.getAktiveTickets().get(index).getArtDesParkplatzes()+ "</p>";
+            index++;
+        }
+        return htmlString;
+    }
+
     public void resetTicketListen(){
         this.aktiveTickets = new ArrayList<Ticket>();
         this.inaktiveTickets = new ArrayList<Ticket>();

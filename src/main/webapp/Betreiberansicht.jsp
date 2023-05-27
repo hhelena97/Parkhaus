@@ -8,6 +8,12 @@
 <br>
 <h2>Datenauswertungen</h2>
 <p>${parkhaus.StringFuerStats()}</p>
+<br>
+<form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
+    <input type="hidden" name="action" value="inaktiveTickets">
+    <button type="submit">Inaktive Tickets</button>
+</form>
+<br>
 <h2>Öffnungszeiten ändern</h2>
 <p>Aktuelle Öffnungszeiten: ${parkhaus.getUhrzeitStringParkhaus(parkhaus.getOeffnungszeit())} bis ${parkhaus.getUhrzeitStringParkhaus(parkhaus.getSchliessungszeit())}</p>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">

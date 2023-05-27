@@ -213,6 +213,8 @@ public class ParkhausServlet extends HttpServlet {
             }
         } else if ("aktiveTickets".equals(action)) {
             request.getRequestDispatcher("aktiveTickets.jsp").forward(request, response);
+        } else if ("inaktiveTickets".equals(action)){
+            request.getRequestDispatcher("inaktiveTickets.jsp").forward(request, response);
 
         }else if ("Betreiberansicht".equals(action)) {
             request.getRequestDispatcher("Betreiberansicht.jsp").forward(request, response);
