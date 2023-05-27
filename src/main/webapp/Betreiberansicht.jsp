@@ -28,7 +28,6 @@
 <p>Aktueller Preis: ${parkhaus.getStundentarif()}</p>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
     <input type="hidden" name="action" value="StudentarifAendern">
-    <!--ich komme an Öffnen und Schließen variablen mit getServletContext().getAttribute("Öffnen")-->
     <label>neuer Preis  </label>
     <input type=double name="Preis" value="1.00">
     <br>

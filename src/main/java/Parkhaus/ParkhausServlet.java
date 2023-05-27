@@ -24,9 +24,6 @@ public class ParkhausServlet extends HttpServlet {
         }
         getServletContext().setAttribute("parkhaus", p);
 
-
-        //damit in den aktiven Tickets was drin steht (und ich musste da was ausprobieren), kann weg, sobald es den Button zum neuen Ticket erzeugen gibt
-        // verschoben in den Button Testtickets
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -224,6 +221,11 @@ public class ParkhausServlet extends HttpServlet {
             p.OeffnungszeitenAendern((LocalTime) getServletContext().getAttribute("Oeffnen"), (LocalTime) getServletContext().getAttribute("Schließen"));
             /*p.setOeffnungszeit((LocalTime) getServletContext().getAttribute("Öffnen"));
             p.setSchliessungszeit((LocalTime) getServletContext().getAttribute("Schließen"));*/
+        }else if ("StudentarifAendern".equals(action)) {
+            double neuerPreis = Double.parseDouble(request.getParameter("Preis"));
+            getServletContext().setAttribute("Stundentarif", neuerPreis);
+            p.setStundentarif(neuerPreis);
+            System.out.println("Preis ändern in " + neuerPreis);
         }
         request.setAttribute("parkhaus", p);
         request.getRequestDispatcher("index.jsp").forward(request, response);
@@ -249,6 +251,7 @@ public class ParkhausServlet extends HttpServlet {
         htmlString += "</body></html>";
         return htmlString;
     }
+
 
 
     public String StringFuerInaktiveTicketsAuflistung(HttpServletResponse response) throws IOException {
