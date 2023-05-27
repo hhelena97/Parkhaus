@@ -1,5 +1,7 @@
 package Parkhaus;
 
+//import jdk.vm.ci.meta.Local;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.temporal.ChronoUnit;
@@ -14,6 +16,8 @@ public class Parkhaus implements ParkhausIF {
     private double stundentarif;    //wie teuer ist es eine Stunde in diesem Parkhaus zu parken? kann man das final machen?
     private double einnahmenTag;
     private double parkdauerTag;
+    private LocalTime uhrzeit;
+    private LocalDate datum;
 
     private int anzahlFreierParkplaetze; //insgesamt inkl. alle arten
     private int anzahlFreierNormalerParkplaetze; //anzahl normaler
@@ -37,6 +41,9 @@ public class Parkhaus implements ParkhausIF {
         this.parkdauerTag = 0.0;
         Oeffnungszeit = setUhrzeitManuell(8, 0);
         Schliessungszeit = setUhrzeitManuell(23, 0);
+
+        this.uhrzeit = LocalTime.of(8,0);
+        this.datum = LocalDate.of(2023, 1, 1);
     }
 
     public Parkhaus(double stdTarif) {
@@ -45,6 +52,9 @@ public class Parkhaus implements ParkhausIF {
         this.stundentarif = stdTarif;
         Oeffnungszeit = setUhrzeitManuell(8, 0);
         Schliessungszeit = setUhrzeitManuell(23, 0);
+
+        this.uhrzeit = LocalTime.of(8,0);
+        this.datum = LocalDate.of(2023, 1, 1);
     }
 
 
@@ -61,6 +71,8 @@ public class Parkhaus implements ParkhausIF {
         Oeffnungszeit = setUhrzeitManuell(8, 0);
         Schliessungszeit = setUhrzeitManuell(23, 0);
 
+        this.uhrzeit = LocalTime.of(8,0);
+        this.datum = LocalDate.of(2023, 1, 1);
     }
 
 
@@ -77,6 +89,7 @@ public class Parkhaus implements ParkhausIF {
 
         if (this.anzahlFreierParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien Parkplaetze verfuegbar!");}
         Ticket dasTicket = new Ticket(art, this);
+        //dasTicket.
         anzahlFreierParkplaetze--;
         if(art.equals("Normaler Parkplatz")) {
             if (this.anzahlFreierNormalerParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien normalen Parkplaetze verfuegbar!");}
@@ -95,7 +108,13 @@ public class Parkhaus implements ParkhausIF {
         return dasTicket;
     }
 
+    public void parkhauszeitAnpassen(LocalTime time, LocalDate date) throws ReiseInVergangenheitException {
 
+        if (time.isBefore(this.getUhrzeit()) || date.isBefore(this.getDatum())){throw new ReiseInVergangenheitException("Reise in die Vergangenheit nicht möglich!");}
+
+        this.setUhrzeit(time);
+        this.setDatum(date);
+    }
 
 
 
@@ -171,7 +190,13 @@ public class Parkhaus implements ParkhausIF {
         this.anzahlFreierBehindertenParkplaetze = i;
     }
 
-    public LocalTime setUhrzeitManuell(int stunden, int minuten){return LocalTime.of(stunden, minuten);};
+    public LocalTime setUhrzeitManuell(int stunden, int minuten){return LocalTime.of(stunden, minuten);}
+    public LocalDate setDatumManuell(int tag, int monat, int jahr){return LocalDate.of(jahr, monat, tag);}
+
+    public LocalTime getUhrzeit() {return uhrzeit;}
+    public void setUhrzeit(LocalTime uhrzeit) {this.uhrzeit = uhrzeit;}
+    public LocalDate getDatum() {return datum;}
+    public void setDatum(LocalDate datum) {this.datum = datum;}
 
     public int getAnzahlFreierMotorradParkplaetze() {
         return anzahlFreierMotorradParkplaetze;
@@ -232,7 +257,7 @@ public class Parkhaus implements ParkhausIF {
         int av_parkdauer = 0;
         double av_preis = 0.0;
         int size = this.getInaktiveTickets().size();
-        int thisMonth = LocalDate.now().getMonthValue();
+        int thisMonth = datum.getMonthValue();
         double einnahmenMonat = 0;
         int besucherCount = this.getAktiveTickets().size();
         int besucherInsgesamt = besucherCount + this.getInaktiveTickets().size();
@@ -250,7 +275,7 @@ public class Parkhaus implements ParkhausIF {
             av_preis /= size;
         }
 
-        String statsString = "Stand: "+LocalDate.now()+", "+LocalTime.now().truncatedTo(ChronoUnit.SECONDS)+"<br>";
+        String statsString = "Stand: "+datum+", "+uhrzeit.truncatedTo(ChronoUnit.SECONDS)+"<br>";
         statsString += "<p>Besucherzahl aktuell: "+besucherCount+"<br>"+"Besucher insgesamt: " +besucherInsgesamt+"<br>";
         statsString += "Tageseinnahmen: " +this.getEinnahmenTag()+" Euro<br>"+"Monatseinnahmen: "+einnahmenMonat+" Euro<br>";
         statsString += "Durchschnittliche Parkdauer: "+av_parkdauer+" min<br>"+"Durchschnittlicher Ticketpreis: "+av_preis+" Euro</p>";

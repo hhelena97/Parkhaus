@@ -25,6 +25,7 @@ class TicketIFTest {
     void zeitDifferenzTest(){
         LocalTime vergleichszeitStart = LocalTime.of(16, 30);
         LocalTime vergleichszeitSchluss = LocalTime.now();
+        Parkhaus p = new Parkhaus();
         int stundenSum;
         int minSum;
         if (vergleichszeitSchluss.getMinute() >= vergleichszeitStart.getMinute()){
@@ -34,7 +35,7 @@ class TicketIFTest {
             stundenSum = vergleichszeitSchluss.getHour() - vergleichszeitStart.getHour() -1;
             minSum = (stundenSum * 60) + ((vergleichszeitSchluss.getMinute() + 60) - vergleichszeitStart.getMinute());
         }
-        t1.setUhrzeitManuell(16, 30);
+        p.setUhrzeitManuell(16, 30);
         int dauer = t1.zeitDifferenz();
         assertEquals(minSum, dauer);
 
@@ -46,7 +47,7 @@ class TicketIFTest {
 
         Parkhaus p = new Parkhaus(2.1);
         Ticket t = new Ticket("Normaler Parkplatz",p);
-        t.setUhrzeitManuell(16, 30);
+        p.setUhrzeitManuell(16, 30);
         t.bezahlen();
 
         // Teste ob 'preis' richtig berechnet wurde
@@ -77,9 +78,9 @@ class TicketIFTest {
 
             //Zeitschranke testen, sollte auch Hinweis über abgelaufene Zeit geben
             LocalTime testUhrzeit = LocalTime.now().minusMinutes(20);
-            testTicket1.setUhrzeitManuell(testUhrzeit.getHour(), testUhrzeit.getMinute());
+            testParkhaus.setUhrzeitManuell(testUhrzeit.getHour(), testUhrzeit.getMinute());
             testTicket1.setEntwertet(true);
-            testTicket2.setUhrzeitManuell(testUhrzeit.getHour(), testUhrzeit.getMinute());
+            testParkhaus.setUhrzeitManuell(testUhrzeit.getHour(), testUhrzeit.getMinute());
             testTicket2.setEntwertet(true);
             testTicket1.ausfahren();
             testTicket2.ausfahren();
@@ -89,12 +90,12 @@ class TicketIFTest {
 
             //Zeitschranke testen, sollte die Autos nun rauslassen
             testTicket1.setEntwertet(true);
-            testTicket1.setUhrzeitManuell(LocalTime.now().getHour(), LocalTime.now().getMinute());
+            testParkhaus.setUhrzeitManuell(LocalTime.now().getHour(), LocalTime.now().getMinute());
             testTicket1.ausfahren();
             assertEquals(199, testParkhaus.getAnzahlFreierParkplaetze());
             assertEquals(190, testParkhaus.getAnzahlFreierNormalerParkplaetze());
             testTicket2.setEntwertet(true);
-            testTicket2.setUhrzeitManuell(LocalTime.now().getHour(), LocalTime.now().getMinute());
+            testParkhaus.setUhrzeitManuell(LocalTime.now().getHour(), LocalTime.now().getMinute());
             testTicket2.ausfahren();
             System.out.println(testParkhaus.getAnzahlFreierParkplaetze());
             assertEquals(200, testParkhaus.getAnzahlFreierParkplaetze());

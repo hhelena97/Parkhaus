@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @WebServlet(name = "ParkhausServlet", value = "/parkhaus-servlet")
@@ -49,6 +50,12 @@ public class ParkhausServlet extends HttpServlet {
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
             getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
             p = new Parkhaus(3, 100, 5, 5, 10);
+
+            LocalTime time = LocalTime.of(8,0);                         // resetten der Uhrzeit...
+            LocalDate date = LocalDate.of(2023,1,1);          // ...und des Datums
+            p.setUhrzeit(time);                                                     //
+            p.setDatum(date);                                                       //
+
             getServletContext().setAttribute("parkhaus", p);
             //Exception-Nachrichten ausblenden
             if (getServletContext().getAttribute("TicketErstellenException") != null) {
@@ -60,7 +67,28 @@ public class ParkhausServlet extends HttpServlet {
             if (getServletContext().getAttribute("BezahlenException") != null) {
                 getServletContext().removeAttribute("BezahlenException");
             }
-        } else if ("Testtickets".equals(action)) {
+            if (getServletContext().getAttribute("ZeitException") != null) {
+                getServletContext().removeAttribute("ZeitException");
+            }
+        } else if("ParkhauszeitenAnpassen".equals(action)) {        // TODO: Exception reparieren, bitte. :c
+
+            //Exception-Nachrichten ausblenden
+            NachrichtenAusblenden();
+
+            try {
+                LocalTime t = LocalTime.parse(request.getParameter("Zeit"));
+                LocalDate d = LocalDate.parse(request.getParameter("Datum"));
+
+                System.out.println("Zeit: " + request.getParameter("Zeit"));
+                System.out.println("Datum: " + request.getParameter("Datum"));
+
+                p.parkhauszeitAnpassen(t,d);
+
+            } catch (ReiseInVergangenheitException e) {
+                getServletContext().setAttribute("ZeitException", e.getMessage());
+            }
+
+        }else if ("Testtickets".equals(action)) {
             try {
                 System.out.println("erste ticketID: " + p.neuesTicket("Normaler Parkplatz").getTicketID());
                 System.out.println("erste ticketID laut ArrayList: " + p.getAktiveTickets().get(0).getTicketID());
@@ -191,9 +219,9 @@ public class ParkhausServlet extends HttpServlet {
 
         }else if ("Betreiberansicht".equals(action)) {
             request.getRequestDispatcher("Betreiberansicht.jsp").forward(request, response);
-        }else if ("ÖffnungszeitenÄndern".equals(action)) {
+        }else if ("OeffnungszeitenAendern".equals(action)) {
             System.out.println("Ändern");
-            p.OeffnungszeitenAendern((LocalTime) getServletContext().getAttribute("Öffnen"), (LocalTime) getServletContext().getAttribute("Schließen"));
+            p.OeffnungszeitenAendern((LocalTime) getServletContext().getAttribute("Oeffnen"), (LocalTime) getServletContext().getAttribute("Schließen"));
             /*p.setOeffnungszeit((LocalTime) getServletContext().getAttribute("Öffnen"));
             p.setSchliessungszeit((LocalTime) getServletContext().getAttribute("Schließen"));*/
         }

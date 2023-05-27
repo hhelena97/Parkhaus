@@ -1,5 +1,6 @@
 package Parkhaus;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
@@ -18,9 +19,11 @@ public class StateEntwertet extends State{
     public String ausfahren() throws TicketNichtGefundenException {
         if(ticket == null){throw new TicketNichtGefundenException("Ticket nicht gefunden.");
         }else if (ticket.getEntwertet()) {
-            LocalTime timeStamp = LocalTime.now().minusMinutes(15);
+            LocalTime timeStamp = ticket.getParkhaus().getUhrzeit().minusMinutes(15);
+            LocalDate dateStamp = ticket.getParkhaus().getDatum();
             LocalTime uhrzeit = ticket.getUhrzeit();
-            if (uhrzeit.equals(timeStamp) || uhrzeit.isAfter(timeStamp)){
+            LocalDate datum = ticket.getDatum();
+            if ((uhrzeit.equals(timeStamp) || uhrzeit.isAfter(timeStamp)) && datum.equals(dateStamp)){
                 //Parkplatz freigeben:
                 String art = ticket.getArtDesParkplatzes();
                 ticket.getParkhaus().setAnzahlFreierParkplaetze(ticket.getParkhaus().getAnzahlFreierParkplaetze()+1);
@@ -44,8 +47,7 @@ public class StateEntwertet extends State{
 
                 return"Auf Wiedersehen!";
 
-            }
-            else {
+            }else {
                 ticket.setEntwertet(false);
                 //Zustand zum vorherigen (aktiven) ändern
                 this.ticket.zustand = previous;

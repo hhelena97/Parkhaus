@@ -16,6 +16,21 @@
     <button type="submit">Start/Reset</button>
 </form>
 <br>
+<h2>Parkhauszeit anpassen</h2>
+<p>Aktuelle Parkhauszeit: ${parkhaus.getDatum()} , ${parkhaus.getUhrzeit()} Uhr</p>
+<form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
+    <input type="hidden" name="action" value="ParkhauszeitenAnpassen">
+    <label>neue Parkhauszeit:  </label>
+    <input type="date" step="1" name="Datum" value=${parkhaus.getDatum()}>
+    <input type="time" step="60" name="Zeit" value=${parkhaus.getUhrzeit()}>
+    <button type="submit">Anpassen</button>
+</form>
+<c:if test="${not empty VergangenheitException}">
+    <p>${VergangenheitException}</p>
+</c:if>
+<br>
+<br>
+<br>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
     <input type="hidden" name="action" value="Betreiberansicht">
     <label> Zur Betreiberansicht:  </label>
@@ -80,26 +95,6 @@
     <p>${AusfahrenException}</p>
 </c:if>
 <p></p>
-
-
-<br>
-<h2>Rabatt geben</h2>
-<form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet"> <!--Was ist das und was macht das?-->
-    <input type="hidden" name="action" value="rabattGeben">
-    <input type="text" name="ticketID" placeholder="Ticket-ID">
-        <select name="rabatt" size="1">
-            <option selected>keinen (0 %)</option>
-            <option>Personalrabatt (10 %)</option>
-            <option>Besucher EKZ (20 %)</option>
-            <option>Treuerabatt (25 %)</option>
-        </select>
-    </label>
-    <button type="submit">Rabatt geben</button>
-</form>
-<c:if test="${not empty rabattTicketX}">
-    <p>Ticket ${rabattTicketX.getTicketID()} hat einen Rabatt von ${rabattX} % bekommen.</p>
-</c:if>
-<br>
 
 <% if (request.getAttribute("parkhaus") != null){ %>
     <% if (request.getAttribute("ticketliste") != null) { %>
