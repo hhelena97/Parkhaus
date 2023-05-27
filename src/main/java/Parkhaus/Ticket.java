@@ -28,22 +28,28 @@ public class Ticket implements TicketIF {
 
     //Test-Konstruktor damit man sich nicht immer ein Parkhaus.Ticket mit "Parkhaus.Ticket-Art" erstellen muss zum Testen
     public Ticket(){
-        this.datum = LocalDate.now();
-        this.uhrzeit = LocalTime.now();
         this.ticketID = identifikationsNummer++;
         this.artDesParkplatzes = "normaler Parkplatz";
         this.parkdauerMin = 0;
         this.entwertet = false;
+
+        this.uhrzeit = parkhaus.getUhrzeit();
+        this.datum = parkhaus.getDatum();
     }
 
     public Ticket(String art, Parkhaus parkhaus) {
-        this.datum = LocalDate.now();
-        this.uhrzeit = LocalTime.now();
+        //this.datum = LocalDate.now();
+        //this.uhrzeit = LocalTime.now();
+
+
         this.ticketID = identifikationsNummer++;
         this.artDesParkplatzes = art;
         this.parkdauerMin = 0;
         this.entwertet = false;
         this.parkhaus = parkhaus;
+
+        this.uhrzeit = parkhaus.getUhrzeit();
+        this.datum = parkhaus.getDatum();
     }
 
 
@@ -51,9 +57,20 @@ public class Ticket implements TicketIF {
     // -----------------------------------------------------------------------------------------------------------------
     // Getter und Setter:
 
-    public LocalTime getUhrzeit() {return uhrzeit;}
+    //public LocalTime getUhrzeit() {return uhrzeit;}
     public int getUhrzeitStunde() {return this.uhrzeit.getHour();}
     public int getUhrzeitMin(){return this.uhrzeit.getMinute();}
+    public int getDatumTag() {
+        return this.datum.getDayOfMonth();
+    }
+    public int getDatumMonat() {
+        return datum.getMonthValue();
+    }
+    public int getDatumJahr() {
+        return datum.getYear();
+    }
+    public LocalDate getDatum() {return datum;}
+    public LocalTime getUhrzeit() {return uhrzeit;}
 
     public static void setIdentifikationsNummer(){
         identifikationsNummer = 0;
@@ -68,11 +85,8 @@ public class Ticket implements TicketIF {
     public int getTicketID() {
         return ticketID;
     }
-    public void setUhrzeit() { this.uhrzeit = LocalTime.now();};
-    public void setUhrzeitManuell(int stunden, int minuten){this.uhrzeit = LocalTime.of(stunden, minuten);};
-    public LocalDate getDatum() {
-        return datum;
-    }
+    public void setUhrzeit() { this.uhrzeit = parkhaus.getUhrzeit();}
+
     public String getArtDesParkplatzes() {
         return artDesParkplatzes;
     }
@@ -119,7 +133,7 @@ public class Ticket implements TicketIF {
      * @return die Differenz zwischen der im Parkhaus.Ticket gespeicherten Uhrzeit und der aktuellen Zeit in Minuten
      */
     public int zeitDifferenz() {
-        LocalTime now = LocalTime.now();
+        LocalTime now = parkhaus.getUhrzeit();
         int zeitJetzt = now.getMinute() + (now.getHour() * 60);
         int zeitTicket = this.uhrzeit.getMinute() + (this.uhrzeit.getHour() * 60);
         return zeitJetzt - zeitTicket;
@@ -135,9 +149,10 @@ public class Ticket implements TicketIF {
 
         if(this == null){throw new TicketNichtGefundenException("Ticket nicht gefunden.");
         }else if (this.getEntwertet()) {
-            LocalTime timeStamp = LocalTime.now().minusMinutes(15);
+            LocalTime timeStamp = parkhaus.getUhrzeit().minusMinutes(15);
+            LocalDate dateStamp = parkhaus.getDatum();
             LocalTime uhrzeit = this.getUhrzeit();
-            if (uhrzeit.equals(timeStamp) || uhrzeit.isAfter(timeStamp)){
+            if ((uhrzeit.equals(timeStamp) || uhrzeit.isAfter(timeStamp)) && datum.equals(dateStamp)){
                 //Parkplatz freigeben:
                 String art = this.getArtDesParkplatzes();
                 parkhaus.setAnzahlFreierParkplaetze(parkhaus.getAnzahlFreierParkplaetze()+1);
@@ -166,6 +181,7 @@ public class Ticket implements TicketIF {
 
         }
         else {return"Ausfahrt nur mit entwertetem Ticket möglich.";}
+
     }
 
     /**
@@ -173,6 +189,7 @@ public class Ticket implements TicketIF {
      * @return den zu bezahlenden Preis als double
      */
     public double bezahlen() {
+
 
         int dauer = this.zeitDifferenz();
         int stunden = dauer/60;
@@ -194,6 +211,7 @@ public class Ticket implements TicketIF {
         //in Real erst nach dem Bezahlen
         this.entwerten();
         return this.getPreis();
+
     }
 }
 
