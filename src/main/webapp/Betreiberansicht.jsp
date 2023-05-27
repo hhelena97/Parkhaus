@@ -24,6 +24,33 @@
     <button type="submit">Ändern</button>
 </form>
 <br>
+<h2>Preis ändern</h2>
+<p>Aktueller Preis: ${parkhaus.getStundentarif()}</p>
+<form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
+    <input type="hidden" name="action" value="StudentarifAendern">
+    <label>neuer Preis  </label>
+    <input type=double name="Preis" value="1.00">
+    <br>
+    <button type="submit">Ändern</button>
+</form>
+<br>
+<h2>Rabatt geben</h2>
+<form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
+    <input type="hidden" name="action" value="rabattGeben">
+    <input type="text" name="ticketID" placeholder="Ticket-ID">
+    <select name="rabatt" size="1">
+        <option selected>keinen (0 %)</option>
+        <option>Personalrabatt (10 %)</option>
+        <option>Besucher EKZ (20 %)</option>
+        <option>Treuerabatt (25 %)</option>
+    </select>
+    </label>
+    <button type="submit">Rabatt geben</button>
+</form>
+<c:if test="${not empty rabattTicketX}">
+    <p>Ticket ${rabattTicketX.getTicketID()} hat einen Rabatt von ${rabattX} % bekommen.</p>
+</c:if>
+<br>
 <br>
 <h2>Rabatt geben</h2>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">

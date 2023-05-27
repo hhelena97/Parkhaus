@@ -151,6 +151,7 @@ public class Parkhaus implements ParkhausIF {
     public double getStundentarif() {
         return stundentarif;
     }
+    public void setStundentarif(double neuerPreis) {this.stundentarif = neuerPreis; }
 
     public double getEinnahmenTag() {
         return einnahmenTag;
