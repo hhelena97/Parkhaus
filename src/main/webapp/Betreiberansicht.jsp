@@ -36,7 +36,6 @@
     <input type="hidden" name="action" value="StudentarifAendern">
     <label>neuer Preis  </label>
     <input type=double name="Preis" value="1.00">
-    <br>
     <button type="submit">Ändern</button>
 </form>
 <br>

@@ -85,7 +85,13 @@ public class Parkhaus implements ParkhausIF {
      * @return ein neues Ticket mit gesetzten Instanzvariablen
      */
     @Override
-    public Ticket neuesTicket(String art) throws ParkplaetzeBelegtException{
+    public Ticket neuesTicket(String art) throws ParkplaetzeBelegtException, ParkhausGeschlossenException{
+
+        //falls vor oder nach Öffnungszeit werfe Exception
+        if (this.getUhrzeit().isBefore(this.getOeffnungszeit()) | this.getUhrzeit().isAfter(this.getSchliessungszeit())){
+            throw new ParkhausGeschlossenException("Das Parkhaus hat geschlossen.");
+        }
+
 
         if (this.anzahlFreierParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien Parkplaetze verfuegbar!");}
         Ticket dasTicket = new Ticket(art, this);
@@ -244,7 +250,7 @@ public class Parkhaus implements ParkhausIF {
 
     public String StringFuerInaktiveTicketsAuflistung() {
         String htmlString = "";
-        htmlString += "<h2>Zurzeit inaktive Tickets: </h2>";
+        htmlString += "";
         int index = 0;
         for (Ticket i : this.getInaktiveTickets()) {
             htmlString += "<p>Ticket-ID: " + this.getInaktiveTickets().get(index).getTicketID()+ ", ";

@@ -16,6 +16,12 @@
     <button type="submit">Start/Reset</button>
 </form>
 <br>
+<form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
+    <input type="hidden" name="action" value="Betreiberansicht">
+    <label> Zur Betreiberansicht:  </label>
+    <button type="submit">Admin</button>
+</form>
+<br>
 <h2>Parkhauszeit anpassen</h2>
 <p>Aktuelle Parkhauszeit: ${parkhaus.getDatum()} , ${parkhaus.getUhrzeit()} Uhr</p>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
@@ -29,23 +35,10 @@
     <p>${VergangenheitException}</p>
 </c:if>
 <br>
-<br>
-<br>
-<form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
-    <input type="hidden" name="action" value="Betreiberansicht">
-    <label> Zur Betreiberansicht:  </label>
-    <button type="submit">Admin</button>
-</form>
-<br>
 <p>Öffnungszeiten: ${parkhaus.getUhrzeitStringParkhaus(parkhaus.getOeffnungszeit())} bis ${parkhaus.getUhrzeitStringParkhaus(parkhaus.getSchliessungszeit())}</p>
-<br>
-<p>Anzahl Parkplaetze in diesem Parkhaus: ${parkhaus.getParkplaetzeGesamt()}</p>
-<p>Anzahl freier normaler Parkplaetze: ${parkhaus.getAnzahlFreierNormalerParkplaetze()}</p>
-<p>Anzahl freier Behinderten-Parkplaetze: ${parkhaus.getAnzahlFreierBehindertenParkplaetze()}</p>
-<p>Anzahl freier E-Auto-Parkplaetze: ${parkhaus.getAnzahlFreierEAutoParkplaetze()}</p>
-<p>Anzahl freier Motorrad-Parkplaetze: ${parkhaus.getAnzahlFreierMotorradParkplaetze()}</p>
-<br>
-<p>Preis je Stunde: ${parkhaus.getStundentarif()} Euro</p>
+<p>Anzahl Parkplaetze in diesem Parkhaus: ${parkhaus.getParkplaetzeGesamt()}, Preis je Stunde: ${parkhaus.getStundentarif()} Euro</p>
+freier normaler Parkplaetze: ${parkhaus.getAnzahlFreierNormalerParkplaetze()}, Behinderten-Parkplaetze: ${parkhaus.getAnzahlFreierBehindertenParkplaetze()}
+, freier E-Auto-Parkplaetze: ${parkhaus.getAnzahlFreierEAutoParkplaetze()}, freier Motorrad-Parkplaetze: ${parkhaus.getAnzahlFreierMotorradParkplaetze()}</p>
 <br>
 <h2>Einfahrt</h2>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet"> <!--Was ist das und was macht das?-->
@@ -62,6 +55,9 @@
 </form>
 <c:if test="${not empty TicketErstellenException}">
     <p>${TicketErstellenException}</p>
+</c:if>
+<c:if test="${not empty ParkhausGeschlossenException}">
+    <p>${ParkhausGeschlossenException}</p>
 </c:if>
 <br>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
@@ -82,6 +78,9 @@
 <c:if test="${empty bezahleTicketX}">
     <p>${BezahlenException}</p>
 </c:if>
+<c:if test="${not empty ParkhausGeschlossenException}">
+    <p>${ParkhausGeschlossenException}</p>
+</c:if>
 <h2>Ausfahrt</h2>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
     <input type="hidden" name="action" value="schrankeOeffnen">
@@ -93,6 +92,9 @@
 </c:if>
 <c:if test="${not empty AusfahrenException}">
     <p>${AusfahrenException}</p>
+</c:if>
+<c:if test="${not empty ParkhausGeschlossenException}">
+    <p>${ParkhausGeschlossenException}</p>
 </c:if>
 <p></p>
 

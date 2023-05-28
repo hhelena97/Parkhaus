@@ -43,22 +43,25 @@ class TicketIFTest {
 
     @Test
     void bezahleTicketTest() {
+        try {
+
+            Parkhaus p = new Parkhaus(2.1);
+            Ticket t = new Ticket("Normaler Parkplatz", p);
+            p.setUhrzeitManuell(16, 30);
+            t.bezahlen();
+
+            // Teste ob 'preis' richtig berechnet wurde
+            double erwarteterPreis = p.getStundentarif() * t.zeitDifferenz();
+            //assertEquals(erwarteterPreis, t.getPreis());
 
 
-        Parkhaus p = new Parkhaus(2.1);
-        Ticket t = new Ticket("Normaler Parkplatz",p);
-        p.setUhrzeitManuell(16, 30);
-        t.bezahlen();
-
-        // Teste ob 'preis' richtig berechnet wurde
-        double erwarteterPreis = p.getStundentarif() * t.zeitDifferenz();
-        //assertEquals(erwarteterPreis, t.getPreis());
-
-
-        // Teste ob 'preis' auf 'einnahmenTag' gerechnet wurde
-        double erwarteteEinnahmenTag = p.getEinnahmenTag() + erwarteterPreis;
-        assertEquals(erwarteteEinnahmenTag, p.getEinnahmenTag());
-
+            // Teste ob 'preis' auf 'einnahmenTag' gerechnet wurde
+            double erwarteteEinnahmenTag = p.getEinnahmenTag() + erwarteterPreis;
+            assertEquals(erwarteteEinnahmenTag, p.getEinnahmenTag());
+        }
+        catch (ParkhausGeschlossenException e) {
+            System.out.println("Außerhalb der Öffnungszeiten");
+        }
     }
 
     @Test
@@ -104,7 +107,9 @@ class TicketIFTest {
             System.out.println("Keine freien Parkplaetze");
         }catch (TicketNichtGefundenException e2){
             System.out.println("Ticket nicht gefunden");
-        }
+        } catch (ParkhausGeschlossenException e3) {
+            System.out.println("Außerhalb der Öffnungszeiten");
+    }
     }
 
 }

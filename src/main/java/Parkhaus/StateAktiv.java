@@ -8,7 +8,12 @@ public class StateAktiv extends State{
         this.previous = null;
     }
 
-    public double bezahlen() {
+    public double bezahlen() throws ParkhausGeschlossenException{
+        Parkhaus p = ticket.getParkhaus();
+        if (p.getUhrzeit().isBefore(p.getOeffnungszeit()) | p.getUhrzeit().isAfter(p.getSchliessungszeit())){
+            throw new ParkhausGeschlossenException("Parkhaus ist geschlossen.");
+        }
+
         int dauer = ticket.zeitDifferenz();
         int stunden = dauer/60;
 
