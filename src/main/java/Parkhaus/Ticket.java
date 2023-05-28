@@ -27,7 +27,7 @@ public class Ticket implements TicketIF {
 
     private Parkhaus parkhaus;
 
-    //Test-Konstruktor damit man sich nicht immer ein Parkhaus.Ticket mit "Parkhaus.Ticket-Art" erstellen muss zum Testen
+    //Test-Konstruktor damit man sich nicht immer ein Ticket mit "Ticket-Art" erstellen muss zum Testen
     public Ticket() {
         this.ticketID = identifikationsNummer++;
         this.artDesParkplatzes = "normaler Parkplatz";
@@ -51,6 +51,8 @@ public class Ticket implements TicketIF {
 
         this.uhrzeit = parkhaus.getUhrzeit();
         this.datum = parkhaus.getDatum();
+
+        this.zustand = new StateAktiv(this);
     }
 
 
