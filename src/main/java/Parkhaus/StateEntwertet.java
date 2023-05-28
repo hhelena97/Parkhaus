@@ -16,11 +16,7 @@ public class StateEntwertet extends State{
         throw new TicketNichtGefundenException("Ticket bereits bezahlt");
     }
 
-    public String ausfahren() throws TicketNichtGefundenException, ParkhausGeschlossenException {
-        Parkhaus p = ticket.getParkhaus();
-        if (p.getUhrzeit().isBefore(p.getOeffnungszeit()) | p.getUhrzeit().isAfter(p.getSchliessungszeit())){
-            throw new ParkhausGeschlossenException("Parkhaus ist geschlossen.");
-        }
+    public String ausfahren() throws TicketNichtGefundenException{
 
         if(ticket == null){throw new TicketNichtGefundenException("Ticket nicht gefunden.");
         }else if (ticket.getEntwertet()) {

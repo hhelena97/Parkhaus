@@ -160,6 +160,8 @@ public class ParkhausServlet extends HttpServlet {
                     Exception e1 = new TicketNichtGefundenException("Ticket nicht gefunden. Zur Zahlung bereite Tickets unter 'aktive Tickets'.");
                     getServletContext().setAttribute("BezahlenException", e1.getMessage());
                 }
+            } catch (TicketNichtGefundenException e11){
+                getServletContext().setAttribute("TicketNichtGefundenException", e11.getMessage());
             } catch (NumberFormatException e2) {
                 //Do nothing
             } catch (ParkhausGeschlossenException e3) {

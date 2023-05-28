@@ -20,6 +20,7 @@ public class Ticket implements TicketIF {
     private int parkdauerMin;
     private int ticketID;
     private static int identifikationsNummer = 0;
+
     public Parkhaus getParkhaus() {
         return parkhaus;
     }
@@ -27,7 +28,7 @@ public class Ticket implements TicketIF {
     private Parkhaus parkhaus;
 
     //Test-Konstruktor damit man sich nicht immer ein Parkhaus.Ticket mit "Parkhaus.Ticket-Art" erstellen muss zum Testen
-    public Ticket(){
+    public Ticket() {
         this.ticketID = identifikationsNummer++;
         this.artDesParkplatzes = "normaler Parkplatz";
         this.parkdauerMin = 0;
@@ -53,26 +54,39 @@ public class Ticket implements TicketIF {
     }
 
 
-
     // -----------------------------------------------------------------------------------------------------------------
     // Getter und Setter:
 
     //public LocalTime getUhrzeit() {return uhrzeit;}
-    public int getUhrzeitStunde() {return this.uhrzeit.getHour();}
-    public int getUhrzeitMin(){return this.uhrzeit.getMinute();}
+    public int getUhrzeitStunde() {
+        return this.uhrzeit.getHour();
+    }
+
+    public int getUhrzeitMin() {
+        return this.uhrzeit.getMinute();
+    }
+
     public int getDatumTag() {
         return this.datum.getDayOfMonth();
     }
+
     public int getDatumMonat() {
         return datum.getMonthValue();
     }
+
     public int getDatumJahr() {
         return datum.getYear();
     }
-    public LocalDate getDatum() {return datum;}
-    public LocalTime getUhrzeit() {return uhrzeit;}
 
-    public static void setIdentifikationsNummer(){
+    public LocalDate getDatum() {
+        return datum;
+    }
+
+    public LocalTime getUhrzeit() {
+        return uhrzeit;
+    }
+
+    public static void setIdentifikationsNummer() {
         identifikationsNummer = 0;
     }
 
@@ -85,21 +99,54 @@ public class Ticket implements TicketIF {
     public int getTicketID() {
         return ticketID;
     }
-    public void setUhrzeit() { this.uhrzeit = parkhaus.getUhrzeit();}
+
+    public void setUhrzeit() {
+        this.uhrzeit = parkhaus.getUhrzeit();
+    }
 
     public String getArtDesParkplatzes() {
         return artDesParkplatzes;
     }
-    public void setPreis(double preis){this.preis = preis;}
-    public double getPreis(){return this.preis;}
-    public double getRabattProzent() {return rabattProzent;}
-    public void setRabattProzent(double rabattProzent) {this.rabattProzent = rabattProzent;}
-    public double getRabattEuro() {return rabattEuro;}
-    public void setRabattEuro(double rabattEuro) {this.rabattEuro = rabattEuro;}
-    public void setEntwertet(boolean ft) {this.entwertet = ft;}
-    public boolean getEntwertet() {return this.entwertet;}
-    public void setParkdauerMin(int dauer) {this.parkdauerMin += dauer;}
-    public int getParkdauerMin() {return this.parkdauerMin;}
+
+    public void setPreis(double preis) {
+        this.preis = preis;
+    }
+
+    public double getPreis() {
+        return this.preis;
+    }
+
+    public double getRabattProzent() {
+        return rabattProzent;
+    }
+
+    public void setRabattProzent(double rabattProzent) {
+        this.rabattProzent = rabattProzent;
+    }
+
+    public double getRabattEuro() {
+        return rabattEuro;
+    }
+
+    public void setRabattEuro(double rabattEuro) {
+        this.rabattEuro = rabattEuro;
+    }
+
+    public void setEntwertet(boolean ft) {
+        this.entwertet = ft;
+    }
+
+    public boolean getEntwertet() {
+        return this.entwertet;
+    }
+
+    public void setParkdauerMin(int dauer) {
+        this.parkdauerMin += dauer;
+    }
+
+    public int getParkdauerMin() {
+        return this.parkdauerMin;
+    }
     //public double getPreisTicket() {return preisTicket;}
 
     @Override
@@ -115,6 +162,7 @@ public class Ticket implements TicketIF {
 
     //--------------------------------------------------------------------------------------------------------------------------------------
     //Was mit dem Parkhaus.Ticket passiert:
+
     /**
      * Die Methode 'entwerten' setzt die entwerten-Variable auf true
      * und aktualisiert die gespeicherte Zeit
@@ -128,7 +176,6 @@ public class Ticket implements TicketIF {
         System.out.println("Sie haben um " + getUhrzeitStunde() + ":" + getUhrzeitMin() + " Uhr bezahlt und koennen mit diesem Ticket in der naechsten Viertel Stunde die Schranke oeffnen.");
 
     }
-
 
 
     /**
@@ -147,81 +194,30 @@ public class Ticket implements TicketIF {
      * "ausfahren" prüft, ob das Ticket entwertet wurde und die Zeit zum ausfahren noch reicht. Wenn die Bedingungen nicht
      * erfüllt sind, wird ein entsprechender Hinweis ausgegeben. Ist das Ticket entwertet und die Viertelstunde noch nicht um,
      * wird das Ticket inaktiv und die Anzahl der freien Parkplätze wird um eins erhöht, entsprechend dem Parkplatz, der belegt war.
+     *
      * @return Nachricht, die dem Besucher angezeigt werden soll
      */
-    public String ausfahren() throws TicketNichtGefundenException, ParkhausGeschlossenException{
-        if (this.parkhaus.getUhrzeit().isBefore(this.parkhaus.getOeffnungszeit()) | this.parkhaus.getUhrzeit().isAfter(this.parkhaus.getSchliessungszeit())){
+    public String ausfahren() throws TicketNichtGefundenException, ParkhausGeschlossenException {
+        if (this.parkhaus.getUhrzeit().isBefore(this.parkhaus.getOeffnungszeit()) | this.parkhaus.getUhrzeit().isAfter(this.parkhaus.getSchliessungszeit())) {
             throw new ParkhausGeschlossenException("Parkhaus ist geschlossen.");
         }
 
-        if(this == null){throw new TicketNichtGefundenException("Ticket nicht gefunden.");
-        }else if (this.getEntwertet()) {
-            LocalTime timeStamp = parkhaus.getUhrzeit().minusMinutes(15);
-            LocalDate dateStamp = parkhaus.getDatum();
-            LocalTime uhrzeit = this.getUhrzeit();
-            if ((uhrzeit.equals(timeStamp) || uhrzeit.isAfter(timeStamp)) && datum.equals(dateStamp)){
-                //Parkplatz freigeben:
-                String art = this.getArtDesParkplatzes();
-                parkhaus.setAnzahlFreierParkplaetze(parkhaus.getAnzahlFreierParkplaetze()+1);
-                //Für die speziellen Parkplätze:
-                if (art.equals("Normaler Parkplatz")) {
-                    parkhaus.setAnzahlFreierNormalerParkplaetze((parkhaus.getAnzahlFreierNormalerParkplaetze() + 1));
-                } else if (art.equals("E-Auto-Parkplatz")) {
-                    parkhaus.setAnzahlFreierEAutoParkplaetze((parkhaus.getAnzahlFreierEAutoParkplaetze() + 1));
-                } else if (art.equals("Behinderten-Parkplatz")) {
-                    parkhaus.setAnzahlFreierBehindertenParkplaetze((parkhaus.getAnzahlFreierBehindertenParkplaetze() + 1));
-                } else {
-                    parkhaus.setAnzahlFreierMotorradParkplaetze((parkhaus.getAnzahlFreierMotorradParkplaetze() + 1));
-                }
-                //ticket wird zu inaktiven tickets hinzugefügt
-                parkhaus.getInaktiveTickets().add(this);
-                //ticket wird aus aktiven tickets rausgenommen
-                parkhaus.getAktiveTickets().remove(this);
-
-                return"Auf Wiedersehen!";
-
-            }
-            else {
-                this.setEntwertet(false);
-                return"Zeit zum Ausfahren überschritten, Zeitstempel zurückgesetzt auf: " + this.getUhrzeit().truncatedTo(ChronoUnit.MINUTES) +". Bitte entwerten Sie das Ticket erneut am Automaten.";
-            }
-
-        }
-        else {return"Ausfahrt nur mit entwertetem Ticket möglich.";}
-
+        String s = this.zustand.ausfahren();
+        return s;
     }
 
     /**
      * Die Methode 'bezahleTicket' ...
+     *
      * @return den zu bezahlenden Preis als double
      */
-    public double bezahlen() throws ParkhausGeschlossenException{
-        if (this.parkhaus.getUhrzeit().isBefore(this.parkhaus.getOeffnungszeit()) | this.parkhaus.getUhrzeit().isAfter(this.parkhaus.getSchliessungszeit())){
+    public double bezahlen() throws TicketNichtGefundenException, ParkhausGeschlossenException {
+        if (this.parkhaus.getUhrzeit().isBefore(this.parkhaus.getOeffnungszeit()) | this.parkhaus.getUhrzeit().isAfter(this.parkhaus.getSchliessungszeit())) {
             throw new ParkhausGeschlossenException("Parkhaus ist geschlossen.");
         }
 
-
-        int dauer = this.zeitDifferenz();
-        int stunden = dauer/60;
-
-        if (dauer%60 != 0) {stunden++;}
-        // -> angefangene Stunden berücksichtigen
-
-        double preis = (parkhaus.getStundentarif() * stunden);
-        this.setRabattEuro(preis * this.getRabattProzent());
-        preis = preis - this.getRabattEuro();
-        this.setPreis(preis);
-
-        //'preis' auf 'einnahmenTag' rechnen
-        parkhaus.setEinnahmenTag(parkhaus.getEinnahmenTag() + preis);
-
-        //set parkdauer zur späteren Auswertung
-        this.setParkdauerMin(dauer);
-
-        //in Real erst nach dem Bezahlen
-        this.entwerten();
-        return this.getPreis();
+        double preis = this.zustand.bezahlen();
+        return preis;
 
     }
 }
-

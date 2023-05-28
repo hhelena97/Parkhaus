@@ -58,8 +58,9 @@ class TicketIFTest {
             // Teste ob 'preis' auf 'einnahmenTag' gerechnet wurde
             double erwarteteEinnahmenTag = p.getEinnahmenTag() + erwarteterPreis;
             assertEquals(erwarteteEinnahmenTag, p.getEinnahmenTag());
-        }
-        catch (ParkhausGeschlossenException e) {
+        } catch (TicketNichtGefundenException e1) {
+            System.out.println("Ticket nicht gefunden.");
+        } catch (ParkhausGeschlossenException e2) {
             System.out.println("Außerhalb der Öffnungszeiten");
         }
     }

@@ -26,4 +26,11 @@ public class State {
 
     }
 
+    public double bezahlen() throws TicketNichtGefundenException{
+        return 0.0;
+    }
+
+    public String ausfahren() throws TicketNichtGefundenException {
+        return "";
+    }
 }
