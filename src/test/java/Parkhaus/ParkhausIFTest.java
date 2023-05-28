@@ -76,7 +76,9 @@ class ParkhausIFTest {
             assertEquals(testTicket4.getTicketID(), 3);
         } catch (ParkplaetzeBelegtException e){
             System.out.println("Keine freien Parkplaetze");
-        }
+        } catch (ParkhausGeschlossenException e2) {
+            System.out.println("Außerhalb der Öffnungszeiten");;
+    }
     }
 
 

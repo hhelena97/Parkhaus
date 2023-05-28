@@ -85,7 +85,13 @@ public class Parkhaus implements ParkhausIF {
      * @return ein neues Ticket mit gesetzten Instanzvariablen
      */
     @Override
-    public Ticket neuesTicket(String art) throws ParkplaetzeBelegtException{
+    public Ticket neuesTicket(String art) throws ParkplaetzeBelegtException, ParkhausGeschlossenException{
+
+        //falls vor oder nach Öffnungszeit werfe Exception
+        if (this.getUhrzeit().isBefore(this.getOeffnungszeit()) | this.getUhrzeit().isAfter(this.getSchliessungszeit())){
+            throw new ParkhausGeschlossenException("Das Parkhaus hat geschlossen.");
+        }
+
 
         if (this.anzahlFreierParkplaetze == 0){throw new ParkplaetzeBelegtException("Keine freien Parkplaetze verfuegbar!");}
         Ticket dasTicket = new Ticket(art, this);
@@ -236,6 +242,21 @@ public class Parkhaus implements ParkhausIF {
             } else {
                 htmlString += ":" + this.getAktiveTickets().get(index).getUhrzeit().getMinute() + ", ";
             }
+            htmlString += "Parkplatzart: " + this.getAktiveTickets().get(index).getArtDesParkplatzes()+ "</p>";
+            index++;
+        }
+        return htmlString;
+    }
+
+    public String StringFuerInaktiveTicketsAuflistung() {
+        String htmlString = "";
+        htmlString += "";
+        int index = 0;
+        for (Ticket i : this.getInaktiveTickets()) {
+            htmlString += "<p>Ticket-ID: " + this.getInaktiveTickets().get(index).getTicketID()+ ", ";
+            htmlString += "Datum: " + this.getInaktiveTickets().get(index).getDatum()+", ";
+            htmlString += "Dauer: " + this.getInaktiveTickets().get(index).getParkdauerMin()+", ";
+            htmlString += "Preis: " + this.getInaktiveTickets().get(index).getPreis()+", ";
             htmlString += "Parkplatzart: " + this.getAktiveTickets().get(index).getArtDesParkplatzes()+ "</p>";
             index++;
         }

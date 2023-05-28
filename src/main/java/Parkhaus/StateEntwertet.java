@@ -16,7 +16,8 @@ public class StateEntwertet extends State{
         throw new TicketNichtGefundenException("Ticket bereits bezahlt");
     }
 
-    public String ausfahren() throws TicketNichtGefundenException {
+    public String ausfahren() throws TicketNichtGefundenException{
+
         if(ticket == null){throw new TicketNichtGefundenException("Ticket nicht gefunden.");
         }else if (ticket.getEntwertet()) {
             LocalTime timeStamp = ticket.getParkhaus().getUhrzeit().minusMinutes(15);

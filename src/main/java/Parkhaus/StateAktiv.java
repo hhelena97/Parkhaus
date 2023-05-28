@@ -9,6 +9,7 @@ public class StateAktiv extends State{
     }
 
     public double bezahlen() {
+
         int dauer = ticket.zeitDifferenz();
         int stunden = dauer/60;
 
