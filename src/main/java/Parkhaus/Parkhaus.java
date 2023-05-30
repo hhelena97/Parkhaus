@@ -250,14 +250,13 @@ public class Parkhaus implements ParkhausIF {
 
     public String StringFuerInaktiveTicketsAuflistung() {
         String htmlString = "";
-        htmlString += "";
         int index = 0;
         for (Ticket i : this.getInaktiveTickets()) {
             htmlString += "<p>Ticket-ID: " + this.getInaktiveTickets().get(index).getTicketID()+ ", ";
             htmlString += "Datum: " + this.getInaktiveTickets().get(index).getDatum()+", ";
             htmlString += "Dauer: " + this.getInaktiveTickets().get(index).getParkdauerMin()+", ";
             htmlString += "Preis: " + this.getInaktiveTickets().get(index).getPreis()+", ";
-            htmlString += "Parkplatzart: " + this.getAktiveTickets().get(index).getArtDesParkplatzes()+ "</p>";
+            htmlString += "Parkplatzart: " + this.getInaktiveTickets().get(index).getArtDesParkplatzes()+ "</p>";
             index++;
         }
         return htmlString;
