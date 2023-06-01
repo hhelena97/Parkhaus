@@ -1,4 +1,4 @@
-##Das kule Parkhaus##
+## Das kule Parkhaus ##
 
 Im Rahmen des Moduls "Software Engineering 1" im SoSe23 haben wir eine Website erstellt, über welche man verschiedene Prozesse in einem Parkhaus steuern kann.
 
@@ -28,7 +28,7 @@ Das Parkhaus hat zudem festgelegte Öffnungszeiten in welchen Besucher rein- und
 
 ---
 
-#Kundenansicht#
+# Kundenansicht #
 
 In der Kundenansicht des Parkhauses kann man Tickets ziehen, Tickets bezahlen und mit einem Ticket das Parkhaus verlassen. Beim Ziehen des Tickets kann der Kunde entscheiden, ob er einen normalen, Behinderten, Motorrad oder E-Auto Parkplatz haben möchte. Beim bezahlen des Tickets wird der Stundentarif des Parkhaus pro angefangene Stunde abgerechnet, anschließend gilt das Ticket als entwertet und der Besucher kann mit diesem Ticken in den nächsten 15min das Parkhaus verlassen. Falls er jedoch noch länger als 15min im Parkhaus bleibt und dann rausfahren möchte, muss nachgezahlt werden.
 
@@ -36,7 +36,7 @@ Es gibt hier zudem einen Knopf über den man zur Betreiberansicht wechseln kann.
 
 ---
 
-#Betreiberansicht#
+# Betreiberansicht #
 
 In der Betreiberansicht kann man verschiedene Statistiken zum Parkhaus einsehen, welche über einen Tag gesammelt werden. 
 
