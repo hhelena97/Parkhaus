@@ -10,6 +10,11 @@
 <p>${parkhaus.StringFuerStats()}</p>
 <br>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
+    <input type="hidden" name="action" value="aktiveTickets">
+    <button type="submit">Aktive Tickets</button>
+</form>
+<br>
+<form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
     <input type="hidden" name="action" value="inaktiveTickets">
     <button type="submit">Inaktive Tickets</button>
 </form>

@@ -60,11 +60,6 @@ freier normaler Parkplaetze: ${parkhaus.getAnzahlFreierNormalerParkplaetze()}, B
     <p>${ParkhausGeschlossenException}</p>
 </c:if>
 <br>
-<form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
-<input type="hidden" name="action" value="aktiveTickets">
-<button type="submit">Aktive Tickets</button>
-</form>
-<br>
 <h2>Ticket bezahlen</h2>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
     <input type="hidden" name="action" value="bezahlen">
