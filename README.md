@@ -26,7 +26,6 @@ Diese globale Parkhaus-Zeit kann man (zu Testzwecken) auf der Kundenansicht eins
 
 Das Parkhaus hat zudem festgelegte Öffnungszeiten in welchen Besucher rein- und rausfahren können.
 
----
 
 # Kundenansicht #
 
@@ -34,7 +33,6 @@ In der Kundenansicht des Parkhauses kann man Tickets ziehen, Tickets bezahlen un
 
 Es gibt hier zudem einen Knopf über den man zur Betreiberansicht wechseln kann.
 
----
 
 # Betreiberansicht #
 
@@ -42,7 +40,6 @@ In der Betreiberansicht kann man verschiedene Statistiken zum Parkhaus einsehen,
 
 Außerdem können hier die Öffnungszeiten sowie der Stundentarif des Parkhauses verändert werden und es können verschiedene Rabatte auf Tickets gegeben werden. 
 
----
 
 
 
