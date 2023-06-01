@@ -36,7 +36,7 @@ Es gibt hier zudem einen Knopf über den man zur Betreiberansicht wechseln kann.
 
 # Betreiberansicht #
 
-In der Betreiberansicht kann man verschiedene Statistiken zum Parkhaus einsehen, welche über einen Tag gesammelt werden. 
+In der Betreiberansicht kann man verschiedene Statistiken zum Parkhaus einsehen, welche über einen Tag gesammelt werden sowie sich eine Liste von allen zur Zeit aktiven oder inaktiven Tickets anzeigen lassen.
 
 Außerdem können hier die Öffnungszeiten sowie der Stundentarif des Parkhauses verändert werden und es können verschiedene Rabatte auf Tickets gegeben werden. 
 
