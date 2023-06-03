@@ -5,6 +5,8 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
 public class StateEntwertet extends State{
+
+    //Konstruktor
     public StateEntwertet(Ticket t, State aktiv) {
         super(t);
         this.next = new StateInaktiv(t);
@@ -16,6 +18,7 @@ public class StateEntwertet extends State{
         throw new TicketNichtGefundenException("Ticket bereits bezahlt");
     }
 
+    //ausfahren Methode mit Zustandsänderung ergänzt
     public String ausfahren() throws TicketNichtGefundenException{
 
         if(ticket == null){throw new TicketNichtGefundenException("Ticket nicht gefunden.");

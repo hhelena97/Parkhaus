@@ -16,8 +16,8 @@ public class Parkhaus implements ParkhausIF {
     private double stundentarif;    //wie teuer ist es eine Stunde in diesem Parkhaus zu parken? kann man das final machen?
     private double einnahmenTag;
     private double parkdauerTag;
-    private LocalTime uhrzeit;
-    private LocalDate datum;
+    private LocalTime uhrzeit;  //globale Uhrzeit des Parkhauses
+    private LocalDate datum;  //globales Datum
 
     private int anzahlFreierParkplaetze; //insgesamt inkl. alle arten
     private int anzahlFreierNormalerParkplaetze; //anzahl normaler
@@ -25,8 +25,8 @@ public class Parkhaus implements ParkhausIF {
     private int anzahlFreierBehindertenParkplaetze; //erklärt sich denke ich
     private int anzahlFreierMotorradParkplaetze; // -----------"--------------
     private int parkplaetzeGesamt; //Anzahl der Parkplätze insgesamt, ob frei oder besetzt
-    private List<Ticket> aktiveTickets = new ArrayList<Ticket>();
-    private List<Ticket> inaktiveTickets = new ArrayList<Ticket>();
+    private List<Ticket> aktiveTickets = new ArrayList<Ticket>(); //Liste mit allen Tickets von Autos, die sich zur Zeit im Parkhaus befinden
+    private List<Ticket> inaktiveTickets = new ArrayList<Ticket>(); //Liste mit Tickets von Besuchers, die das Pauskaus verlassen haben
     private LocalTime Oeffnungszeit;
     private LocalTime Schliessungszeit;
 
@@ -191,7 +191,6 @@ public class Parkhaus implements ParkhausIF {
     public int getAnzahlFreierBehindertenParkplaetze() {
         return anzahlFreierBehindertenParkplaetze;
     }
-
     public void setAnzahlFreierBehindertenParkplaetze(int i) {
         this.anzahlFreierBehindertenParkplaetze = i;
     }
@@ -207,24 +206,18 @@ public class Parkhaus implements ParkhausIF {
     public int getAnzahlFreierMotorradParkplaetze() {
         return anzahlFreierMotorradParkplaetze;
     }
-
     public void setAnzahlFreierMotorradParkplaetze(int i) {
         this.anzahlFreierMotorradParkplaetze = i;
     }
-
     public int getAnzahlFreierNormalerParkplaetze() {
         return anzahlFreierNormalerParkplaetze;
     }
-
     public void setAnzahlFreierNormalerParkplaetze(int i) {
         this.anzahlFreierNormalerParkplaetze = i;
     }
-
-
     public List<Ticket> getAktiveTickets() {
         return aktiveTickets;
     }
-
     public List<Ticket> getInaktiveTickets() {
         return inaktiveTickets;
     }

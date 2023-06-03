@@ -2,12 +2,14 @@ package Parkhaus;
 
 public class StateAktiv extends State{
 
+    //Konstruktor
     public StateAktiv(Ticket t) {
         super(t);
         this.next = new StateEntwertet(t, this);
         this.previous = null;
     }
 
+    //Methode bezahlen mit Zustandsänderung ergänzt
     public double bezahlen() {
 
         int dauer = ticket.zeitDifferenz();

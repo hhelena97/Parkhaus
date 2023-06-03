@@ -23,9 +23,6 @@ public class ParkhausServlet extends HttpServlet {
         }
         getServletContext().setAttribute("parkhaus", p);
 
-
-        //damit in den aktiven Tickets was drin steht (und ich musste da was ausprobieren), kann weg, sobald es den Button zum neuen Ticket erzeugen gibt
-        // verschoben in den Button Testtickets
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -37,13 +34,15 @@ public class ParkhausServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        //braucht man, damit der nachdem 1 Knopf in der Betreiberansicht gedrückt wurde nicht wieder auf die Startseite springt
         String naechsteSeite = "index.jsp";
-        //PrintWriter out = response.getWriter();
+
         //hole das Parkhaus aus dem Context
         Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
+
         //führe je nach "action" verschiedene Dinge aus
         String action = request.getParameter("action");
-        //Button Ticket erstellen
+
         if ("start".equals(action)) {
             p.resetTicketListen();
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
@@ -227,28 +226,35 @@ public class ParkhausServlet extends HttpServlet {
                     request.setAttribute("rabattX", (rabatt * 100));
                 }
             }
+            //damit der nach dem Ändern in der Betreiberansicht bleibt
             naechsteSeite = "Betreiberansicht.jsp";
 
         } else if ("aktiveTickets".equals(action)) {
+            //öffnet Seite, auf der alle aktiven Tickets aufgelistet werden
             request.getRequestDispatcher("aktiveTickets.jsp").forward(request, response);
+
         } else if ("inaktiveTickets".equals(action)){
+            //öffnet Seite, auf der alle inaktiven Tickets aufgelistet werden
             request.getRequestDispatcher("inaktiveTickets.jsp").forward(request, response);
 
         } else if ("Betreiberansicht".equals(action)) {
+            //öffnet die Betreiberansicht
             request.getRequestDispatcher("Betreiberansicht.jsp").forward(request, response);
+
         } else if ("OeffnungszeitenAendern".equals(action)) {
-            System.out.println("Ändern");
+            //globale Öffnungszeiten des Parkhauses werden hier verändert
             LocalTime oeffnen = LocalTime.parse(request.getParameter("Oeffnen"));
             LocalTime schliessen = LocalTime.parse(request.getParameter("Schliessen"));
 
-            //Offnungszeiten im Context ändern
+            //neue Öffnungszeiten im Context ändern
             getServletContext().setAttribute("Oeffnen", oeffnen);
             getServletContext().setAttribute("Schliessen", schliessen);
 
-            //Öffnungszeiten im Parkhaus ändern
+            //Öffnungszeiten im Parkhaus aktualisieren
             p.setOeffnungszeit(oeffnen);
             p.setSchliessungszeit(schliessen);
 
+            //damit der nach dem Ändern in der Betreiberansicht bleibt
             naechsteSeite = "Betreiberansicht.jsp";
 
         } else if ("StundentarifAendern".equals(action)) {
@@ -256,13 +262,21 @@ public class ParkhausServlet extends HttpServlet {
             getServletContext().setAttribute("Stundentarif", neuerPreis);
             p.setStundentarif(neuerPreis);
             System.out.println("Preis ändern in " + neuerPreis);
+
+            //damit der nach dem Ändern in der Betreiberansicht bleibt
             naechsteSeite = "Betreiberansicht.jsp";
         }
         request.setAttribute("parkhaus", p);
         request.getRequestDispatcher(naechsteSeite).forward(request, response);
     }
 
-    private String StringFuerAktiveTicketsAuflistung(HttpServletResponse response) throws IOException {
+
+    /**
+     * Listet alle aktiven Tickets auf
+     * @return auflistung als HTML-String
+     * @throws IOException
+     */
+    private String StringFuerAktiveTicketsAuflistung() throws IOException {
         Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
         String htmlString = "";
         htmlString += "<html><body><h2>Zurzeit aktive Tickets: </h2>";
@@ -283,8 +297,11 @@ public class ParkhausServlet extends HttpServlet {
         return htmlString;
     }
 
-
-
+    /**
+     * Listet alle inaktiven Tickets auf
+     * @return auflistung als HTML-String
+     * @throws IOException
+     */
     public String StringFuerInaktiveTicketsAuflistung(HttpServletResponse response) throws IOException {
         Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
         String htmlString = "";
@@ -305,6 +322,7 @@ public class ParkhausServlet extends HttpServlet {
         htmlString += "</body></html>";
         return htmlString;
     }
+
 
     private String StringFuerNeuesTicketAuswahl()            // Ticket-Auswahl mit Knopf
     {

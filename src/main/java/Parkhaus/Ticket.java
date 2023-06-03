@@ -6,7 +6,7 @@ import java.time.temporal.ChronoUnit;
 
 public class Ticket implements TicketIF {
 
-    State zustand = null;
+    State zustand = null; //Zustand des Tickets (aktiv, entwertet, inaktiv)
 
     private LocalDate datum;
     private LocalTime uhrzeit;
@@ -19,7 +19,7 @@ public class Ticket implements TicketIF {
     private boolean entwertet;
     private int parkdauerMin;
     private int ticketID;
-    private static int identifikationsNummer = 0;
+    private static int identifikationsNummer = 0; //zur Vergabe der Ticket-ID als Klassenvariable
 
     public Parkhaus getParkhaus() {
         return parkhaus;
@@ -27,6 +27,7 @@ public class Ticket implements TicketIF {
 
     private Parkhaus parkhaus;
 
+    //TODO: brauchen wir den "Test-"Konstruktor noch?
     //Test-Konstruktor damit man sich nicht immer ein Ticket mit "Ticket-Art" erstellen muss zum Testen
     public Ticket() {
         this.ticketID = identifikationsNummer++;

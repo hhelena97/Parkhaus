@@ -21,6 +21,7 @@ public class State {
     State previous = null;
     Ticket ticket = null;
 
+    //Konstruktor
     public State(Ticket t) {
         this.ticket = t;
 

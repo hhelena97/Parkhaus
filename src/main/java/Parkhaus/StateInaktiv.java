@@ -1,6 +1,8 @@
 package Parkhaus;
 
 public class StateInaktiv extends State{
+
+    //Konstruktor
     public StateInaktiv(Ticket t) {
         super(t);
         this.next = null;
