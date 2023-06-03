@@ -167,7 +167,7 @@ public class ParkhausServlet extends HttpServlet {
             } catch (NumberFormatException e2) {
                 //Do nothing
             } catch (ParkhausGeschlossenException e3) {
-                getServletContext().setAttribute("ParkhausGeschlossenException", e3.getMessage());;
+                getServletContext().setAttribute("ParkhausGeschlossenException", e3.getMessage());
             }
 
             //(über)schreibt die Liste aktiver Tickets im Context
@@ -183,12 +183,12 @@ public class ParkhausServlet extends HttpServlet {
 
                 Ticket ticketAusfahren = null;
                 for (Ticket ti : p.getAktiveTickets()) {
-                    if (ti.getTicketID() == Integer.valueOf(request.getParameter("ticketID"))) {
+                    if (ti.getTicketID() == Integer.parseInt(request.getParameter("ticketID"))) {
                         ticketAusfahren = ti;
                     }
                 }
 
-                String nachricht = ticketAusfahren.ausfahren();
+                String nachricht = ticketAusfahren.ausfahren(); //TODO: ticket.Ausfahren könnte null sein, müsste noch geprüft werden ob das Ticket überhaupt gefunden und zugewiesen wurde
                 request.setAttribute("NachrichtX", nachricht);
             } catch (TicketNichtGefundenException e1) {
                 getServletContext().setAttribute("AusfahrenException", e1.getMessage());
@@ -274,7 +274,7 @@ public class ParkhausServlet extends HttpServlet {
     /**
      * Listet alle aktiven Tickets auf
      * @return auflistung als HTML-String
-     * @throws IOException
+     * @throws IOException //TODO: wann wird die geworfen?
      */
     private String StringFuerAktiveTicketsAuflistung() throws IOException {
         Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
@@ -300,7 +300,7 @@ public class ParkhausServlet extends HttpServlet {
     /**
      * Listet alle inaktiven Tickets auf
      * @return auflistung als HTML-String
-     * @throws IOException
+     * @throws IOException //TODO: wann wird die geworfen?
      */
     public String StringFuerInaktiveTicketsAuflistung(HttpServletResponse response) throws IOException {
         Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
@@ -324,7 +324,7 @@ public class ParkhausServlet extends HttpServlet {
     }
 
 
-    private String StringFuerNeuesTicketAuswahl()            // Ticket-Auswahl mit Knopf
+    private String StringFuerNeuesTicketAuswahl() // Ticket-Auswahl mit Knopf //TODO: kann man hier immernoch mehrer auswählen?
     {
         String s = "";
         s += "<form method = \"POST\" target = \"_blank\">";
