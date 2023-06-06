@@ -1,6 +1,4 @@
-<%@ page import="Parkhaus.Ticket" %>
 <%@ page import="Parkhaus.Parkhaus" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -37,8 +35,8 @@
 <br>
 <p>Öffnungszeiten: ${parkhaus.getUhrzeitStringParkhaus(parkhaus.getOeffnungszeit())} bis ${parkhaus.getUhrzeitStringParkhaus(parkhaus.getSchliessungszeit())}</p>
 <p>Anzahl Parkplaetze in diesem Parkhaus: ${parkhaus.getParkplaetzeGesamt()}, Preis je Stunde: ${parkhaus.getStundentarif()} Euro</p>
-freier normaler Parkplaetze: ${parkhaus.getAnzahlFreierNormalerParkplaetze()}, Behinderten-Parkplaetze: ${parkhaus.getAnzahlFreierBehindertenParkplaetze()}
-, freier E-Auto-Parkplaetze: ${parkhaus.getAnzahlFreierEAutoParkplaetze()}, freier Motorrad-Parkplaetze: ${parkhaus.getAnzahlFreierMotorradParkplaetze()}</p>
+Freie regulaere Parkplaetze: ${parkhaus.getAnzahlFreierNormalerParkplaetze()}, freie Behinderten-Parkplaetze: ${parkhaus.getAnzahlFreierBehindertenParkplaetze()}
+, freie E-Auto-Parkplaetze: ${parkhaus.getAnzahlFreierEAutoParkplaetze()}, freie Motorrad-Parkplaetze: ${parkhaus.getAnzahlFreierMotorradParkplaetze()}</p>
 <br>
 
 <!-- --------------------------------------------------------------------------------------------------------------- -->
