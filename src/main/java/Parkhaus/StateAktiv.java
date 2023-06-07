@@ -23,9 +23,6 @@ public class StateAktiv extends State{
         preis = preis - ticket.getRabattEuro();
         ticket.setPreis(preis);
 
-        //'preis' auf 'einnahmenTag' rechnen
-        ticket.getParkhaus().setEinnahmenTag(ticket.getParkhaus().getEinnahmenTag() + preis);
-
         //set parkdauer zur späteren Auswertung
         ticket.setParkdauerMin(dauer);
 
