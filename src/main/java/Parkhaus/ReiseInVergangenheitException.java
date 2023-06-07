@@ -1,6 +1,8 @@
 package Parkhaus;
 
-public class ReiseInVergangenheitException extends Exception{
+import javax.servlet.ServletException;
+
+public class ReiseInVergangenheitException extends ServletException {
 
     public ReiseInVergangenheitException(String message) {
         super (message);

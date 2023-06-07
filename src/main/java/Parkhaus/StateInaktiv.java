@@ -15,5 +15,5 @@ public class StateInaktiv extends State{
 
     public String ausfahren() throws TicketNichtGefundenException{
        throw new TicketNichtGefundenException("Auto bereits ausgefahren");
-}
+    }
 }

@@ -49,10 +49,10 @@ public class ParkhausServlet extends HttpServlet {
             getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
             p = new Parkhaus(3, 100, 5, 5, 10);
 
-            LocalTime time = LocalTime.of(8,0);                         // resetten der Uhrzeit...
-            LocalDate date = LocalDate.of(2023,1,1);          // ...und des Datums
-            p.setUhrzeit(time);                                                     //
-            p.setDatum(date);                                                       //
+            LocalTime time = LocalTime.of(8,0);                         // resetten der Uhrzeit
+            LocalDate date = LocalDate.of(2023,1,1);          // resetten des Datums
+            p.setUhrzeit(time);                                                     // setzen der neuen Zeit
+            p.setDatum(date);                                                       // setzen des neuen Datums
 
             getServletContext().setAttribute("parkhaus", p);
             //Exception-Nachrichten ausblenden
@@ -71,23 +71,12 @@ public class ParkhausServlet extends HttpServlet {
             if (getServletContext().getAttribute("ParkhausGeschlossenException") != null) {
                 getServletContext().removeAttribute("ParkhausGeschlossenException");
             }
-        } else if("ParkhauszeitenAnpassen".equals(action)) {        // TODO: Exception reparieren, bitte. :c
+        } else if("ParkhauszeitenAnpassen".equals(action)) {        // Anpassen der Parkhauszeit
 
-            //Exception-Nachrichten ausblenden
-            NachrichtenAusblenden();
+            LocalTime t = LocalTime.parse(request.getParameter("Zeit"));    // auf Webseite eingegebene Zeit
+            LocalDate d = LocalDate.parse(request.getParameter("Datum"));   // auf Webseite eingegebenes Datum
 
-            try {
-                LocalTime t = LocalTime.parse(request.getParameter("Zeit"));
-                LocalDate d = LocalDate.parse(request.getParameter("Datum"));
-
-                System.out.println("Zeit: " + request.getParameter("Zeit"));
-                System.out.println("Datum: " + request.getParameter("Datum"));
-
-                p.parkhauszeitAnpassen(t,d);
-
-            } catch (ReiseInVergangenheitException e) {
-                getServletContext().setAttribute("ZeitException", e.getMessage());
-            }
+            p.parkhauszeitAnpassen(t,d);        // passe Parkhauszeit an
 
         } else if ("Testtickets".equals(action)) {
             try {
@@ -131,21 +120,22 @@ public class ParkhausServlet extends HttpServlet {
             }
 
 
-        } else if ("bezahlen".equals(action)) {
+        } else if ("bezahlen".equals(action)) {         // Bezahlen eines Tickets
 
             //Exception-Nachrichten ausblenden
             NachrichtenAusblenden();
 
             int len = p.getAktiveTickets().size();
             try {
-                for (int i = 0; i < len; i++) {
+                for (int i = 0; i < len; i++)           // suche Ticket mit eingegebener TicketID in den aktiven Tickets
+                {
                     if (p.getAktiveTickets().get(i).getTicketID() == Integer.parseInt(request.getParameter("ticketID"))) {
 
-                        Ticket t = p.getAktiveTickets().get(i);
-                        t.setPreis(t.bezahlen());
-                        double preis = t.getPreis();
-                        double rabattEuro = t.getRabattEuro();
-                        int parkzeit = t.getParkdauerMin();
+                        Ticket t = p.getAktiveTickets().get(i);     // speichere das Ticket mit der ID
+                        t.setPreis(t.bezahlen());                   // bestimme den Preis des Tickets
+                        double preis = t.getPreis();                // speichere den Preis des Tickets
+                        double rabattEuro = t.getRabattEuro();      // speichere den Rabatt des Tickets
+                        int parkzeit = t.getParkdauerMin();         // speichere die Parkzeit des Tickets
 
                         // Um diese Elemente anzeigen zu können:
                         request.setAttribute("bezahleTicketX", t);
@@ -202,24 +192,30 @@ public class ParkhausServlet extends HttpServlet {
             getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
             getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
 
-        } else if ("rabattGeben".equals(action)) {
-            // Rabatt geben (später auf Betreiberseite)
+        } else if ("rabattGeben".equals(action)) {              // Ticket einen Rabatt geben
             int len = p.getAktiveTickets().size();
             double rabatt = 0;
-            for (int i = 0; i < len; i++) {
+            for (int i = 0; i < len; i++)               // suche Ticket mit eingegebener TicketID in den aktiven Tickets
+            {
                 if (p.getAktiveTickets().get(i).getTicketID() == Integer.parseInt(request.getParameter("ticketID"))) {
 
-                    Ticket t = p.getAktiveTickets().get(i);
-                    if (request.getParameter("rabatt").equals("Personalrabatt (10 %)")) {
-                        rabatt = 0.1;
-                    } else if (request.getParameter("rabatt").equals("Besucher EKZ (20 %)")) {
-                        rabatt = 0.2;
+                    Ticket t = p.getAktiveTickets().get(i);         // speichere das Ticket mit der ID
 
-                    } else if (request.getParameter("rabatt").equals("Treuerabatt (25 %)")) {
-                        rabatt = 0.25;
+                    if (request.getParameter("rabatt").equals("Personalrabatt (10 %)"))
+                    {
+                        rabatt = 0.1;       // gebe Rabatt wie ausgewählt (10 %)
                     }
-                    t.setRabattProzent(rabatt);
-                    //System.out.println("Rabatt: " + rabatt);
+                    else if (request.getParameter("rabatt").equals("Besucher EKZ (20 %)"))
+                    {
+                        rabatt = 0.2;       // gebe Rabatt wie ausgewählt (20 %)
+
+                    }
+                    else if (request.getParameter("rabatt").equals("Treuerabatt (25 %)"))
+                    {
+                        rabatt = 0.25;      // gebe Rabatt wie ausgewählt (25 %)
+                    }
+
+                    t.setRabattProzent(rabatt);     // setze den Rabatt vom Ticket auf den ausgewählten Rabatt
 
                     // Um diese Elemente anzeigen zu können:
                     request.setAttribute("rabattTicketX", t);
@@ -321,20 +317,6 @@ public class ParkhausServlet extends HttpServlet {
         }
         htmlString += "</body></html>";
         return htmlString;
-    }
-
-
-    private String StringFuerNeuesTicketAuswahl() // Ticket-Auswahl mit Knopf //TODO: kann man hier immernoch mehrer auswählen?
-    {
-        String s = "";
-        s += "<form method = \"POST\" target = \"_blank\">";
-        s += "<input type = \"checkbox\" name = \"parkplatzArt\" value=\"Normaler Parkplatz\" /> Normaler Parkplatz</br>";
-        s += "<input type = \"checkbox\" name = \"parkplatzArt\" value=\"Behinderten-Parkplatz\"  /> Behinderten Parkplatz</br>";
-        s += "<input type = \"checkbox\" name = \"parkplatzArt\" value=\"E-Auto-Parkplatz\" /> E-Auto Parkplatz</br>";
-        s += "<input type = \"checkbox\" name = \"parkplatzArt\" value=\"Motorrad-Parkplatz\" /> Motorrad Parkplatz</br>";
-        s += "<input type = \"submit\" name = \"buttonNeuesTicketErstellen\" value = \"Erstelle Ticket\" />";
-        s += "</form>";
-        return s;
     }
 
     private void NachrichtenAusblenden (){

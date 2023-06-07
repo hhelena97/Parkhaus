@@ -1,11 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!DOCTYPE html>
+<html lang="de">
 <head>
     <title>Betreiberansicht</title>
 </head>
 <body>
 <h1>Betreiberansicht</h1>
 <br>
+
+<!-- --------------------------------------------------------------------------------------------------------------- -->
 <h2>Datenauswertungen</h2>
 <p>${parkhaus.StringFuerStats()}</p>
 <br>
@@ -19,6 +22,8 @@
     <button type="submit">Inaktive Tickets</button>
 </form>
 <br>
+
+<!-- --------------------------------------------------------------------------------------------------------------- -->
 <h2>Öffnungszeiten ändern</h2>
 <p>Aktuelle Öffnungszeiten: ${parkhaus.getUhrzeitStringParkhaus(parkhaus.getOeffnungszeit())} bis ${parkhaus.getUhrzeitStringParkhaus(parkhaus.getSchliessungszeit())}</p>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
@@ -35,32 +40,39 @@
     <button type="submit">Ändern</button>
 </form>
 <br>
+
+<!-- --------------------------------------------------------------------------------------------------------------- -->
 <h2>Preis ändern</h2>
 <p>Aktueller Preis: ${parkhaus.getStundentarif()}</p>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
     <input type="hidden" name="action" value="StundentarifAendern">
-    <label>neuer Preis  </label>
+    <label>neuer Preis:  </label>
     <input type=double name="Preis" value="1.00">
     <button type="submit">Ändern</button>
 </form>
 <br>
-<h2>Rabatt geben</h2>
+
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+<h2>Rabatt geben</h2>       <!-- Darstellung der Funktion "Rabatt geben" -->
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
-    <input type="hidden" name="action" value="rabattGeben">
-    <input type="text" name="ticketID" placeholder="Ticket-ID">
-    <select name="rabatt" size="1">
-        <option selected>keinen (0 %)</option>
+    <input type="hidden" name="action" value="rabattGeben">     <!-- Wert von 'action' wird auf "rabattGeben" gesetzt -->
+    <label>Rabatt wählen:       <!-- Beschriftung für das Auswahlfeld -->
+    <input type="number" min="0" name="ticketID" placeholder="Ticket-ID">       <!-- Eingabefeld für die TicketID -->
+    <select name="rabatt" size="1">     <!-- Es kann nur eine der Optionen ausgewählt werden -->
+        <option selected>keinen (0 %)</option>      <!-- Standardmäßig ausgewählter Rabatt -->
         <option>Personalrabatt (10 %)</option>
         <option>Besucher EKZ (20 %)</option>
         <option>Treuerabatt (25 %)</option>
     </select>
     </label>
-    <button type="submit">Rabatt geben</button>
+    <button type="submit">Rabatt geben</button>     <!-- Button zum Rabatt geben -->
 </form>
-<c:if test="${not empty rabattTicketX}">
+<!-- Wenn ein Rabatt gegeben wurde: -->
+<c:if test="${not empty rabattTicketX}">        <!-- Anzeige des gegebenen Rabatts auf das entsprechende Ticket -->
     <p>Ticket ${rabattTicketX.getTicketID()} hat einen Rabatt von ${rabattX} % bekommen.</p>
 </c:if>
 <br>
+
 <br>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
     <input type="hidden" name="action" value="zurück">
