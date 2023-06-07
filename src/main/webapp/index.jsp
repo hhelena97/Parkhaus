@@ -53,6 +53,9 @@ Freie regulaere Parkplaetze: ${parkhaus.getAnzahlFreierNormalerParkplaetze()}, f
     </label>
     <button type="submit">Ticket erstellen</button>     <!-- Button zum Erstellen des Tickets -->
 </form>
+<c:if test="${not empty TicketErstellt}">
+    <p>${TicketErstellt}</p>
+</c:if>
 <c:if test="${not empty TicketErstellenException}">
     <p>${TicketErstellenException}</p>
 </c:if>

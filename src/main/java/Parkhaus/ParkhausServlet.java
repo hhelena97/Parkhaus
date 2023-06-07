@@ -56,21 +56,8 @@ public class ParkhausServlet extends HttpServlet {
 
             getServletContext().setAttribute("parkhaus", p);
             //Exception-Nachrichten ausblenden
-            if (getServletContext().getAttribute("TicketErstellenException") != null) {
-                getServletContext().removeAttribute("TicketErstellenException");
-            }
-            if (getServletContext().getAttribute("AusfahrenException") != null) {
-                getServletContext().removeAttribute("AusfahrenException");
-            }
-            if (getServletContext().getAttribute("BezahlenException") != null) {
-                getServletContext().removeAttribute("BezahlenException");
-            }
-            if (getServletContext().getAttribute("ZeitException") != null) {
-                getServletContext().removeAttribute("ZeitException");
-            }
-            if (getServletContext().getAttribute("ParkhausGeschlossenException") != null) {
-                getServletContext().removeAttribute("ParkhausGeschlossenException");
-            }
+            NachrichtenAusblenden();
+
         } else if("ParkhauszeitenAnpassen".equals(action)) {        // Anpassen der Parkhauszeit
 
             LocalTime t = LocalTime.parse(request.getParameter("Zeit"));    // auf Webseite eingegebene Zeit
@@ -103,11 +90,17 @@ public class ParkhausServlet extends HttpServlet {
             getServletContext().setAttribute("ParkhausGeschlossenException", e3.getMessage());
             }
         } else if ("ticketErstellen".equals(action)) {
+
+            //Exception-Nachrichten ausblenden
+            NachrichtenAusblenden();
+
             //erstellt ein neues Ticket mit der ausgewählten Parkplatzart
             try {
                 Ticket t = p.neuesTicket(request.getParameter("ticketArt"));
 
-                //out.println("<p> Es wurde ein neues Ticket mit Parkplatzart: " + t.getArtDesParkplatzes() + " und ID: " + t.getTicketID() + " erstellt! </p><br>");
+                getServletContext().setAttribute("TicketErstellt",
+                                "<p> Es wurde ein neues Ticket mit Parkplatzart: " + t.getArtDesParkplatzes()
+                                + " und ID: " + t.getTicketID() + " erstellt! </p><br>");
 
                 System.out.println("Neues Ticket erstellt");
                 System.out.println(t.toString());
@@ -178,7 +171,7 @@ public class ParkhausServlet extends HttpServlet {
                     }
                 }
 
-                String nachricht = ticketAusfahren.ausfahren(); //TODO: ticket.Ausfahren könnte null sein, müsste noch geprüft werden ob das Ticket überhaupt gefunden und zugewiesen wurde
+                String nachricht = ticketAusfahren.ausfahren();
                 request.setAttribute("NachrichtX", nachricht);
             } catch (TicketNichtGefundenException e1) {
                 getServletContext().setAttribute("AusfahrenException", e1.getMessage());
@@ -320,6 +313,9 @@ public class ParkhausServlet extends HttpServlet {
     }
 
     private void NachrichtenAusblenden (){
+        if (getServletContext().getAttribute("TicketErstellt") != null) {
+            getServletContext().removeAttribute("TicketErstellt");
+        }
         if (getServletContext().getAttribute("TicketErstellenException") != null) {
             getServletContext().removeAttribute("TicketErstellenException");
         }
@@ -328,6 +324,12 @@ public class ParkhausServlet extends HttpServlet {
         }
         if (getServletContext().getAttribute("AusfahrenException") != null) {
             getServletContext().removeAttribute("AusfahrenException");
+        }
+        if (getServletContext().getAttribute("ZeitException") != null) {
+            getServletContext().removeAttribute("ZeitException");
+        }
+        if (getServletContext().getAttribute("ParkhausGeschlossenException") != null) {
+            getServletContext().removeAttribute("ParkhausGeschlossenException");
         }
     }
 
