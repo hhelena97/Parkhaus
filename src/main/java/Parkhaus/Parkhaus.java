@@ -215,9 +215,6 @@ public class Parkhaus implements ParkhausIF {
     }
 
 
-
-
-
     // -----------------------------------------------------------------------------------------------------------------
     // Getter und Setter:
 
@@ -234,7 +231,7 @@ public class Parkhaus implements ParkhausIF {
     }
 
     public void setOeffnungszeit(LocalTime oeffnungszeit) {
-        oeffnungszeit = oeffnungszeit;
+        this.oeffnungszeit = oeffnungszeit;
     }
 
     public LocalTime getSchliessungszeit() {
@@ -242,7 +239,7 @@ public class Parkhaus implements ParkhausIF {
     }
 
     public void setSchliessungszeit(LocalTime schliessungszeit) {
-        schliessungszeit = schliessungszeit;
+        this.schliessungszeit = schliessungszeit;
     }
 
     public double getStundentarif() {
