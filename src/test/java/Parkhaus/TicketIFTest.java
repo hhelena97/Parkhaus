@@ -2,7 +2,6 @@ package Parkhaus;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import Parkhaus.Ticket;
 import org.junit.jupiter.api.Test;
 import java.time.LocalTime;
 
@@ -52,12 +51,8 @@ class TicketIFTest {
 
             // Teste ob 'preis' richtig berechnet wurde
             double erwarteterPreis = p.getStundentarif() * t.zeitDifferenz();
-            //assertEquals(erwarteterPreis, t.getPreis());
+            assertEquals(erwarteterPreis, t.getPreis());
 
-
-            // Teste ob 'preis' auf 'einnahmenTag' gerechnet wurde
-            double erwarteteEinnahmenTag = p.getEinnahmenTag() + erwarteterPreis;
-            assertEquals(erwarteteEinnahmenTag, p.getEinnahmenTag());
         } catch (TicketNichtGefundenException e1) {
             System.out.println("Ticket nicht gefunden.");
         } catch (ParkhausGeschlossenException e2) {

@@ -11,7 +11,8 @@ class ParkhausIFTest {
 
     @Test
     void neuesTicketTest() {
-        //Testparkhaus erstellen in dem die Werte geändert werden sollen wenn ein Auto reinfährt --> überprüfung weiter unten
+        //Testparkhaus erstellen in dem die Werte geändert werden sollen wenn ein Auto reinfährt
+        // --> überprüfung weiter unten
         Parkhaus testParkhaus = new Parkhaus();
         testParkhaus.setAnzahlFreierParkplaetze(400);
         testParkhaus.setAnzahlFreierEAutoParkplaetze(8);
@@ -36,7 +37,8 @@ class ParkhausIFTest {
             assertEquals(testTicket3.getDatum(), LocalDate.now());
             assertEquals(testTicket4.getDatum(), LocalDate.now());
 
-            //ErstellungsZeit soll vor der jetzigen Zeit sein (da das Parkhaus.Ticket 2 Zeilen vorher erstellt wurde und die Sekunden auch gemessen werden)
+            //ErstellungsZeit soll vor der jetzigen Zeit sein
+            // (da das Parkhaus.Ticket 2 Zeilen vorher erstellt wurde und die Sekunden auch gemessen werden)
             assertEquals(testTicket1.getUhrzeit().getHour(), LocalTime.now().getHour());
             assertEquals(testTicket1.getUhrzeit().getMinute(), LocalTime.now().getMinute());
             assertEquals(testTicket1.getUhrzeit().getSecond(), LocalTime.now().getSecond());
@@ -77,7 +79,7 @@ class ParkhausIFTest {
         } catch (ParkplaetzeBelegtException e){
             System.out.println("Keine freien Parkplaetze");
         } catch (ParkhausGeschlossenException e2) {
-            System.out.println("Außerhalb der Öffnungszeiten");;
+            System.out.println("Außerhalb der Öffnungszeiten");
     }
     }
 
