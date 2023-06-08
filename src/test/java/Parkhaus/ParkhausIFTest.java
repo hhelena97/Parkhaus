@@ -32,28 +32,28 @@ class ParkhausIFTest {
             assertEquals(396, testParkhaus.getAnzahlFreierParkplaetze());
 
             //ErstellungsDatum soll gleich dem heutigen Datum sein
-            assertEquals(testTicket1.getDatum(), LocalDate.now());
-            assertEquals(testTicket2.getDatum(), LocalDate.now());
-            assertEquals(testTicket3.getDatum(), LocalDate.now());
-            assertEquals(testTicket4.getDatum(), LocalDate.now());
+            assertEquals(testTicket1.getDatum(), testParkhaus.getDatum());
+            assertEquals(testTicket2.getDatum(), testParkhaus.getDatum());
+            assertEquals(testTicket3.getDatum(), testParkhaus.getDatum());
+            assertEquals(testTicket4.getDatum(), testParkhaus.getDatum());
 
             //ErstellungsZeit soll vor der jetzigen Zeit sein
             // (da das Parkhaus.Ticket 2 Zeilen vorher erstellt wurde und die Sekunden auch gemessen werden)
-            assertEquals(testTicket1.getUhrzeit().getHour(), LocalTime.now().getHour());
-            assertEquals(testTicket1.getUhrzeit().getMinute(), LocalTime.now().getMinute());
-            assertEquals(testTicket1.getUhrzeit().getSecond(), LocalTime.now().getSecond());
+            assertEquals(testTicket1.getUhrzeit().getHour(), testParkhaus.getUhrzeit().getHour());
+            assertEquals(testTicket1.getUhrzeit().getMinute(), testParkhaus.getUhrzeit().getMinute());
+            assertEquals(testTicket1.getUhrzeit().getSecond(), testParkhaus.getUhrzeit().getSecond());
 
-            assertEquals(testTicket2.getUhrzeit().getHour(), LocalTime.now().getHour());
-            assertEquals(testTicket2.getUhrzeit().getMinute(), LocalTime.now().getMinute());
-            assertEquals(testTicket2.getUhrzeit().getSecond(), LocalTime.now().getSecond());
+            assertEquals(testTicket2.getUhrzeit().getHour(), testParkhaus.getUhrzeit().getHour());
+            assertEquals(testTicket2.getUhrzeit().getMinute(), testParkhaus.getUhrzeit().getMinute());
+            assertEquals(testTicket2.getUhrzeit().getSecond(), testParkhaus.getUhrzeit().getSecond());
 
-            assertEquals(testTicket3.getUhrzeit().getHour(), LocalTime.now().getHour());
-            assertEquals(testTicket3.getUhrzeit().getMinute(), LocalTime.now().getMinute());
-            assertEquals(testTicket3.getUhrzeit().getSecond(), LocalTime.now().getSecond());
+            assertEquals(testTicket3.getUhrzeit().getHour(), testParkhaus.getUhrzeit().getHour());
+            assertEquals(testTicket3.getUhrzeit().getMinute(), testParkhaus.getUhrzeit().getMinute());
+            assertEquals(testTicket3.getUhrzeit().getSecond(), testParkhaus.getUhrzeit().getSecond());
 
-            assertEquals(testTicket4.getUhrzeit().getHour(), LocalTime.now().getHour());
-            assertEquals(testTicket4.getUhrzeit().getMinute(), LocalTime.now().getMinute());
-            assertEquals(testTicket4.getUhrzeit().getSecond(), LocalTime.now().getSecond());
+            assertEquals(testTicket4.getUhrzeit().getHour(), testParkhaus.getUhrzeit().getHour());
+            assertEquals(testTicket4.getUhrzeit().getMinute(), testParkhaus.getUhrzeit().getMinute());
+            assertEquals(testTicket4.getUhrzeit().getSecond(), testParkhaus.getUhrzeit().getSecond());
 
             //Art des Parkplatzes soll dann in der Parkhaus.Ticket-Instanzvariablen stehen
             assertEquals("Normaler Parkplatz", testTicket1.getArtDesParkplatzes());
@@ -98,7 +98,7 @@ class ParkhausIFTest {
             LocalDate dateVorher = p.getDatum();
 
             LocalTime timeNeu = LocalTime.of(10,20);
-            LocalDate dateNeu = LocalDate.of(2024,03,12);
+            LocalDate dateNeu = LocalDate.of(2024,3,12);
 
             p.parkhauszeitAnpassen(timeNeu,dateNeu);
 
@@ -126,7 +126,7 @@ class ParkhausIFTest {
         Parkhaus p = new Parkhaus(3,100,5,10,5);
 
         LocalTime timeNeu = LocalTime.of(10,20);
-        LocalDate dateNeu = LocalDate.of(2022,03,12);
+        LocalDate dateNeu = LocalDate.of(2022,3,12);
 
         assertThrows(ReiseInVergangenheitException.class, () -> p.parkhauszeitAnpassen(timeNeu,dateNeu));
     }
