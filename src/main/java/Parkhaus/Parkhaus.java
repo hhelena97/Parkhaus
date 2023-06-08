@@ -1,11 +1,10 @@
 package Parkhaus;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -21,9 +20,11 @@ public class Parkhaus implements ParkhausIF {
     private int anzahlFreierBehindertenParkplaetze; //erklärt sich denke ich
     private int anzahlFreierMotorradParkplaetze; // -----------"--------------
     private int parkplaetzeGesamt; //Anzahl der Parkplätze insgesamt, ob frei oder besetzt
+
     //Liste mit allen Tickets von Autos, die sich zur Zeit im Parkhaus befinden
     private List<Ticket> aktiveTickets = new ArrayList<Ticket>();
-    //Liste mit Tickets von Besuchers, die das Pauskaus verlassen haben
+
+    //Liste mit Tickets von Besuchern, die das Parkhaus verlassen haben
     private List<Ticket> inaktiveTickets = new ArrayList<Ticket>();
     private LocalTime oeffnungszeit;
     private LocalTime schliessungszeit;
@@ -36,9 +37,9 @@ public class Parkhaus implements ParkhausIF {
         oeffnungszeit = setUhrzeitManuell(8, 0);
         schliessungszeit = setUhrzeitManuell(23, 0);
 
-        // Beim Erstellen des Parkhauses wird die Uhrzeit auf 8:00 Uhr gesetzt
+        // Beim Erstellen des Parkhauses wird die Uhrzeit auf 8:00 Uhr gesetzt:
         this.uhrzeit = LocalTime.of(8, 0);
-        // Beim Erstellen des Parkhauses wird das Datum auf 01.01.2023 gesetzt
+        // Beim Erstellen des Parkhauses wird das Datum auf 01.01.2023 gesetzt:
         this.datum = LocalDate.of(2023, 1, 1);
     }
 
@@ -49,9 +50,9 @@ public class Parkhaus implements ParkhausIF {
         oeffnungszeit = setUhrzeitManuell(8, 0);
         schliessungszeit = setUhrzeitManuell(23, 0);
 
-        // Beim Erstellen des Parkhauses wird die Uhrzeit auf 8:00 Uhr gesetzt
+        // Beim Erstellen des Parkhauses wird die Uhrzeit auf 8:00 Uhr gesetzt:
         this.uhrzeit = LocalTime.of(8, 0);
-        // Beim Erstellen des Parkhauses wird das Datum auf 01.01.2023 gesetzt
+        // Beim Erstellen des Parkhauses wird das Datum auf 01.01.2023 gesetzt:
         this.datum = LocalDate.of(2023, 1, 1);
     }
 
@@ -68,9 +69,9 @@ public class Parkhaus implements ParkhausIF {
         oeffnungszeit = setUhrzeitManuell(8, 0);
         schliessungszeit = setUhrzeitManuell(23, 0);
 
-        // Beim Erstellen des Parkhauses wird die Uhrzeit auf 8:00 Uhr gesetzt
+        // Beim Erstellen des Parkhauses wird die Uhrzeit auf 8:00 Uhr gesetzt:
         this.uhrzeit = LocalTime.of(8, 0);
-        // Beim Erstellen des Parkhauses wird das Datum auf 01.01.2023 gesetzt
+        // Beim Erstellen des Parkhauses wird das Datum auf 01.01.2023 gesetzt:
         this.datum = LocalDate.of(2023, 1, 1);
     }
 
@@ -87,7 +88,7 @@ public class Parkhaus implements ParkhausIF {
     public Ticket neuesTicket(String art) throws ParkplaetzeBelegtException, ParkhausGeschlossenException {
 
         //falls vor oder nach Öffnungszeit werfe Exception
-        if (this.getUhrzeit().isBefore(this.getOeffnungszeit()) | this.getUhrzeit().isAfter(this.getSchliessungszeit()))
+        if (this.getUhrzeit().isBefore(this.getOeffnungszeit()) || this.getUhrzeit().isAfter(this.getSchliessungszeit()))
         {throw new ParkhausGeschlossenException("Das Parkhaus hat geschlossen.");
         }
 
@@ -153,7 +154,7 @@ public class Parkhaus implements ParkhausIF {
 
 
     // -----------------------------------------------------------------------------------------------------------------
-    //String-Methoden:
+    // String-Methoden:
     public String StringFuerAktiveTicketsAuflistung() {
         String htmlString = "";
         htmlString += "<h2>Zurzeit aktive Tickets: </h2>";
@@ -259,7 +260,7 @@ public class Parkhaus implements ParkhausIF {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Getter und Setter:
-    //Parkplätze
+    // Parkplätze:
     public int getParkplaetzeGesamt() {
         return parkplaetzeGesamt;
     }
@@ -296,18 +297,18 @@ public class Parkhaus implements ParkhausIF {
         this.anzahlFreierMotorradParkplaetze = i;
     }
 
-    //Zeit und Datum
+    // Zeit und Datum:
     public LocalTime getOeffnungszeit() {
         return oeffnungszeit;
     }
     public void setOeffnungszeit(LocalTime oeffnungszeit) {
-        oeffnungszeit = oeffnungszeit;
+        this.oeffnungszeit = oeffnungszeit;
     }
     public LocalTime getSchliessungszeit() {
         return schliessungszeit;
     }
     public void setSchliessungszeit(LocalTime schliessungszeit) {
-        schliessungszeit = schliessungszeit;
+        this.schliessungszeit = schliessungszeit;
     }
     public LocalTime setUhrzeitManuell(int stunden, int minuten) {
         return LocalTime.of(stunden, minuten);
@@ -328,7 +329,7 @@ public class Parkhaus implements ParkhausIF {
         this.datum = datum;
     }
 
-    //Tarif
+    // Tarif:
     public double getStundentarif() {
         return stundentarif;
     }
@@ -336,7 +337,7 @@ public class Parkhaus implements ParkhausIF {
         this.stundentarif = neuerPreis;
     }
 
-    //Ticketlisten
+    // Ticketlisten:
     public List<Ticket> getAktiveTickets() {
         return aktiveTickets;
     }

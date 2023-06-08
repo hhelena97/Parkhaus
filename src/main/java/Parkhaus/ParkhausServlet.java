@@ -142,7 +142,8 @@ public class ParkhausServlet extends HttpServlet {
                     }
                 }
                 if (getServletContext().getAttribute("bezahleTicketX") == null) {
-                    Exception e1 = new TicketNichtGefundenException("Ticket nicht gefunden. Zur Zahlung bereite Tickets unter 'aktive Tickets'.");
+                    Exception e1 = new TicketNichtGefundenException
+                            ("Ticket nicht gefunden. Zur Zahlung bereite Tickets unter 'aktive Tickets'.");
                     getServletContext().setAttribute("BezahlenException", e1.getMessage());
                 }
             } catch (TicketNichtGefundenException e11){
@@ -291,7 +292,7 @@ public class ParkhausServlet extends HttpServlet {
      * @return auflistung als HTML-String
      * @throws IOException //TODO: wann wird die geworfen?
      */
-    public String StringFuerInaktiveTicketsAuflistung(HttpServletResponse response) throws IOException {
+    public String StringFuerInaktiveTicketsAuflistung() throws IOException {
         Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
         String htmlString = "";
         htmlString += "<html><body><h2>Alle inaktiven Tickets: </h2>";

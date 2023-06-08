@@ -83,6 +83,51 @@ class ParkhausIFTest {
     }
     }
 
+    /**
+     * Test-Methode zur Funktion Parkhauszeit anpassen.
+     * Bei Umstellung der Zeit auf Zukunft soll die Zeit angepasst werden.
+     *
+     * @author jboven2s
+     */
+    @Test
+    void parkhauszeitAnpassenTestZukunft ()
+    {
+        try {
+            Parkhaus p = new Parkhaus(3,100,5,10,5);
+            LocalTime timeVorher = p.getUhrzeit();
+            LocalDate dateVorher = p.getDatum();
 
+            LocalTime timeNeu = LocalTime.of(10,20);
+            LocalDate dateNeu = LocalDate.of(2024,03,12);
 
+            p.parkhauszeitAnpassen(timeNeu,dateNeu);
+
+            assertEquals(p.getUhrzeit(),timeNeu);
+            assertEquals(p.getDatum(),dateNeu);
+
+            assertNotEquals(p.getUhrzeit(),timeVorher);
+            assertNotEquals(p.getDatum(),dateVorher);
+
+        } catch (ReiseInVergangenheitException e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Test-Methode zur Funktion Parkhauszeit anpassen.
+     * Bei Umstellung der Zeit auf Vergangenheit soll eine Exception geworfen werden.
+     *
+     * @author jboven2s
+     */
+    @Test
+    void parkhauszeitAnpassenTestVergangenheit ()
+    {
+        Parkhaus p = new Parkhaus(3,100,5,10,5);
+
+        LocalTime timeNeu = LocalTime.of(10,20);
+        LocalDate dateNeu = LocalDate.of(2022,03,12);
+
+        assertThrows(ReiseInVergangenheitException.class, () -> p.parkhauszeitAnpassen(timeNeu,dateNeu));
+    }
 }
