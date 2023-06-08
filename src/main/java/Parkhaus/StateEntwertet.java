@@ -18,9 +18,18 @@ public class StateEntwertet extends State{
         throw new TicketNichtGefundenException("Ticket bereits bezahlt");
     }
 
-    //ausfahren Methode mit Zustandsänderung ergänzt
+    /**
+     * Die Methode ausfahren prüft, ob die Voraussetzungen zum Verlassen des Parkhauses erfüllt sind. Wenn das Auto
+     * ausfahren kann, wird der entsprechende Parkplatz frei gemacht und das Ticket wird inaktiv.
+     * @return ein String, der entweder angibt, dass das Ticket nicht entwertet ist, die Zeit zum Ausfahren
+     * überschritten ist, oder Auf Wiedersehen wünscht. Der jeweilige String kann auf der Parkhausseite ausgegeben
+     * werden.
+     * @throws TicketNichtGefundenException falls das Ticket nicht gefunden wurde
+     * @author hheyen2s
+     */
     public String ausfahren() throws TicketNichtGefundenException{
 
+        //Teste, ob das Ticket gefunden wurde
         if(ticket == null){throw new TicketNichtGefundenException("Ticket nicht gefunden.");
         }else if (ticket.getEntwertet()) {
             LocalTime timeStamp = ticket.getParkhaus().getUhrzeit().minusMinutes(15);
@@ -31,19 +40,23 @@ public class StateEntwertet extends State{
                 //Parkplatz freigeben:
                 String art = ticket.getArtDesParkplatzes();
                 ticket.getParkhaus().setAnzahlFreierParkplaetze(ticket.getParkhaus().getAnzahlFreierParkplaetze()+1);
-                //Für die speziellen Parkplätze:
+                //Freigeben der speziellen Parkplätze:
                 if (art.equals("Normaler Parkplatz")) {
-                    ticket.getParkhaus().setAnzahlFreierNormalerParkplaetze((ticket.getParkhaus().getAnzahlFreierNormalerParkplaetze() + 1));
+                    ticket.getParkhaus().setAnzahlFreierNormalerParkplaetze(
+                            (ticket.getParkhaus().getAnzahlFreierNormalerParkplaetze() + 1));
                 } else if (art.equals("E-Auto-Parkplatz")) {
-                    ticket.getParkhaus().setAnzahlFreierEAutoParkplaetze((ticket.getParkhaus().getAnzahlFreierEAutoParkplaetze() + 1));
+                    ticket.getParkhaus().setAnzahlFreierEAutoParkplaetze(
+                            (ticket.getParkhaus().getAnzahlFreierEAutoParkplaetze() + 1));
                 } else if (art.equals("Behinderten-Parkplatz")) {
-                    ticket.getParkhaus().setAnzahlFreierBehindertenParkplaetze((ticket.getParkhaus().getAnzahlFreierBehindertenParkplaetze() + 1));
+                    ticket.getParkhaus().setAnzahlFreierBehindertenParkplaetze(
+                            (ticket.getParkhaus().getAnzahlFreierBehindertenParkplaetze() + 1));
                 } else {
-                    ticket.getParkhaus().setAnzahlFreierMotorradParkplaetze((ticket.getParkhaus().getAnzahlFreierMotorradParkplaetze() + 1));
+                    ticket.getParkhaus().setAnzahlFreierMotorradParkplaetze(
+                            (ticket.getParkhaus().getAnzahlFreierMotorradParkplaetze() + 1));
                 }
-                //ticket wird zu inaktiven tickets hinzugefügt
+                //Das Ticket wird zu inaktiven Tickets hinzugefügt
                 ticket.getParkhaus().getInaktiveTickets().add(ticket);
-                //ticket wird aus aktiven tickets rausgenommen
+                //Das Ticket wird aus aktiven Tickets rausgenommen
                 ticket.getParkhaus().getAktiveTickets().remove(ticket);
 
                 //Zustand ändern
@@ -53,13 +66,15 @@ public class StateEntwertet extends State{
 
             }else {
                 ticket.setEntwertet(false);
-                //Zustand zum vorherigen (aktiven) ändern
+                //In vorherigen Zustand zurückkehren
                 this.ticket.zustand = previous;
 
 
-                return"Zeit zum Ausfahren überschritten, Zeitstempel zurückgesetzt auf: " + ticket.getUhrzeit().truncatedTo(ChronoUnit.MINUTES) +". Bitte entwerten Sie das Ticket erneut am Automaten.";
+                return"Zeit zum Ausfahren überschritten, Zeitstempel zurückgesetzt auf: "
+                        + ticket.getUhrzeit().truncatedTo(ChronoUnit.MINUTES)
+                        +". Bitte entwerten Sie das Ticket erneut am Automaten.";
             }
 
         }
-        else {return"Ausfahrt nur mit entwertetem Ticket möglich.";}    }
+        else {return"Ausfahrt nur mit entwertetem Ticket möglich.";}}
     }

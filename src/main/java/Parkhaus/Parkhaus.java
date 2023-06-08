@@ -200,6 +200,12 @@ public class Parkhaus implements ParkhausIF {
         return "<p>" + nachricht + "</p>";
     }
 
+    /**
+     * StringFuerStats berechnet alle Statistiken über Besucherzahlen, Einnahmen und Parkzeit,
+     * die auf der Betreiberseite angezeigt werden und gibt sie als String zurück.
+     * @return statsString ist der String zur Ausgabe inkl. Überschrift und Zeitstempel.
+     * @author hheyen2s
+     */
     public String StringFuerStats() {
 
         int size_inaktiv = this.getInaktiveTickets().size();
