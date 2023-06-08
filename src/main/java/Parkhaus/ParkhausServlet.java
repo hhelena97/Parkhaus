@@ -103,7 +103,7 @@ public class ParkhausServlet extends HttpServlet {
                                 + " und ID: " + t.getTicketID() + " erstellt! </p><br>");
 
                 System.out.println("Neues Ticket erstellt");
-                System.out.println(t.toString());
+                System.out.println(t);
                 //(über)schreibt die Liste aktiver Tickets im Context
                 getServletContext().setAttribute("ticketliste", p.getAktiveTickets());
             } catch (ParkplaetzeBelegtException e) {
@@ -122,7 +122,8 @@ public class ParkhausServlet extends HttpServlet {
             try {
                 for (int i = 0; i < len; i++)           // suche Ticket mit eingegebener TicketID in den aktiven Tickets
                 {
-                    if (p.getAktiveTickets().get(i).getTicketID() == Integer.parseInt(request.getParameter("ticketID"))) {
+                    if (p.getAktiveTickets().get(i).getTicketID() == Integer.parseInt(request.getParameter(
+                            "ticketID"))) {
 
                         Ticket t = p.getAktiveTickets().get(i);     // speichere das Ticket mit der ID
                         t.setPreis(t.bezahlen());                   // bestimme den Preis des Tickets
@@ -176,7 +177,9 @@ public class ParkhausServlet extends HttpServlet {
                 request.setAttribute("NachrichtX", nachricht);
             } catch (TicketNichtGefundenException e1) {
                 getServletContext().setAttribute("AusfahrenException", e1.getMessage());
-            } catch (NumberFormatException e2) {
+            } catch (NullPointerException nullPointerException){
+                getServletContext().setAttribute("AusfahrenException", "Ausfahren fehlgeschlagen!");
+            }catch (NumberFormatException e2) {
                 //Do nothing
             } catch (ParkhausGeschlossenException e3) {
                 getServletContext().setAttribute("ParkhausGeschlossenException", e3.getMessage());
@@ -191,7 +194,7 @@ public class ParkhausServlet extends HttpServlet {
             double rabatt = 0;
             for (int i = 0; i < len; i++)               // suche Ticket mit eingegebener TicketID in den aktiven Tickets
             {
-                if (p.getAktiveTickets().get(i).getTicketID() == Integer.parseInt(request.getParameter("ticketID"))) {
+                if (p.getAktiveTickets().get(i).getTicketID() == Integer.parseInt(request.getParameter("ticketID"))){
 
                     Ticket t = p.getAktiveTickets().get(i);         // speichere das Ticket mit der ID
 
@@ -261,58 +264,7 @@ public class ParkhausServlet extends HttpServlet {
     }
 
 
-    /**
-     * Listet alle aktiven Tickets auf
-     * @return auflistung als HTML-String
-     * @throws IOException //TODO: wann wird die geworfen?
-     */
-    private String StringFuerAktiveTicketsAuflistung() throws IOException {
-        Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
-        String htmlString = "";
-        htmlString += "<html><body><h2>Zurzeit aktive Tickets: </h2>";
-        int index = 0;
-        for (Ticket i : p.getAktiveTickets()) {
-            htmlString += "<p>Ticket" + p.getAktiveTickets().get(index).getTicketID() + ", ";
-            htmlString += "Datum: " + p.getAktiveTickets().get(index).getDatum() + ", ";
-            htmlString += "Ankunftszeit: " + p.getAktiveTickets().get(index).getUhrzeit().getHour();
-            if (p.getAktiveTickets().get(index).getUhrzeit().getMinute() < 10) {
-                htmlString += ":0" + p.getAktiveTickets().get(index).getUhrzeit().getMinute() + ", ";
-            } else {
-                htmlString += ":" + p.getAktiveTickets().get(index).getUhrzeit().getMinute() + ", ";
-            }
-            htmlString += "Parkplatzart: " + p.getAktiveTickets().get(index).getArtDesParkplatzes() + "</p>";
-            index++;
-        }
-        htmlString += "</body></html>";
-        return htmlString;
-    }
-
-    /**
-     * Listet alle inaktiven Tickets auf
-     * @return auflistung als HTML-String
-     * @throws IOException //TODO: wann wird die geworfen?
-     */
-    public String StringFuerInaktiveTicketsAuflistung() throws IOException {
-        Parkhaus p = (Parkhaus) getServletContext().getAttribute("parkhaus");
-        String htmlString = "";
-        htmlString += "<html><body><h2>Alle inaktiven Tickets: </h2>";
-        int index = 0;
-        for (Ticket i : p.getInaktiveTickets()) {
-            htmlString += "<p>Ticket" + p.getInaktiveTickets().get(index).getTicketID() + ", ";
-            htmlString += "Datum: " + p.getInaktiveTickets().get(index).getDatum() + ", ";
-            htmlString += "Ausfahrzeit: " + p.getInaktiveTickets().get(index).getUhrzeit().getHour();
-            if (p.getInaktiveTickets().get(index).getUhrzeit().getMinute() < 10) {
-                htmlString += ":0" + p.getInaktiveTickets().get(index).getUhrzeit().getMinute() + ", ";
-            } else {
-                htmlString += ":" + p.getInaktiveTickets().get(index).getUhrzeit().getMinute() + ", ";
-            }
-            htmlString += "Parkplatzart: " + p.getInaktiveTickets().get(index).getArtDesParkplatzes() + "</p>";
-            index++;
-        }
-        htmlString += "</body></html>";
-        return htmlString;
-    }
-
+    //Eine Methode um alle Nachrichten auszublenden
     private void NachrichtenAusblenden (){
         if (getServletContext().getAttribute("TicketErstellt") != null) {
             getServletContext().removeAttribute("TicketErstellt");
