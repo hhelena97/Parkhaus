@@ -33,10 +33,10 @@ public class StateEntwertet extends State{
         if(ticket == null){throw new TicketNichtGefundenException("Ticket nicht gefunden.");
         }else if (ticket.getEntwertet()) {
             LocalTime timeStamp = ticket.getParkhaus().getUhrzeit().minusMinutes(15);
-            LocalDate dateStamp = ticket.getParkhaus().getDatum();
+            //LocalDate dateStamp = ticket.getParkhaus().getDatum();
             LocalTime uhrzeit = ticket.getUhrzeit();
-            LocalDate datum = ticket.getDatum();
-            if ((uhrzeit.equals(timeStamp) || uhrzeit.isAfter(timeStamp)) && datum.equals(dateStamp)){
+            //LocalDate datum = ticket.getDatum();
+            if ((uhrzeit.equals(timeStamp) || uhrzeit.isAfter(timeStamp)) /*&& datum.equals(dateStamp)*/){
                 //Parkplatz freigeben:
                 String art = ticket.getArtDesParkplatzes();
                 ticket.getParkhaus().setAnzahlFreierParkplaetze(ticket.getParkhaus().getAnzahlFreierParkplaetze()+1);

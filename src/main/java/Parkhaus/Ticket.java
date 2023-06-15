@@ -2,6 +2,7 @@ package Parkhaus;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 public class Ticket implements TicketIF {
 
@@ -79,7 +80,14 @@ public class Ticket implements TicketIF {
         LocalTime now = parkhaus.getUhrzeit();
         int zeitJetzt = now.getMinute() + (now.getHour() * 60);
         int zeitTicket = this.uhrzeit.getMinute() + (this.uhrzeit.getHour() * 60);
-        return zeitJetzt - zeitTicket;
+        if(parkhaus.getDatum().equals(this.getDatum())) {
+            return zeitJetzt - zeitTicket;
+        } else {
+            long daysBetween = ChronoUnit.DAYS.between(this.getDatum(), parkhaus.getDatum());
+            System.out.println(daysBetween);
+            int days = (int)daysBetween * 1440;  // 24 * 60 = 1440
+            return (zeitJetzt - zeitTicket) + days;
+        }
     }
 
     /**
