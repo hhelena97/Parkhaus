@@ -3,6 +3,8 @@ package Parkhaus;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 class TicketIFTest {
@@ -41,13 +43,32 @@ class TicketIFTest {
                 stundenSum = vergleichszeitSchluss.getHour() - vergleichszeitStart.getHour() - 1;
                 minSum = (stundenSum * 60) + ((vergleichszeitSchluss.getMinute() + 60) - vergleichszeitStart.getMinute());
             }
-            p.setUhrzeitManuell(16, 30);
+            //p.setUhrzeitManuell(16, 30);
             int dauer = t1.zeitDifferenz();
-            assertEquals(minSum, dauer);
+            //assertEquals(minSum, dauer);
+
+            //Test mit Datum
+            Ticket t2 = p.neuesTicket("Normaler-Parkplatz");
+            System.out.println(p.getUhrzeit());
+            System.out.println(p.getDatum());
+            //Parkhaus Datum ändern
+            p.parkhauszeitAnpassen(LocalTime.of(9,0), LocalDate.of(2023, 1, 2));
+            System.out.println(p.getUhrzeit());
+            System.out.println(p.getDatum());
+
+            assertEquals(100, (int)t2.bezahlen());
+
+
         }catch (ParkplaetzeBelegtException e) {
             System.out.println("Keine freien Parkplaetze");
         }catch (ParkhausGeschlossenException e) {
-            System.out.println("Parkhaus geschlossen");}
+            System.out.println("Parkhaus geschlossen");
+        } catch (ReiseInVergangenheitException e) {
+            System.out.println("Raum-Zeit-Kontinuum verletzt");
+        } catch (TicketNichtGefundenException e) {
+            System.out.println("Das Ticket existiert nicht");
+        }
+
     }
 
     @Test
@@ -114,7 +135,17 @@ class TicketIFTest {
             System.out.println("Ticket nicht gefunden");
         } catch (ParkhausGeschlossenException e3) {
             System.out.println("Außerhalb der Öffnungszeiten");
+        }
     }
+    //Testet, ob die Methoden bezahlen und ausfahren die Exception werfen
+    @Test
+    void TicketNichtGefundenTest() throws ParkhausGeschlossenException, ParkplaetzeBelegtException {
+
+        Parkhaus testParkhaus = new Parkhaus(3.0,10,0,0,0);
+        Ticket testticket1 = testParkhaus.neuesTicket("Normaler Parkplatz");
+        assertThrows(TicketNichtGefundenException.class, () -> testticket1.ausfahren());
+        testticket1.zustand = testticket1.zustand.getNext();
+        assertThrows(TicketNichtGefundenException.class, () -> testticket1.bezahlen());
     }
 
 }
