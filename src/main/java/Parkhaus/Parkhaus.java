@@ -113,6 +113,7 @@ public class Parkhaus implements ParkhausIF {
             throw new ParkplaetzeBelegtException("Keine freien Motorradparkplaetze verfuegbar!");
         } else {anzahlFreierMotorradParkplaetze--;}
 
+
         //in aktiveTickets Liste schieben
         aktiveTickets.add(dasTicket);
         return dasTicket;

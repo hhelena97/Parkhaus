@@ -87,6 +87,7 @@ public class Ticket implements TicketIF {
             System.out.println(daysBetween);
             int days = (int)daysBetween * 1440;  // 24 * 60 = 1440
             return (zeitJetzt - zeitTicket) + days;
+
         }
     }
 
