@@ -161,7 +161,7 @@ class ParkhausIFTest {
             testTicket3.bezahlen();
             testTicket3.ausfahren();
             Ticket testTicket4 = testParkhaus.neuesTicket("Normaler Parkplatz");
-            String testString = testParkhaus.StringFuerStats();
+            String testString = testParkhaus.stringFuerStats();
             System.out.println(testString);
 
             assertTrue(testString.contains("Besucherzahl aktuell: 1"));
