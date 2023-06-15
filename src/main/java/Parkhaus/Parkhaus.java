@@ -22,10 +22,10 @@ public class Parkhaus implements ParkhausIF {
     private int parkplaetzeGesamt; //Anzahl der Parkplätze insgesamt, ob frei oder besetzt
 
     //Liste mit allen Tickets von Autos, die sich zur Zeit im Parkhaus befinden
-    private List<Ticket> aktiveTickets = new ArrayList<Ticket>();
+    private List<Ticket> aktiveTickets = new ArrayList<>();
 
     //Liste mit Tickets von Besuchern, die das Parkhaus verlassen haben
-    private List<Ticket> inaktiveTickets = new ArrayList<Ticket>();
+    private List<Ticket> inaktiveTickets = new ArrayList<>();
     private LocalTime oeffnungszeit;
     private LocalTime schliessungszeit;
 
@@ -56,8 +56,7 @@ public class Parkhaus implements ParkhausIF {
         this.datum = LocalDate.of(2023, 1, 1);
     }
 
-    public Parkhaus(double stundentarif, int normaleParkplaetze, int eAutoParkplaetze, int behindertenParkplaetze,
-                    int motoradparkplaetze) {
+    public Parkhaus(double stundentarif, int normaleParkplaetze, int eAutoParkplaetze, int behindertenParkplaetze, int motoradparkplaetze) {
         this.stundentarif = stundentarif;
         parkplaetzeGesamt = normaleParkplaetze + behindertenParkplaetze + eAutoParkplaetze + motoradparkplaetze;
         anzahlFreierParkplaetze = parkplaetzeGesamt;
@@ -147,7 +146,7 @@ public class Parkhaus implements ParkhausIF {
         this.setDatum(date);        // setze Datum neu
     }
 
-    public void OeffnungszeitenAendern(LocalTime oe, LocalTime sc) {
+    public void oeffnungszeitenAendern(LocalTime oe, LocalTime sc) {
         this.oeffnungszeit = oe;
         this.schliessungszeit = sc;
     }
@@ -155,7 +154,7 @@ public class Parkhaus implements ParkhausIF {
 
     // -----------------------------------------------------------------------------------------------------------------
     // String-Methoden:
-    public String StringFuerAktiveTicketsAuflistung() {
+    public String stringFuerAktiveTicketsAuflistung() {
         String htmlString = "";
         htmlString += "<h2>Zurzeit aktive Tickets: </h2>";
         int index = 0;
@@ -174,7 +173,7 @@ public class Parkhaus implements ParkhausIF {
         return htmlString;
     }
 
-    public String StringFuerInaktiveTicketsAuflistung() {
+    public String stringFuerInaktiveTicketsAuflistung() {
         String htmlString = "";
         int index = 0;
         for (Ticket i : this.getInaktiveTickets()) {
@@ -206,7 +205,7 @@ public class Parkhaus implements ParkhausIF {
      * @return statsString ist der String zur Ausgabe inkl. Überschrift und Zeitstempel.
      * @author hheyen2s
      */
-    public String StringFuerStats() {
+    public String stringFuerStats() {
 
         int size_inaktiv = this.getInaktiveTickets().size();
         int besucherJetzt = this.getAktiveTickets().size();
@@ -351,8 +350,8 @@ public class Parkhaus implements ParkhausIF {
         return inaktiveTickets;
     }
     public void resetTicketListen() {
-        this.aktiveTickets = new ArrayList<Ticket>();
-        this.inaktiveTickets = new ArrayList<Ticket>();
+        this.aktiveTickets = new ArrayList<>();
+        this.inaktiveTickets = new ArrayList<>();
         Ticket.setIdentifikationsNummer();
     }
 

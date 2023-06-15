@@ -193,4 +193,33 @@ class ParkhausIFTest {
         catch (ReiseInVergangenheitException e3){}
         catch (TicketNichtGefundenException e4){}
     }
+
+    @Test
+    void resetTicketListen() {
+        try {
+            Parkhaus testParkhaus = new Parkhaus(3.2, 100, 4, 10, 16);
+
+            //Liste ist nicht leer
+            Ticket testTicket = testParkhaus.neuesTicket("Normaler Parkplatz");
+            testParkhaus.neuesTicket("Normaler Parkplatz");
+            assertNotNull(testParkhaus.getAktiveTickets());
+            assertNotEquals(0, Ticket.getIdentifikationsNummer());
+
+            testTicket.bezahlen();
+            testTicket.ausfahren();
+
+            assertNotNull(testParkhaus.getInaktiveTickets());
+
+            //Listen resetten
+            testParkhaus.resetTicketListen();
+
+            //Listen müssen wieder null sein
+            assertTrue(testParkhaus.getAktiveTickets().isEmpty());
+            assertTrue(testParkhaus.getInaktiveTickets().isEmpty());
+
+
+        } catch (ParkplaetzeBelegtException ex1) {}
+        catch (ParkhausGeschlossenException ex2) {}
+        catch(TicketNichtGefundenException ex3) {}
+    }
 }

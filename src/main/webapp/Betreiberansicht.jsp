@@ -10,7 +10,7 @@
 
 <!-- --------------------------------------------------------------------------------------------------------------- -->
 <h2>Datenauswertungen</h2>
-<p>${parkhaus.StringFuerStats()}</p>
+<p>${parkhaus.stringFuerStats()}</p>
 <br>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
     <input type="hidden" name="action" value="aktiveTickets">

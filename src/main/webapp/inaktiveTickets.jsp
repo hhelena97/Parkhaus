@@ -9,7 +9,7 @@
 <h1>Inaktive Tickets</h1>
 
 
-<p>${parkhaus.StringFuerInaktiveTicketsAuflistung()}</p>
+<p>${parkhaus.stringFuerInaktiveTicketsAuflistung()}</p>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
     <input type="hidden" name="action" value="zurück">
     <button type="submit">zurück zum Parkhaus</button>

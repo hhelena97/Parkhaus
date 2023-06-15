@@ -27,7 +27,7 @@ public class Ticket implements TicketIF {
 
     private Parkhaus parkhaus;
 
-    //TODO: brauchen wir den "Test-"Konstruktor noch?
+    /*
     //Test-Konstruktor damit man sich nicht immer ein Ticket mit "Ticket-Art" erstellen muss zum Testen
     public Ticket() {
         this.ticketID = identifikationsNummer++;
@@ -37,7 +37,7 @@ public class Ticket implements TicketIF {
 
         this.uhrzeit = parkhaus.getUhrzeit();       // nehme als Ticketzeit die aktuelle Parkhauszeit
         this.datum = parkhaus.getDatum();           // nehme als Ticketdatum das aktuelle Parkhausdatum
-    }
+    }*/
 
     public Ticket(String art, Parkhaus parkhaus) {
 
@@ -145,6 +145,10 @@ public class Ticket implements TicketIF {
 
     public static void setIdentifikationsNummer() {
         identifikationsNummer = 0;
+    }
+
+    public static int getIdentifikationsNummer() {
+        return identifikationsNummer;
     }
 
     public String getUhrzeitString() {
