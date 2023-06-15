@@ -98,19 +98,19 @@ public class Parkhaus implements ParkhausIF {
         anzahlFreierParkplaetze--;
         if (art.equals("Normaler Parkplatz") && this.anzahlFreierNormalerParkplaetze == 0){
             throw new ParkplaetzeBelegtException("Keine freien normalen Parkplaetze verfuegbar!");
-        } else {anzahlFreierNormalerParkplaetze--;}
+        } else if(art.equals("Normaler Parkplatz")){anzahlFreierNormalerParkplaetze--;}
 
         if (art.equals("E-Auto-Parkplatz") && this.anzahlFreierEAutoParkplaetze == 0) {
             throw new ParkplaetzeBelegtException("Keine freien E-Auto-Parkplaetze verfuegbar!");
-        } else {anzahlFreierEAutoParkplaetze--;}
+        } else if(art.equals("E-Auto-Parkplatz")){anzahlFreierEAutoParkplaetze--;}
 
         if (art.equals("Behinderten-Parkplatz") && this.anzahlFreierBehindertenParkplaetze == 0) {
             throw new ParkplaetzeBelegtException("Keine freien Behindertenparkplaetze verfuegbar!");
-        } else {anzahlFreierBehindertenParkplaetze--;}
+        } else if(art.equals("Behinderten-Parkplatz")){anzahlFreierBehindertenParkplaetze--;}
 
         if(art.equals("Motorrad-Parkplatz") && this.anzahlFreierMotorradParkplaetze == 0) {
             throw new ParkplaetzeBelegtException("Keine freien Motorradparkplaetze verfuegbar!");
-        } else {anzahlFreierMotorradParkplaetze--;}
+        } else if(art.equals("Motorrad-Parkplatz")){anzahlFreierMotorradParkplaetze--;}
 
 
         //in aktiveTickets Liste schieben

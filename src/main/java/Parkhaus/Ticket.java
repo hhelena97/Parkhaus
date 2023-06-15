@@ -63,8 +63,6 @@ public class Ticket implements TicketIF {
      */
     @Override
     public void entwerten() {
-        //this.zustand.entwerten();
-
         this.setEntwertet(true);
         this.setUhrzeit();
         System.out.println("Sie haben um " + getUhrzeitStunde() + ":" + getUhrzeitMin() +
@@ -102,8 +100,7 @@ public class Ticket implements TicketIF {
             throw new ParkhausGeschlossenException("Parkhaus ist geschlossen.");
         }
 
-        String s = this.zustand.ausfahren();
-        return s;
+        return this.zustand.ausfahren();
     }
 
     /**
@@ -118,8 +115,7 @@ public class Ticket implements TicketIF {
             throw new ParkhausGeschlossenException("Parkhaus ist geschlossen.");
         }
 
-        double preis = this.zustand.bezahlen();     // rufe bezahlen Methode des Zustands auf
-        return preis;       // gebe den zu bezahlenden Preis zurück
+        return this.zustand.bezahlen();     // rufe bezahlen Methode des Zustands auf + gebe den zu bezahlenden Preis zurück
     }
 
 

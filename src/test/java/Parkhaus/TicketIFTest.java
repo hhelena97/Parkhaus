@@ -135,7 +135,6 @@ class TicketIFTest {
             System.out.println("Ticket nicht gefunden");
         } catch (ParkhausGeschlossenException e3) {
             System.out.println("Außerhalb der Öffnungszeiten");
+        }
     }
-    }
-
 }
