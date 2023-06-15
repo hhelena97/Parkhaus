@@ -188,10 +188,10 @@ class ParkhausIFTest {
             assertEquals(9.0, einnahmenMonat);
             assertEquals(9.0, einnahmenInsgesamt);
 
-        }catch(ParkhausGeschlossenException e1){}
-        catch (ParkplaetzeBelegtException e2){}
-        catch (ReiseInVergangenheitException e3){}
-        catch (TicketNichtGefundenException e4){}
+        }catch(ParkhausGeschlossenException e1){ System.out.println("Außerhalb der Öffnungszeiten");}
+        catch (ParkplaetzeBelegtException e2){System.out.println("Keine freien Parkplaetze");}
+        catch (ReiseInVergangenheitException e3){System.out.println("Raum-Zeit-Kontinuum verletzt");}
+        catch (TicketNichtGefundenException e4){ System.out.println("Ticket nicht gefunden");}
     }
 
     @Test
@@ -218,8 +218,8 @@ class ParkhausIFTest {
             assertTrue(testParkhaus.getInaktiveTickets().isEmpty());
 
 
-        } catch (ParkplaetzeBelegtException ex1) {}
-        catch (ParkhausGeschlossenException ex2) {}
-        catch(TicketNichtGefundenException ex3) {}
+        } catch (ParkplaetzeBelegtException ex1) {System.out.println("Keine freien Parkplaetze");}
+        catch (ParkhausGeschlossenException ex2) {System.out.println("Außerhalb der Öffnungszeiten");}
+        catch(TicketNichtGefundenException ex3) {System.out.println("Ticket nicht gefunden");}
     }
 }

@@ -207,26 +207,26 @@ public class Parkhaus implements ParkhausIF {
      */
     public String stringFuerStats() {
 
-        int size_inaktiv = this.getInaktiveTickets().size();
+        int sizeInaktiv = this.getInaktiveTickets().size();
         int besucherJetzt = this.getAktiveTickets().size();
-        int besucherInsgesamt = besucherJetzt + size_inaktiv;
+        int besucherInsgesamt = besucherJetzt + sizeInaktiv;
         int besucherHeute = 0;
-        int av_parkdauer = 0;
-        double av_preis = 0.0;
+        int avParkdauer = 0;
+        double avPreis = 0.0;
 
         LocalDate datumAktuell = this.getDatum();
         double einnahmenTag = 0;
         double einnahmenMonat = 0;
         double einnahmenInsgesamt = 0;
 
-        if (size_inaktiv != 0) {
+        if (sizeInaktiv != 0) {
             //Berechne Durchschnitt der Preise und Parkdauer
-            for (int i = 0; i < size_inaktiv; i++) {
-                av_parkdauer += this.getInaktiveTickets().get(i).getParkdauerMin();
-                av_preis += this.getInaktiveTickets().get(i).getPreis();
+            for (int i = 0; i < sizeInaktiv; i++) {
+                avParkdauer += this.getInaktiveTickets().get(i).getParkdauerMin();
+                avPreis += this.getInaktiveTickets().get(i).getPreis();
             }
-            av_parkdauer /= size_inaktiv;
-            av_preis /= size_inaktiv;
+            avParkdauer /= sizeInaktiv;
+            avPreis /= sizeInaktiv;
 
             //Berechne Gesamt- und Monatseinnahmen
             einnahmenInsgesamt = this.getInaktiveTickets().stream()
@@ -254,10 +254,10 @@ public class Parkhaus implements ParkhausIF {
         String statsString = "Stand: " + datum + ", " + uhrzeit.truncatedTo(ChronoUnit.SECONDS) + "<br>";
         statsString += "<p>Besucherzahl aktuell: " + besucherJetzt + "<br>" + "Besucher heute: "
                 + besucherHeute + "<br>" + "Besucher insgesamt: " + besucherInsgesamt + "<br>";
-        statsString += "Tageseinnahmen: " + einnahmenTag + " Euro<br>" + "Monatseinnahmen: " + einnahmenMonat +
+        statsString += "Tageseinnahmen: " + einnahmenTag + " Euro"+ "<br>" + "Monatseinnahmen: " + einnahmenMonat +
                 " Euro<br>" + "Gesamteinnahmen: " + einnahmenInsgesamt + " Euro<br>";
-        statsString += "Durchschnittliche Parkdauer: " + av_parkdauer + " min<br>" + "Durchschnittlicher Ticketpreis: "
-                + av_preis + " Euro</p>";
+        statsString += "Durchschnittliche Parkdauer: " + avParkdauer + " min<br>" + "Durchschnittlicher Ticketpreis: "
+                + avPreis + " Euro</p>";
 
         return statsString;
     }
