@@ -76,11 +76,8 @@ class ParkhausIFTest {
             assertEquals(testTicket2.getTicketID(), 1);
             assertEquals(testTicket3.getTicketID(), 2);
             assertEquals(testTicket4.getTicketID(), 3);
-        } catch (ParkplaetzeBelegtException e){
-            System.out.println("Keine freien Parkplaetze");
-        } catch (ParkhausGeschlossenException e2) {
-            System.out.println("Außerhalb der Öffnungszeiten");
-    }
+        } catch (ParkplaetzeBelegtException e){}
+        catch (ParkhausGeschlossenException e2){}
     }
 
     /**
@@ -108,10 +105,7 @@ class ParkhausIFTest {
             assertNotEquals(p.getUhrzeit(),timeVorher);
             assertNotEquals(p.getDatum(),dateVorher);
 
-        } catch (ReiseInVergangenheitException e)
-        {
-            System.out.println(e.getMessage());
-        }
+        } catch (ReiseInVergangenheitException e){}
     }
 
     /**
@@ -131,14 +125,15 @@ class ParkhausIFTest {
         assertThrows(ReiseInVergangenheitException.class, () -> p.parkhauszeitAnpassen(timeNeu,dateNeu));
     }
 
+    //Testet, ob die Methode neuesTicket die Exception wirft
     @Test
     void ParkplaetzeBelegtTest(){
         Parkhaus testParkhaus = new Parkhaus(0,10,0,0,0);
         assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket("E-Auto-Parkplatz"));
         assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket("Motorrad-Parkplatz"));
         assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket("Behinderten-Parkplatz"));
-        testParkhaus.setAnzahlFreierNormalerParkplaetze(0);
-        assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket("E-Auto-Parkplatz"));
+        testParkhaus.setAnzahlFreierParkplaetze(0);
+        assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket("Normaler Parkplatz"));
     }
 
     @Test
