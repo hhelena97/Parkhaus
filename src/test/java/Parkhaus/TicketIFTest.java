@@ -8,51 +8,42 @@ import java.time.LocalTime;
 class TicketIFTest {
 
 
+    Ticket t1 = new Ticket();
+    Ticket t2 = new Ticket();
+
+
     @Test
     void entwertenTest(){
-        try{
-            Parkhaus p = new Parkhaus(3, 100, 5, 5, 10);
-            Ticket t1 = p.neuesTicket("Normaler Parkplatz");
-            Ticket t2 = p.neuesTicket("Normaler Parkplatz");
-            t1.entwerten();
-            assertTrue(t1.getEntwertet());
-            assertFalse(t2.getEntwertet());
-        }catch (ParkplaetzeBelegtException e) {
-            System.out.println("Keine freien Parkplaetze");
-        }catch (ParkhausGeschlossenException e) {
-            System.out.println("Parkhaus geschlossen");}
+        t1.entwerten();
+        assertTrue(t1.getEntwertet());
+        assertFalse(t2.getEntwertet());
     }
 
 
     @Test
     void zeitDifferenzTest(){
+        LocalTime vergleichszeitStart = LocalTime.of(16, 30);
+        LocalTime vergleichszeitSchluss = LocalTime.now();
+        Parkhaus p = new Parkhaus();
+        int stundenSum;
+        int minSum;
+        if (vergleichszeitSchluss.getMinute() >= vergleichszeitStart.getMinute()){
+            stundenSum = vergleichszeitSchluss.getHour() - vergleichszeitStart.getHour();
+            minSum = (stundenSum * 60) + vergleichszeitSchluss.getMinute() - vergleichszeitStart.getMinute();
+        } else {
+            stundenSum = vergleichszeitSchluss.getHour() - vergleichszeitStart.getHour() -1;
+            minSum = (stundenSum * 60) + ((vergleichszeitSchluss.getMinute() + 60) - vergleichszeitStart.getMinute());
+        }
+        p.setUhrzeitManuell(16, 30);
+        int dauer = t1.zeitDifferenz();
+        assertEquals(minSum, dauer);
 
-        try {
-            Parkhaus p = new Parkhaus(3, 100, 5, 5, 10);
-            Ticket t1 = p.neuesTicket("Normaler Parkplatz");
-            LocalTime vergleichszeitStart = LocalTime.of(16, 30);
-            LocalTime vergleichszeitSchluss = LocalTime.now();
-            int stundenSum;
-            int minSum;
-            if (vergleichszeitSchluss.getMinute() >= vergleichszeitStart.getMinute()) {
-                stundenSum = vergleichszeitSchluss.getHour() - vergleichszeitStart.getHour();
-                minSum = (stundenSum * 60) + vergleichszeitSchluss.getMinute() - vergleichszeitStart.getMinute();
-            } else {
-                stundenSum = vergleichszeitSchluss.getHour() - vergleichszeitStart.getHour() - 1;
-                minSum = (stundenSum * 60) + ((vergleichszeitSchluss.getMinute() + 60) - vergleichszeitStart.getMinute());
-            }
-            p.setUhrzeitManuell(16, 30);
-            int dauer = t1.zeitDifferenz();
-            assertEquals(minSum, dauer);
-        }catch (ParkplaetzeBelegtException e) {
-            System.out.println("Keine freien Parkplaetze");
-        }catch (ParkhausGeschlossenException e) {
-            System.out.println("Parkhaus geschlossen");}
     }
 
     @Test
     void bezahleTicketTest() {
         try {
+
             Parkhaus p = new Parkhaus(2.1);
             Ticket t = new Ticket("Normaler Parkplatz", p);
             p.setUhrzeitManuell(16, 30);
