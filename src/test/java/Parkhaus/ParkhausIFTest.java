@@ -140,6 +140,14 @@ class ParkhausIFTest {
         testParkhaus.setAnzahlFreierNormalerParkplaetze(0);
         assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket("E-Auto-Parkplatz"));
     }
+
+    @Test
+    void ParkhausGeschlossenTest() throws ReiseInVergangenheitException{
+        Parkhaus p = new Parkhaus(3,100,5,10,5);
+        LocalTime timeNeu = LocalTime.of(23,10);
+        p.parkhauszeitAnpassen(timeNeu, p.getDatum());
+        assertThrows(ParkhausGeschlossenException.class, () -> p.neuesTicket("E-Auto-Parkplatz"));
+    }
     @Test
     void StringFuerStatsTest() throws ParkhausGeschlossenException, ParkplaetzeBelegtException, ReiseInVergangenheitException, TicketNichtGefundenException {
 
