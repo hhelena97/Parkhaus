@@ -161,27 +161,18 @@ class ParkhausIFTest {
             testTicket3.bezahlen();
             testTicket3.ausfahren();
             Ticket testTicket4 = testParkhaus.neuesTicket("Normaler Parkplatz");
-            LocalDate datumAktuell = testParkhaus.getDatum();
-            int size_inaktiv = testParkhaus.getInaktiveTickets().size();
+            String testString = testParkhaus.StringFuerStats();
+            System.out.println(testString);
 
-            int besucherJetzt = testParkhaus.getAktiveTickets().size();
-            int besucherInsgesamt = besucherJetzt + size_inaktiv;
-            int besucherHeute = 0;
-            int av_parkdauer = 0;
-            double av_preis = 0.0;
-            double einnahmenTag = 0;
-            double einnahmenMonat = 0;
-            double einnahmenInsgesamt = 0;
-
-            assertEquals(1, besucherJetzt);
-            assertEquals(4, besucherInsgesamt);
+            assertTrue(testString.contains("Besucherzahl aktuell: 1"));
+            assertTrue(testString.contains("Besucher insgesamt: 4"));
             //klappt nicht wegen neues Datum
-            assertEquals(2, besucherHeute);
-            assertEquals(90, av_parkdauer);
-            assertEquals(4.5, av_preis);
-            assertEquals(0.0, einnahmenTag);
-            assertEquals(9.0, einnahmenMonat);
-            assertEquals(9.0, einnahmenInsgesamt);
+            assertTrue(testString.contains("Besucher heute: 2"));
+            assertTrue(testString.contains("Durchschnittliche Parkdauer: 60"));
+            assertTrue(testString.contains("Durchschnittlicher Ticketpreis: 3.0"));
+            assertTrue(testString.contains("Tageseinnahmen: 0.0"));
+            assertTrue(testString.contains("Monatseinnahmen: 9.0"));
+            assertTrue(testString.contains("Gesamteinnahmen: 9.0"));
 
         }catch(ParkhausGeschlossenException e1){ System.out.println("Außerhalb der Öffnungszeiten");}
         catch (ParkplaetzeBelegtException e2){System.out.println("Keine freien Parkplaetze");}
