@@ -12,6 +12,11 @@ public class StateAktiv extends State{
     //Methode bezahlen mit Zustandsänderung ergänzt
     public double bezahlen() {
 
+        if (ticket.zeitDifferenz() >= (24*60))       // Wenn jemand über Nacht parkt
+        {
+            return 100.0;        // Fixbetrag, fürs Über-Nacht-Parken
+        }
+
         int dauer = ticket.zeitDifferenz();
         int stunden = dauer/60;
 
