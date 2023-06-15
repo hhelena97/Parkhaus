@@ -84,7 +84,6 @@ public class Ticket implements TicketIF {
             return zeitJetzt - zeitTicket;
         } else {
             long daysBetween = ChronoUnit.DAYS.between(this.getDatum(), parkhaus.getDatum());
-            System.out.println(daysBetween);
             int days = (int)daysBetween * 1440;  // 24 * 60 = 1440
             return (zeitJetzt - zeitTicket) + days;
 
