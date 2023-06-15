@@ -97,23 +97,22 @@ public class Parkhaus implements ParkhausIF {
         }
         Ticket dasTicket = new Ticket(art, this);
         anzahlFreierParkplaetze--;
-        if (art.equals("Normaler Parkplatz")) {
-            if (this.anzahlFreierNormalerParkplaetze == 0) {
-                throw new ParkplaetzeBelegtException("Keine freien normalen Parkplaetze verfuegbar!");
-            } else anzahlFreierNormalerParkplaetze--;
-        } else if (art.equals("E-Auto-Parkplatz")) {
-            if (this.anzahlFreierEAutoParkplaetze == 0) {
-                throw new ParkplaetzeBelegtException("Keine freien E-Auto-Parkplaetze verfuegbar!");
-            } else anzahlFreierEAutoParkplaetze--;
-        } else if (art.equals("Behinderten-Parkplatz")) {
-            if (this.anzahlFreierBehindertenParkplaetze == 0) {
-                throw new ParkplaetzeBelegtException("Keine freien Behindertenparkplaetze verfuegbar!");
-            } else anzahlFreierBehindertenParkplaetze--;
-        } else {
-            if (this.anzahlFreierMotorradParkplaetze == 0) {
-                throw new ParkplaetzeBelegtException("Keine freien Motorradparkplaetze verfuegbar!");
-            } else anzahlFreierMotorradParkplaetze--;
-        }
+        if (art.equals("Normaler Parkplatz") && this.anzahlFreierNormalerParkplaetze == 0){
+            throw new ParkplaetzeBelegtException("Keine freien normalen Parkplaetze verfuegbar!");
+        } else {anzahlFreierNormalerParkplaetze--;}
+
+        if (art.equals("E-Auto-Parkplatz") && this.anzahlFreierEAutoParkplaetze == 0) {
+            throw new ParkplaetzeBelegtException("Keine freien E-Auto-Parkplaetze verfuegbar!");
+        } else {anzahlFreierEAutoParkplaetze--;}
+
+        if (art.equals("Behinderten-Parkplatz") && this.anzahlFreierBehindertenParkplaetze == 0) {
+            throw new ParkplaetzeBelegtException("Keine freien Behindertenparkplaetze verfuegbar!");
+        } else {anzahlFreierBehindertenParkplaetze--;}
+
+        if(art.equals("Motorrad-Parkplatz") && this.anzahlFreierMotorradParkplaetze == 0) {
+            throw new ParkplaetzeBelegtException("Keine freien Motorradparkplaetze verfuegbar!");
+        } else {anzahlFreierMotorradParkplaetze--;}
+
         //in aktiveTickets Liste schieben
         aktiveTickets.add(dasTicket);
         return dasTicket;
