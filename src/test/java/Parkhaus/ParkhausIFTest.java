@@ -144,7 +144,7 @@ class ParkhausIFTest {
         assertThrows(ParkhausGeschlossenException.class, () -> p.neuesTicket("E-Auto-Parkplatz"));
     }
     @Test
-    void StringFuerStatsTest() throws ParkhausGeschlossenException, ParkplaetzeBelegtException, ReiseInVergangenheitException, TicketNichtGefundenException {
+    void stringFuerStatsTest() throws ParkhausGeschlossenException, ParkplaetzeBelegtException, ReiseInVergangenheitException, TicketNichtGefundenException {
 
         try {
             Parkhaus testParkhaus = new Parkhaus(3, 100, 10, 10, 10);
@@ -166,7 +166,6 @@ class ParkhausIFTest {
 
             assertTrue(testString.contains("Besucherzahl aktuell: 1"));
             assertTrue(testString.contains("Besucher insgesamt: 4"));
-            //klappt nicht wegen neues Datum
             assertTrue(testString.contains("Besucher heute: 2"));
             assertTrue(testString.contains("Durchschnittliche Parkdauer: 60"));
             assertTrue(testString.contains("Durchschnittlicher Ticketpreis: 3.0"));
