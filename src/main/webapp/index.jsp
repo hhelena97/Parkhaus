@@ -104,7 +104,7 @@ Freie regulaere Parkplaetze: ${parkhaus.getAnzahlFreierNormalerParkplaetze()}, f
 <% if (request.getAttribute("parkhaus") != null){ %>
     <% if (request.getAttribute("ticketliste") != null) { %>
         <% Parkhaus p = (Parkhaus) request.getAttribute("parkhaus"); %>
-        <p> <%p.StringFuerAktiveTicketsAuflistung(); %></p>
+        <p> <%p.stringFuerAktiveTicketsAuflistung(); %></p>
     <% } %>
 <% } %>
 
