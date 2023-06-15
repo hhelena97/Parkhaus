@@ -108,10 +108,7 @@ class ParkhausIFTest {
             assertNotEquals(p.getUhrzeit(),timeVorher);
             assertNotEquals(p.getDatum(),dateVorher);
 
-        } catch (ReiseInVergangenheitException e)
-        {
-            System.out.println(e.getMessage());
-        }
+        } catch (ReiseInVergangenheitException e) {}
     }
 
     /**
@@ -129,5 +126,60 @@ class ParkhausIFTest {
         LocalDate dateNeu = LocalDate.of(2022,3,12);
 
         assertThrows(ReiseInVergangenheitException.class, () -> p.parkhauszeitAnpassen(timeNeu,dateNeu));
+    }
+
+    @Test
+    void ParkplaetzeBelegtTest(){
+        Parkhaus testParkhaus = new Parkhaus(0,10,0,0,0);
+        assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket("E-Auto-Parkplatz"));
+        assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket("Motorrad-Parkplatz"));
+        assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket("Behinderten-Parkplatz"));
+        testParkhaus.setAnzahlFreierNormalerParkplaetze(0);
+        assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket("E-Auto-Parkplatz"));
+    }
+    @Test
+    void StringFuerStatsTest() throws ParkhausGeschlossenException, ParkplaetzeBelegtException, ReiseInVergangenheitException, TicketNichtGefundenException {
+
+        try {
+            Parkhaus testParkhaus = new Parkhaus(3, 100, 10, 10, 10);
+            Ticket testTicket1 = testParkhaus.neuesTicket("Normaler Parkplatz");
+            Ticket testTicket2 = testParkhaus.neuesTicket("Normaler Parkplatz");
+            testParkhaus.parkhauszeitAnpassen(LocalTime.of(9, 0, 0), LocalDate.of(2023, 1, 1));
+            testTicket1.bezahlen();
+            testTicket1.ausfahren();
+            testParkhaus.parkhauszeitAnpassen(LocalTime.of(10, 0, 0), LocalDate.of(2023, 1, 1));
+            testTicket2.bezahlen();
+            testTicket2.ausfahren();
+            testParkhaus.parkhauszeitAnpassen(LocalTime.of(9, 0, 0), LocalDate.of(2023, 1, 2));
+            Ticket testTicket3 = testParkhaus.neuesTicket("Normaler Parkplatz");
+            testTicket3.bezahlen();
+            testTicket3.ausfahren();
+            Ticket testTicket4 = testParkhaus.neuesTicket("Normaler Parkplatz");
+            LocalDate datumAktuell = testParkhaus.getDatum();
+            int size_inaktiv = testParkhaus.getInaktiveTickets().size();
+
+            int besucherJetzt = testParkhaus.getAktiveTickets().size();
+            int besucherInsgesamt = besucherJetzt + size_inaktiv;
+            int besucherHeute = 0;
+            int av_parkdauer = 0;
+            double av_preis = 0.0;
+            double einnahmenTag = 0;
+            double einnahmenMonat = 0;
+            double einnahmenInsgesamt = 0;
+
+            assertEquals(1, besucherJetzt);
+            assertEquals(4, besucherInsgesamt);
+            //klappt nicht wegen neues Datum
+            assertEquals(2, besucherHeute);
+            assertEquals(90, av_parkdauer);
+            assertEquals(4.5, av_preis);
+            assertEquals(0.0, einnahmenTag);
+            assertEquals(9.0, einnahmenMonat);
+            assertEquals(9.0, einnahmenInsgesamt);
+
+        }catch(ParkhausGeschlossenException e1){}
+        catch (ParkplaetzeBelegtException e2){}
+        catch (ReiseInVergangenheitException e3){}
+        catch (TicketNichtGefundenException e4){}
     }
 }
