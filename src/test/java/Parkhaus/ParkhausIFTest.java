@@ -108,7 +108,10 @@ class ParkhausIFTest {
             assertNotEquals(p.getUhrzeit(),timeVorher);
             assertNotEquals(p.getDatum(),dateVorher);
 
-        } catch (ReiseInVergangenheitException e) {}
+        } catch (ReiseInVergangenheitException e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**

@@ -251,6 +251,7 @@ public class Parkhaus implements ParkhausIF {
                     .reduce(0.0, Double::sum);
 
         }
+
         String statsString = "Stand: " + datum + ", " + uhrzeit.truncatedTo(ChronoUnit.SECONDS) + "<br>";
         statsString += "<p>Besucherzahl aktuell: " + besucherJetzt + "<br>" + "Besucher heute: "
                 + besucherHeute + "<br>" + "Besucher insgesamt: " + besucherInsgesamt + "<br>";
