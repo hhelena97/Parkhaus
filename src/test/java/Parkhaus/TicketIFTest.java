@@ -94,16 +94,22 @@ class TicketIFTest {
     void ausfahrenTest(){
 
         try {
-            Parkhaus testParkhaus = new Parkhaus(2.0, 190, 0, 10, 0);
+            Parkhaus testParkhaus = new Parkhaus(2.0, 10, 10, 10, 10);
             Ticket testTicket1 = testParkhaus.neuesTicket("Normaler Parkplatz");
             Ticket testTicket2 = testParkhaus.neuesTicket("Behinderten-Parkplatz");
+            Ticket testTicket3 = testParkhaus.neuesTicket("E-Auto-Parkplatz");
+            Ticket testTicket4 = testParkhaus.neuesTicket("Motorrad Parkplatz");
 
             //Ausfahren testen mit unbezahltem Ticket, sollte auch Hinweis ausgeben
             testTicket1.ausfahren();
             testTicket2.ausfahren();
-            assertEquals(198, testParkhaus.getAnzahlFreierParkplaetze());
-            assertEquals(189, testParkhaus.getAnzahlFreierNormalerParkplaetze());
+            testTicket3.ausfahren();
+            testTicket4.ausfahren();
+            assertEquals(36, testParkhaus.getAnzahlFreierParkplaetze());
+            assertEquals(9, testParkhaus.getAnzahlFreierNormalerParkplaetze());
             assertEquals(9, testParkhaus.getAnzahlFreierBehindertenParkplaetze());
+            assertEquals(9, testParkhaus.getAnzahlFreierEAutoParkplaetze());
+            assertEquals(9, testParkhaus.getAnzahlFreierMotorradParkplaetze());
 
             //Zeitschranke testen, sollte auch Hinweis über abgelaufene Zeit geben
             LocalTime testUhrzeit = LocalTime.now().minusMinutes(20);
@@ -146,6 +152,8 @@ class TicketIFTest {
         assertThrows(TicketNichtGefundenException.class, () -> testticket1.ausfahren());
         testticket1.zustand = testticket1.zustand.getNext();
         assertThrows(TicketNichtGefundenException.class, () -> testticket1.bezahlen());
+        testticket1.zustand = testticket1.zustand.getNext();
+        assertThrows(TicketNichtGefundenException.class, () -> testticket1.ausfahren());
     }
 
 }

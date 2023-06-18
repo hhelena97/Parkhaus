@@ -20,9 +20,12 @@ class ParkhausIFTest {
         testParkhaus.setAnzahlFreierNormalerParkplaetze(362);
         testParkhaus.setAnzahlFreierMotorradParkplaetze(20);
 
+        System.out.println("Anzahl Tickets: " + testParkhaus.getAnzahlFreierParkplaetze());
+
         //dieses Objekt wird mit dem verglichen was in der zu testenden Methode erstellt wird
         try {
             Ticket testTicket1 = testParkhaus.neuesTicket("Normaler Parkplatz");
+            System.out.println("Anzahl Tickets: " + testParkhaus.getAnzahlFreierParkplaetze());
             assertEquals(399, testParkhaus.getAnzahlFreierParkplaetze());
             Ticket testTicket2 = testParkhaus.neuesTicket("E-Auto-Parkplatz");
             assertEquals(398, testParkhaus.getAnzahlFreierParkplaetze());
@@ -138,10 +141,10 @@ class ParkhausIFTest {
 
     @Test
     void ParkhausGeschlossenTest() throws ReiseInVergangenheitException{
-        Parkhaus p = new Parkhaus(3,100,5,10,5);
+        Parkhaus sarahsParkhaus = new Parkhaus(3,100,5,10,5);
         LocalTime timeNeu = LocalTime.of(23,10);
-        p.parkhauszeitAnpassen(timeNeu, p.getDatum());
-        assertThrows(ParkhausGeschlossenException.class, () -> p.neuesTicket("E-Auto-Parkplatz"));
+        sarahsParkhaus.parkhauszeitAnpassen(timeNeu, sarahsParkhaus.getDatum());
+        assertThrows(ParkhausGeschlossenException.class, () -> sarahsParkhaus.neuesTicket("E-Auto-Parkplatz"));
     }
     @Test
     void stringFuerStatsTest() throws ParkhausGeschlossenException, ParkplaetzeBelegtException, ReiseInVergangenheitException, TicketNichtGefundenException {
