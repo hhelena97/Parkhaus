@@ -9,6 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ParkhausIFTest {
 
+    //Konstanten gegen CodeSmell
+    static final String NORMALER_PARKPLATZ = "Normaler Parkplatz";
+    static final String E_AUTO_PARKPLATZ = "E-Auto-Parkplatz";
+    static final String BEHINDERTEN_PARKPLATZ = "Behinderten-Parkplatz";
+    static final String MOTORRAD_PARKPLATZ = "Motorrad-Parkplatz";
 
 
     @Test
@@ -26,14 +31,14 @@ class ParkhausIFTest {
 
         //dieses Objekt wird mit dem verglichen, was in der zu testenden Methode erstellt wird
         try {
-            Ticket testTicket1 = testParkhaus.neuesTicket("Normaler Parkplatz");
+            Ticket testTicket1 = testParkhaus.neuesTicket(NORMALER_PARKPLATZ);
             System.out.println("Anzahl Tickets: " + testParkhaus.getAnzahlFreierParkplaetze());
             assertEquals(399, testParkhaus.getAnzahlFreierParkplaetze());
-            Ticket testTicket2 = testParkhaus.neuesTicket("E-Auto-Parkplatz");
+            Ticket testTicket2 = testParkhaus.neuesTicket(E_AUTO_PARKPLATZ);
             assertEquals(398, testParkhaus.getAnzahlFreierParkplaetze());
-            Ticket testTicket3 = testParkhaus.neuesTicket("Behinderten-Parkplatz");
+            Ticket testTicket3 = testParkhaus.neuesTicket(BEHINDERTEN_PARKPLATZ);
             assertEquals(397, testParkhaus.getAnzahlFreierParkplaetze());
-            Ticket testTicket4 = testParkhaus.neuesTicket("Motorrad-Parkplatz");
+            Ticket testTicket4 = testParkhaus.neuesTicket(MOTORRAD_PARKPLATZ);
             assertEquals(396, testParkhaus.getAnzahlFreierParkplaetze());
 
             //Erstellungsdatum soll gleich dem heutigen Datum sein
@@ -61,10 +66,10 @@ class ParkhausIFTest {
             assertEquals(testTicket4.getUhrzeit().getSecond(), testParkhaus.getUhrzeit().getSecond());
 
             //Art des Parkplatzes soll dann in der Ticket-Instanzvariablen stehen
-            assertEquals("Normaler Parkplatz", testTicket1.getArtDesParkplatzes());
-            assertEquals("E-Auto-Parkplatz", testTicket2.getArtDesParkplatzes());
-            assertEquals("Behinderten-Parkplatz", testTicket3.getArtDesParkplatzes());
-            assertEquals("Motorrad-Parkplatz", testTicket4.getArtDesParkplatzes());
+            assertEquals(NORMALER_PARKPLATZ, testTicket1.getArtDesParkplatzes());
+            assertEquals(E_AUTO_PARKPLATZ, testTicket2.getArtDesParkplatzes());
+            assertEquals(BEHINDERTEN_PARKPLATZ, testTicket3.getArtDesParkplatzes());
+            assertEquals(MOTORRAD_PARKPLATZ, testTicket4.getArtDesParkplatzes());
 
             //Anzahl der besonderen Parkplätze muss sich jeweils auch verändern
             assertEquals(361, testParkhaus.getAnzahlFreierNormalerParkplaetze());
@@ -134,11 +139,11 @@ class ParkhausIFTest {
     @Test
     void ParkplaetzeBelegtTest(){
         Parkhaus testParkhaus = new Parkhaus(0,10,0,0,0);
-        assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket("E-Auto-Parkplatz"));
-        assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket("Motorrad-Parkplatz"));
-        assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket("Behinderten-Parkplatz"));
+        assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket(E_AUTO_PARKPLATZ));
+        assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket(MOTORRAD_PARKPLATZ));
+        assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket(BEHINDERTEN_PARKPLATZ));
         testParkhaus.setAnzahlFreierParkplaetze(0);
-        assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket("Normaler Parkplatz"));
+        assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket(NORMALER_PARKPLATZ));
     }
 
     //Testet, ob die Methode neues Ticket die Exception wirft, wenn das Parkhaus geschlossen ist
@@ -147,15 +152,15 @@ class ParkhausIFTest {
         Parkhaus testParkhaus = new Parkhaus(3,100,5,10,5);
         LocalTime timeNeu = LocalTime.of(23,10);
         testParkhaus.parkhauszeitAnpassen(timeNeu, testParkhaus.getDatum());
-        assertThrows(ParkhausGeschlossenException.class, () -> testParkhaus.neuesTicket("E-Auto-Parkplatz"));
+        assertThrows(ParkhausGeschlossenException.class, () -> testParkhaus.neuesTicket(E_AUTO_PARKPLATZ));
     }
     @Test
     void stringFuerStatsTest() {
 
         try {
             Parkhaus testParkhaus = new Parkhaus(3, 100, 10, 10, 10);
-            Ticket testTicket1 = testParkhaus.neuesTicket("Normaler Parkplatz");
-            Ticket testTicket2 = testParkhaus.neuesTicket("Normaler Parkplatz");
+            Ticket testTicket1 = testParkhaus.neuesTicket(NORMALER_PARKPLATZ);
+            Ticket testTicket2 = testParkhaus.neuesTicket(NORMALER_PARKPLATZ);
             testParkhaus.parkhauszeitAnpassen(LocalTime.of(9, 0, 0), LocalDate.of(2023, 1, 1));
             testTicket1.bezahlen();
             testTicket1.ausfahren();
@@ -163,10 +168,10 @@ class ParkhausIFTest {
             testTicket2.bezahlen();
             testTicket2.ausfahren();
             testParkhaus.parkhauszeitAnpassen(LocalTime.of(9, 0, 0), LocalDate.of(2023, 1, 2));
-            Ticket testTicket3 = testParkhaus.neuesTicket("Normaler Parkplatz");
+            Ticket testTicket3 = testParkhaus.neuesTicket(NORMALER_PARKPLATZ);
             testTicket3.bezahlen();
             testTicket3.ausfahren();
-            Ticket testTicket4 = testParkhaus.neuesTicket("Normaler Parkplatz");
+            Ticket testTicket4 = testParkhaus.neuesTicket(NORMALER_PARKPLATZ);
             String testString = testParkhaus.stringFuerStats();
             System.out.println(testString);
 
@@ -192,8 +197,8 @@ class ParkhausIFTest {
             Parkhaus testParkhaus = new Parkhaus(3.2, 100, 4, 10, 16);
 
             //Liste ist nicht leer
-            Ticket testTicket = testParkhaus.neuesTicket("Normaler Parkplatz");
-            testParkhaus.neuesTicket("Normaler Parkplatz");
+            Ticket testTicket = testParkhaus.neuesTicket(NORMALER_PARKPLATZ);
+            testParkhaus.neuesTicket(NORMALER_PARKPLATZ);
             assertNotNull(testParkhaus.getAktiveTickets());
             assertNotEquals(0, Ticket.getIdentifikationsNummer());
 

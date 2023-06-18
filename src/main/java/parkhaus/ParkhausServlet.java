@@ -15,6 +15,11 @@ public class ParkhausServlet extends HttpServlet {
     //Konstanten für weniger Code-Smell
    static final String PARKHAUS = "parkhaus";
    static final String TICKETLISTE = "ticketliste";
+   static final String TICKETERSTELLENEX = "TicketErstellenException";
+   static final String AUSFAHRENEX = "AusfahrenException";
+   static final String PARKHAUSGESCHLOSSENEX = "ParkhausGeschlossenException";
+   static final String BETREIBERANSICHT = "Betreiberansicht.jsp";
+
     public void init() {
         //existiert bereits ein Parkhaus im Context, dann wird das verwendet - sonst wird ein neues erstellt
         Parkhaus p;
@@ -87,11 +92,11 @@ public class ParkhausServlet extends HttpServlet {
                 ticket1.ausfahren();
                 ticket2.ausfahren();
             } catch (ParkplaetzeBelegtException e1) {
-                getServletContext().setAttribute("TicketErstellenException", e1.getMessage());
+                getServletContext().setAttribute(TICKETERSTELLENEX, e1.getMessage());
             } catch (TicketNichtGefundenException e2) {
-                getServletContext().setAttribute("AusfahrenException", e2.getMessage());
+                getServletContext().setAttribute(AUSFAHRENEX, e2.getMessage());
             } catch (ParkhausGeschlossenException e3) {
-            getServletContext().setAttribute("ParkhausGeschlossenException", e3.getMessage());
+            getServletContext().setAttribute(PARKHAUSGESCHLOSSENEX, e3.getMessage());
             }
         } else if ("ticketErstellen".equals(action)) {
 
@@ -111,9 +116,9 @@ public class ParkhausServlet extends HttpServlet {
                 //(über)schreibt die Liste aktiver Tickets im Context
                 getServletContext().setAttribute(TICKETLISTE, p.getAktiveTickets());
             } catch (ParkplaetzeBelegtException e) {
-                getServletContext().setAttribute("TicketErstellenException", e.getMessage());
+                getServletContext().setAttribute(TICKETERSTELLENEX, e.getMessage());
             } catch (ParkhausGeschlossenException e2) {
-                getServletContext().setAttribute("ParkhausGeschlossenException", e2.getMessage());
+                getServletContext().setAttribute(PARKHAUSGESCHLOSSENEX, e2.getMessage());
             }
 
 
@@ -156,7 +161,7 @@ public class ParkhausServlet extends HttpServlet {
             } catch (NumberFormatException e2) {
                 //Do nothing
             } catch (ParkhausGeschlossenException e3) {
-                getServletContext().setAttribute("ParkhausGeschlossenException", e3.getMessage());
+                getServletContext().setAttribute(PARKHAUSGESCHLOSSENEX, e3.getMessage());
             }
 
             //(über)schreibt die Liste aktiver Tickets im Context
@@ -180,13 +185,13 @@ public class ParkhausServlet extends HttpServlet {
                 String nachricht = ticketAusfahren.ausfahren();
                 request.setAttribute("NachrichtX", nachricht);
             } catch (TicketNichtGefundenException e1) {
-                getServletContext().setAttribute("AusfahrenException", e1.getMessage());
+                getServletContext().setAttribute(AUSFAHRENEX, e1.getMessage());
             } catch (NullPointerException nullPointerException){
-                getServletContext().setAttribute("AusfahrenException", "Ausfahren fehlgeschlagen!");
+                getServletContext().setAttribute(AUSFAHRENEX, "Ausfahren fehlgeschlagen!");
             }catch (NumberFormatException e2) {
                 //Do nothing
             } catch (ParkhausGeschlossenException e3) {
-                getServletContext().setAttribute("ParkhausGeschlossenException", e3.getMessage());
+                getServletContext().setAttribute(PARKHAUSGESCHLOSSENEX, e3.getMessage());
             }
 
             //(über)schreibt die Liste aktiver und inaktiver Tickets im Context
@@ -224,7 +229,7 @@ public class ParkhausServlet extends HttpServlet {
                 }
             }
             //damit der nach dem Ändern in der Betreiberansicht bleibt
-            naechsteSeite = "Betreiberansicht.jsp";
+            naechsteSeite = BETREIBERANSICHT;
 
         } else if ("aktiveTickets".equals(action)) {
             //öffnet Seite, auf der alle aktiven Tickets aufgelistet werden
@@ -236,7 +241,7 @@ public class ParkhausServlet extends HttpServlet {
 
         } else if ("Betreiberansicht".equals(action)) {
             //öffnet die Betreiberansicht
-            request.getRequestDispatcher("Betreiberansicht.jsp").forward(request, response);
+            request.getRequestDispatcher(BETREIBERANSICHT).forward(request, response);
 
         } else if ("OeffnungszeitenAendern".equals(action)) {
             //globale Öffnungszeiten des Parkhauses werden hier verändert
@@ -252,7 +257,7 @@ public class ParkhausServlet extends HttpServlet {
             p.setSchliessungszeit(schliessen);
 
             //damit der nach dem Ändern in der Betreiberansicht bleibt
-            naechsteSeite = "Betreiberansicht.jsp";
+            naechsteSeite = BETREIBERANSICHT;
 
         } else if ("StundentarifAendern".equals(action)) {
             double neuerPreis = Double.parseDouble(request.getParameter("Preis"));
@@ -261,7 +266,7 @@ public class ParkhausServlet extends HttpServlet {
             System.out.println("Preis ändern in " + neuerPreis);
 
             //damit der nach dem Ändern in der Betreiberansicht bleibt
-            naechsteSeite = "Betreiberansicht.jsp";
+            naechsteSeite = BETREIBERANSICHT;
         }
         request.setAttribute(PARKHAUS, p);
         request.getRequestDispatcher(naechsteSeite).forward(request, response);
@@ -273,20 +278,20 @@ public class ParkhausServlet extends HttpServlet {
         if (getServletContext().getAttribute("TicketErstellt") != null) {
             getServletContext().removeAttribute("TicketErstellt");
         }
-        if (getServletContext().getAttribute("TicketErstellenException") != null) {
-            getServletContext().removeAttribute("TicketErstellenException");
+        if (getServletContext().getAttribute(TICKETERSTELLENEX) != null) {
+            getServletContext().removeAttribute(TICKETERSTELLENEX);
         }
         if (getServletContext().getAttribute("BezahlenException") != null) {
             getServletContext().removeAttribute("BezahlenException");
         }
-        if (getServletContext().getAttribute("AusfahrenException") != null) {
-            getServletContext().removeAttribute("AusfahrenException");
+        if (getServletContext().getAttribute(AUSFAHRENEX) != null) {
+            getServletContext().removeAttribute(AUSFAHRENEX);
         }
         if (getServletContext().getAttribute("ZeitException") != null) {
             getServletContext().removeAttribute("ZeitException");
         }
-        if (getServletContext().getAttribute("ParkhausGeschlossenException") != null) {
-            getServletContext().removeAttribute("ParkhausGeschlossenException");
+        if (getServletContext().getAttribute(PARKHAUSGESCHLOSSENEX) != null) {
+            getServletContext().removeAttribute(PARKHAUSGESCHLOSSENEX);
         }
     }
 
