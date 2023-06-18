@@ -13,7 +13,7 @@ class ParkhausIFTest {
 
     @Test
     void neuesTicketTest() {
-        //Testparkhaus erstellen in dem die Werte geändert werden sollen wenn ein Auto reinfährt
+        //Testparkhaus erstellen, in dem die Werte geändert werden sollen, wenn ein Auto reinfährt
         // --> überprüfung weiter unten
         Parkhaus testParkhaus = new Parkhaus();
         testParkhaus.setAnzahlFreierParkplaetze(400);
@@ -24,7 +24,7 @@ class ParkhausIFTest {
 
         System.out.println("Anzahl Tickets: " + testParkhaus.getAnzahlFreierParkplaetze());
 
-        //dieses Objekt wird mit dem verglichen was in der zu testenden Methode erstellt wird
+        //dieses Objekt wird mit dem verglichen, was in der zu testenden Methode erstellt wird
         try {
             Ticket testTicket1 = testParkhaus.neuesTicket("Normaler Parkplatz");
             System.out.println("Anzahl Tickets: " + testParkhaus.getAnzahlFreierParkplaetze());
@@ -36,14 +36,14 @@ class ParkhausIFTest {
             Ticket testTicket4 = testParkhaus.neuesTicket("Motorrad-Parkplatz");
             assertEquals(396, testParkhaus.getAnzahlFreierParkplaetze());
 
-            //ErstellungsDatum soll gleich dem heutigen Datum sein
+            //Erstellungsdatum soll gleich dem heutigen Datum sein
             assertEquals(testTicket1.getDatum(), testParkhaus.getDatum());
             assertEquals(testTicket2.getDatum(), testParkhaus.getDatum());
             assertEquals(testTicket3.getDatum(), testParkhaus.getDatum());
             assertEquals(testTicket4.getDatum(), testParkhaus.getDatum());
 
-            //ErstellungsZeit soll vor der jetzigen Zeit sein
-            // (da das Parkhaus.Ticket 2 Zeilen vorher erstellt wurde und die Sekunden auch gemessen werden)
+            //Erstellungszeit soll vor der jetzigen Zeit sein
+            // (da das Ticket 2 Zeilen vorher erstellt wurde und die Sekunden auch gemessen werden)
             assertEquals(testTicket1.getUhrzeit().getHour(), testParkhaus.getUhrzeit().getHour());
             assertEquals(testTicket1.getUhrzeit().getMinute(), testParkhaus.getUhrzeit().getMinute());
             assertEquals(testTicket1.getUhrzeit().getSecond(), testParkhaus.getUhrzeit().getSecond());
@@ -60,7 +60,7 @@ class ParkhausIFTest {
             assertEquals(testTicket4.getUhrzeit().getMinute(), testParkhaus.getUhrzeit().getMinute());
             assertEquals(testTicket4.getUhrzeit().getSecond(), testParkhaus.getUhrzeit().getSecond());
 
-            //Art des Parkplatzes soll dann in der Parkhaus.Ticket-Instanzvariablen stehen
+            //Art des Parkplatzes soll dann in der Ticket-Instanzvariablen stehen
             assertEquals("Normaler Parkplatz", testTicket1.getArtDesParkplatzes());
             assertEquals("E-Auto-Parkplatz", testTicket2.getArtDesParkplatzes());
             assertEquals("Behinderten-Parkplatz", testTicket3.getArtDesParkplatzes());
@@ -81,8 +81,8 @@ class ParkhausIFTest {
             assertEquals(testTicket2.getTicketID(), 1);
             assertEquals(testTicket3.getTicketID(), 2);
             assertEquals(testTicket4.getTicketID(), 3);
-        } catch (ParkplaetzeBelegtException e){}
-        catch (ParkhausGeschlossenException e2){}
+        } catch (ParkplaetzeBelegtException e){System.out.println("Alle Parkplätze belegt");}
+        catch (ParkhausGeschlossenException e2){System.out.println("Parkhaus geschlossen");}
     }
 
     /**
@@ -110,7 +110,7 @@ class ParkhausIFTest {
             assertNotEquals(p.getUhrzeit(),timeVorher);
             assertNotEquals(p.getDatum(),dateVorher);
 
-        } catch (ReiseInVergangenheitException e){}
+        } catch (ReiseInVergangenheitException e){System.out.println("Raum-Zeit-Kontinuum verletzt");}
     }
 
     /**
@@ -150,7 +150,7 @@ class ParkhausIFTest {
         assertThrows(ParkhausGeschlossenException.class, () -> testParkhaus.neuesTicket("E-Auto-Parkplatz"));
     }
     @Test
-    void stringFuerStatsTest() throws ParkhausGeschlossenException, ParkplaetzeBelegtException, ReiseInVergangenheitException, TicketNichtGefundenException {
+    void stringFuerStatsTest() {
 
         try {
             Parkhaus testParkhaus = new Parkhaus(3, 100, 10, 10, 10);
@@ -178,9 +178,10 @@ class ParkhausIFTest {
             assertTrue(testString.contains("Tageseinnahmen: 0.0"));
             assertTrue(testString.contains("Monatseinnahmen: 9.0"));
             assertTrue(testString.contains("Gesamteinnahmen: 9.0"));
+            testTicket4.ausfahren(); //damit die Variable benutzt wird.
 
         }catch(ParkhausGeschlossenException e1){ System.out.println("Außerhalb der Öffnungszeiten");}
-        catch (ParkplaetzeBelegtException e2){System.out.println("Keine freien Parkplaetze");}
+        catch (ParkplaetzeBelegtException e2){System.out.println("Keine freien Parkplätze");}
         catch (ReiseInVergangenheitException e3){System.out.println("Raum-Zeit-Kontinuum verletzt");}
         catch (TicketNichtGefundenException e4){ System.out.println("Ticket nicht gefunden");}
     }
@@ -241,7 +242,7 @@ class ParkhausIFTest {
 
     //Teste setSchliessungszeit
     @Test
-    void setSchliessungsTest(){
+    void setSchliessungszeitTest(){
         Parkhaus p = new Parkhaus(3,10,0,0,0);
         p.setSchliessungszeit(p.getUhrzeit());
         assertEquals(p.getUhrzeit(), p.getSchliessungszeit());

@@ -123,7 +123,7 @@ class TicketIFTest {
             assertEquals(9, testParkhaus.getAnzahlFreierNormalerParkplaetze());
             assertEquals(9, testParkhaus.getAnzahlFreierBehindertenParkplaetze());
 
-            //Zeitschranke testen, sollte die Autos nun rauslassen
+            //Zeitschranke testen, sollte die Autos nun ausfahren lassen
             testTicket1.setEntwertet(true);
             testParkhaus.setUhrzeitManuell(LocalTime.now().getHour(), LocalTime.now().getMinute());
             testTicket1.ausfahren();
