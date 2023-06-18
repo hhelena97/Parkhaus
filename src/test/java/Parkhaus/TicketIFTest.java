@@ -119,22 +119,32 @@ class TicketIFTest {
             testTicket2.setEntwertet(true);
             testTicket1.ausfahren();
             testTicket2.ausfahren();
-            assertEquals(198, testParkhaus.getAnzahlFreierParkplaetze());
-            assertEquals(189, testParkhaus.getAnzahlFreierNormalerParkplaetze());
+            assertEquals(36, testParkhaus.getAnzahlFreierParkplaetze());
+            assertEquals(9, testParkhaus.getAnzahlFreierNormalerParkplaetze());
             assertEquals(9, testParkhaus.getAnzahlFreierBehindertenParkplaetze());
 
             //Zeitschranke testen, sollte die Autos nun rauslassen
             testTicket1.setEntwertet(true);
             testParkhaus.setUhrzeitManuell(LocalTime.now().getHour(), LocalTime.now().getMinute());
             testTicket1.ausfahren();
-            assertEquals(199, testParkhaus.getAnzahlFreierParkplaetze());
-            assertEquals(190, testParkhaus.getAnzahlFreierNormalerParkplaetze());
+            assertEquals(37, testParkhaus.getAnzahlFreierParkplaetze());
+            assertEquals(10, testParkhaus.getAnzahlFreierNormalerParkplaetze());
             testTicket2.setEntwertet(true);
             testParkhaus.setUhrzeitManuell(LocalTime.now().getHour(), LocalTime.now().getMinute());
             testTicket2.ausfahren();
             System.out.println(testParkhaus.getAnzahlFreierParkplaetze());
-            assertEquals(200, testParkhaus.getAnzahlFreierParkplaetze());
+            assertEquals(38, testParkhaus.getAnzahlFreierParkplaetze());
             assertEquals(10, testParkhaus.getAnzahlFreierBehindertenParkplaetze());
+            testTicket3.setEntwertet(true);
+            testParkhaus.setUhrzeitManuell(LocalTime.now().getHour(), LocalTime.now().getMinute());
+            testTicket3.ausfahren();
+            assertEquals(39, testParkhaus.getAnzahlFreierParkplaetze());
+            assertEquals(10, testParkhaus.getAnzahlFreierEAutoParkplaetze());
+            testTicket1.setEntwertet(true);
+            testParkhaus.setUhrzeitManuell(LocalTime.now().getHour(), LocalTime.now().getMinute());
+            testTicket1.ausfahren();
+            assertEquals(40, testParkhaus.getAnzahlFreierParkplaetze());
+            assertEquals(10, testParkhaus.getAnzahlFreierMotorradParkplaetze());
         }catch (ParkplaetzeBelegtException e1){
             System.out.println("Keine freien Parkplaetze");
         }catch (TicketNichtGefundenException e2){
