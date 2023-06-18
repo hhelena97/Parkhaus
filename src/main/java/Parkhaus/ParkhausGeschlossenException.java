@@ -1,6 +1,6 @@
 package Parkhaus;
 
-public class ParkhausGeschlossenException extends Throwable {
+public class ParkhausGeschlossenException extends Exception {
     public ParkhausGeschlossenException(String message) {super (message);
     }
 }
