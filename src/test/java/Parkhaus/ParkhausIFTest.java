@@ -9,6 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ParkhausIFTest {
 
+
+
     @Test
     void neuesTicketTest() {
         //Testparkhaus erstellen in dem die Werte geändert werden sollen wenn ein Auto reinfährt
@@ -139,12 +141,13 @@ class ParkhausIFTest {
         assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket("Normaler Parkplatz"));
     }
 
+    //Testet, ob die Methode neues Ticket die Exception wirft, wenn das Parkhaus geschlossen ist
     @Test
     void ParkhausGeschlossenTest() throws ReiseInVergangenheitException{
-        Parkhaus sarahsParkhaus = new Parkhaus(3,100,5,10,5);
+        Parkhaus testParkhaus = new Parkhaus(3,100,5,10,5);
         LocalTime timeNeu = LocalTime.of(23,10);
-        sarahsParkhaus.parkhauszeitAnpassen(timeNeu, sarahsParkhaus.getDatum());
-        assertThrows(ParkhausGeschlossenException.class, () -> sarahsParkhaus.neuesTicket("E-Auto-Parkplatz"));
+        testParkhaus.parkhauszeitAnpassen(timeNeu, testParkhaus.getDatum());
+        assertThrows(ParkhausGeschlossenException.class, () -> testParkhaus.neuesTicket("E-Auto-Parkplatz"));
     }
     @Test
     void stringFuerStatsTest() throws ParkhausGeschlossenException, ParkplaetzeBelegtException, ReiseInVergangenheitException, TicketNichtGefundenException {
@@ -210,4 +213,38 @@ class ParkhausIFTest {
         catch (ParkhausGeschlossenException ex2) {System.out.println("Außerhalb der Öffnungszeiten");}
         catch(TicketNichtGefundenException ex3) {System.out.println("Ticket nicht gefunden");}
     }
+
+    //Tests zum Parkhaus
+    //Teste Anzahl Parkplätze
+    @Test
+    void anzahlParkplaetzeTest(){
+        Parkhaus p = new Parkhaus(3,10,0,0,0);
+        assertEquals(10, p.getParkplaetzeGesamt());
+    }
+
+    //Teste setStundentarif
+    @Test
+    void setStundentarifTest(){
+        Parkhaus p = new Parkhaus(3,10,0,0,0);
+        p.setStundentarif(5);
+        assertEquals(5, p.getStundentarif());
+
+    }
+
+    //Teste setÖffnungszeit
+    @Test
+    void setOeffungszeitTest(){
+        Parkhaus p = new Parkhaus(3,10,0,0,0);
+        p.setOeffnungszeit(p.getUhrzeit());
+        assertEquals(p.getUhrzeit(), p.getOeffnungszeit());
+    }
+
+    //Teste setSchliessungszeit
+    @Test
+    void setSchliessungsTest(){
+        Parkhaus p = new Parkhaus(3,10,0,0,0);
+        p.setSchliessungszeit(p.getUhrzeit());
+        assertEquals(p.getUhrzeit(), p.getSchliessungszeit());
+    }
+
 }
