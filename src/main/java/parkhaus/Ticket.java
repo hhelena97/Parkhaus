@@ -1,4 +1,4 @@
-package Parkhaus;
+package parkhaus;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

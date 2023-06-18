@@ -5,7 +5,7 @@
          version="4.0">
     <servlet>
         <servlet-name>ParkhausServlet</servlet-name>
-        <servlet-class>Parkhaus.ParkhausServlet</servlet-class>
+        <servlet-class>parkhaus.ParkhausServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

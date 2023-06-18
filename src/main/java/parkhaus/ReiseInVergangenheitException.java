@@ -1,4 +1,4 @@
-package Parkhaus;
+package parkhaus;
 
 import javax.servlet.ServletException;
 

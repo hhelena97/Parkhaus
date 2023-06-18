@@ -1,4 +1,4 @@
-package Parkhaus;
+package parkhaus;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,4 +1,4 @@
-package Parkhaus;
+package parkhaus;
 
 public class State {
     public State getNext() {

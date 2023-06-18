@@ -1,4 +1,4 @@
-package Parkhaus;
+package parkhaus;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,27 +13,27 @@ import java.time.LocalTime;
 public class ParkhausServlet extends HttpServlet {
 
     //Konstanten für weniger Code-Smell
-   final String parkhausString = "Parkhaus";
-   final String ticketListeS = "ticketliste";
+   static final String PARKHAUS = "parkhaus";
+   static final String TICKETLISTE = "ticketliste";
     public void init() {
         //existiert bereits ein Parkhaus im Context, dann wird das verwendet - sonst wird ein neues erstellt
         Parkhaus p;
-        if (getServletContext().getAttribute(parkhausString) == null) {
+        if (getServletContext().getAttribute(PARKHAUS) == null) {
             p = new Parkhaus(3, 100, 5, 5, 10);
             System.out.println("Neues Parkhaus erstellt");
         } else {
-            p = (Parkhaus) getServletContext().getAttribute(parkhausString);
+            p = (Parkhaus) getServletContext().getAttribute(PARKHAUS);
             System.out.println("Parkhaus in init gefunden");
         }
-        getServletContext().setAttribute(parkhausString, p);
+        getServletContext().setAttribute(PARKHAUS, p);
 
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        Parkhaus p = (Parkhaus) getServletContext().getAttribute(parkhausString);
+        Parkhaus p = (Parkhaus) getServletContext().getAttribute(PARKHAUS);
 
-        request.setAttribute(parkhausString, p);
+        request.setAttribute(PARKHAUS, p);
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
@@ -42,14 +42,14 @@ public class ParkhausServlet extends HttpServlet {
         String naechsteSeite = "index.jsp";
 
         //hole das Parkhaus aus dem Context
-        Parkhaus p = (Parkhaus) getServletContext().getAttribute(parkhausString);
+        Parkhaus p = (Parkhaus) getServletContext().getAttribute(PARKHAUS);
 
         //führe je nach "action" verschiedene Dinge aus
         String action = request.getParameter("action");
 
         if ("start".equals(action)) {
             p.resetTicketListen();
-            getServletContext().setAttribute(ticketListeS, p.getAktiveTickets());
+            getServletContext().setAttribute(TICKETLISTE, p.getAktiveTickets());
             getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
             p = new Parkhaus(3, 100, 5, 5, 10);
 
@@ -58,7 +58,7 @@ public class ParkhausServlet extends HttpServlet {
             p.setUhrzeit(time);                                                     // setzen der neuen Zeit
             p.setDatum(date);                                                       // setzen des neuen Datums
 
-            getServletContext().setAttribute(parkhausString, p);
+            getServletContext().setAttribute(PARKHAUS, p);
             //Exception-Nachrichten ausblenden
             NachrichtenAusblenden();
 
@@ -109,7 +109,7 @@ public class ParkhausServlet extends HttpServlet {
                 //System.out.println("Neues Ticket erstellt");
                 //System.out.println(t);
                 //(über)schreibt die Liste aktiver Tickets im Context
-                getServletContext().setAttribute(ticketListeS, p.getAktiveTickets());
+                getServletContext().setAttribute(TICKETLISTE, p.getAktiveTickets());
             } catch (ParkplaetzeBelegtException e) {
                 getServletContext().setAttribute("TicketErstellenException", e.getMessage());
             } catch (ParkhausGeschlossenException e2) {
@@ -160,7 +160,7 @@ public class ParkhausServlet extends HttpServlet {
             }
 
             //(über)schreibt die Liste aktiver Tickets im Context
-            getServletContext().setAttribute(ticketListeS, p.getAktiveTickets());
+            getServletContext().setAttribute(TICKETLISTE, p.getAktiveTickets());
 
         } else if ("schrankeOeffnen".equals(action)) {
 
@@ -190,7 +190,7 @@ public class ParkhausServlet extends HttpServlet {
             }
 
             //(über)schreibt die Liste aktiver und inaktiver Tickets im Context
-            getServletContext().setAttribute(ticketListeS, p.getAktiveTickets());
+            getServletContext().setAttribute(TICKETLISTE, p.getAktiveTickets());
             getServletContext().setAttribute("inaktiveTicketliste", p.getInaktiveTickets());
 
         } else if ("rabattGeben".equals(action)) {              // Ticket einen Rabatt geben
@@ -263,7 +263,7 @@ public class ParkhausServlet extends HttpServlet {
             //damit der nach dem Ändern in der Betreiberansicht bleibt
             naechsteSeite = "Betreiberansicht.jsp";
         }
-        request.setAttribute(parkhausString, p);
+        request.setAttribute(PARKHAUS, p);
         request.getRequestDispatcher(naechsteSeite).forward(request, response);
     }
 

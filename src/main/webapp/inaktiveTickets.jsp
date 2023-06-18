@@ -12,7 +12,7 @@
 <p>${parkhaus.stringFuerInaktiveTicketsAuflistung()}</p>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
     <input type="hidden" name="action" value="zurück">
-    <button type="submit">zurück zum Parkhaus</button>
+    <button type="submit">zurück zum parkhaus</button>
 </form>
 </body>
 </html>

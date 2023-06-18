@@ -1,14 +1,14 @@
-<%@ page import="Parkhaus.Parkhaus" %>
+<%@ page import="parkhaus.Parkhaus" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <title>Das kule Parkhaus</title>
+    <title>Das kule parkhaus</title>
     <style> .error {color: red;} </style>
 </head>
 <body>
-<h1>Das kule Parkhaus</h1>
+<h1>Das kule parkhaus</h1>
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
     <input type="hidden" name="action" value="start">
     <button type="submit">Start/Reset</button>
@@ -34,13 +34,13 @@
 
 <br>
 <p>Öffnungszeiten: ${parkhaus.getUhrzeitStringParkhaus(parkhaus.getOeffnungszeit())} bis ${parkhaus.getUhrzeitStringParkhaus(parkhaus.getSchliessungszeit())}</p>
-<p>Anzahl Parkplaetze in diesem Parkhaus: ${parkhaus.getParkplaetzeGesamt()}, Preis je Stunde: ${parkhaus.getStundentarif()} Euro</p>
+<p>Anzahl Parkplaetze in diesem parkhaus: ${parkhaus.getParkplaetzeGesamt()}, Preis je Stunde: ${parkhaus.getStundentarif()} Euro</p>
 Freie regulaere Parkplaetze: ${parkhaus.getAnzahlFreierNormalerParkplaetze()}, freie Behinderten-Parkplaetze: ${parkhaus.getAnzahlFreierBehindertenParkplaetze()}
 , freie E-Auto-Parkplaetze: ${parkhaus.getAnzahlFreierEAutoParkplaetze()}, freie Motorrad-Parkplaetze: ${parkhaus.getAnzahlFreierMotorradParkplaetze()}</p>
 <br>
 
 <!-- --------------------------------------------------------------------------------------------------------------- -->
-<h2>Einfahrt</h2>       <!-- Darstellung der Funktion "Einfahrt ins Parkhaus" -->
+<h2>Einfahrt</h2>       <!-- Darstellung der Funktion "Einfahrt ins parkhaus" -->
 <form method="POST" action="${pageContext.request.contextPath}/parkhaus-servlet">
     <input type="hidden" name="action" value="ticketErstellen">     <!-- Wert von 'action' wird auf "ticketErstellen" gesetzt -->
     <label>Parkplatz-Art aussuchen:     <!-- Beschriftung für das Auswahlfeld -->

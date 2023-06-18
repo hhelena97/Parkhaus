@@ -1,4 +1,4 @@
-package Parkhaus;
+package parkhaus;
 
 public class ParkplaetzeBelegtException extends Exception{
 
