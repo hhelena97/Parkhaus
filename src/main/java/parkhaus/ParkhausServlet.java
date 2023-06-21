@@ -111,8 +111,6 @@ public class ParkhausServlet extends HttpServlet {
                                 "<p> Es wurde ein neues Ticket mit Parkplatzart: " + t.getArtDesParkplatzes()
                                 + " und ID: " + t.getTicketID() + " erstellt! </p><br>");
 
-                //System.out.println("Neues Ticket erstellt");
-                //System.out.println(t);
                 //(über)schreibt die Liste aktiver Tickets im Context
                 getServletContext().setAttribute(TICKETLISTE, p.getAktiveTickets());
             } catch (ParkplaetzeBelegtException e) {
@@ -203,8 +201,8 @@ public class ParkhausServlet extends HttpServlet {
             double rabatt = 0;
             for (int i = 0; i < len; i++)               // suche Ticket mit eingegebener TicketID in den aktiven Tickets
             {
-                if (p.getAktiveTickets().get(i).getTicketID() == Integer.parseInt(request.getParameter("ticketID"))){
-
+                if (p.getAktiveTickets().get(i).getTicketID() == Integer.parseInt(request.getParameter("ticketID")))
+                {
                     Ticket t = p.getAktiveTickets().get(i);         // speichere das Ticket mit der ID
 
                     if (request.getParameter("rabatt").equals("Personalrabatt (10 %)"))

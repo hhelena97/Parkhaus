@@ -118,7 +118,6 @@ public class Ticket implements TicketIF {
         return this.zustand.bezahlen();     // rufe bezahlen Methode des Zustands auf + gebe den zu bezahlenden Preis zurück
     }
 
-
     // -----------------------------------------------------------------------------------------------------------------
     // Getter und Setter:
 

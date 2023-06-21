@@ -12,16 +12,11 @@ public class StateAktiv extends State{
     //Methode bezahlen mit Zustandsänderung ergänzt
     public double bezahlen() {
 
-        if (ticket.zeitDifferenz() >= (24*60))       // Wenn jemand über Nacht parkt
-        {
-            return 100.0;        // Fixbetrag, fürs Über-Nacht-Parken
-        }
-
         int dauer = ticket.zeitDifferenz();
         int stunden = dauer/60;
 
-        if (dauer%60 != 0) {stunden++;}
-        // -> angefangene Stunden berücksichtigen
+        if (dauer%60 != 0) {stunden++;}     // angefangene Stunden berücksichtigen
+
 
         double preis = (ticket.getParkhaus().getStundentarif() * stunden);
         ticket.setRabattEuro(preis * ticket.getRabattProzent());
@@ -39,8 +34,6 @@ public class StateAktiv extends State{
 
         return ticket.getPreis();
     }
-
-
 
     public String ausfahren() throws TicketNichtGefundenException{
         throw new TicketNichtGefundenException("Ausfahrt nur mit entwertetem Ticket möglich.");

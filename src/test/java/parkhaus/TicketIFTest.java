@@ -68,7 +68,6 @@ class TicketIFTest {
         } catch (TicketNichtGefundenException e) {
             System.out.println("Das Ticket existiert nicht");
         }
-
     }
 
     @Test
@@ -165,5 +164,4 @@ class TicketIFTest {
         testticket1.zustand = testticket1.zustand.getNext();
         assertThrows(TicketNichtGefundenException.class, () -> testticket1.ausfahren());
     }
-
 }
