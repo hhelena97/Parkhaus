@@ -31,9 +31,10 @@ class TicketIFTest {
 
         try {
             Parkhaus p = new Parkhaus(3, 100, 5, 5, 10);
-            Ticket t1 = p.neuesTicket("Normaler Parkplatz");
-            LocalTime vergleichszeitStart = LocalTime.of(16, 30);
-            LocalTime vergleichszeitSchluss = LocalTime.now();
+            Ticket t1 = p.neuesTicket("Normaler Parkplatz"); //Ticket zur Uhrzeit 8:00 uhr erstellen
+            p.setUhrzeit(LocalTime.of(13,0));
+            LocalTime vergleichszeitStart = LocalTime.of(8, 0);
+            LocalTime vergleichszeitSchluss = p.getUhrzeit();
             int stundenSum;
             int minSum;
             if (vergleichszeitSchluss.getMinute() >= vergleichszeitStart.getMinute()) {
@@ -43,20 +44,20 @@ class TicketIFTest {
                 stundenSum = vergleichszeitSchluss.getHour() - vergleichszeitStart.getHour() - 1;
                 minSum = (stundenSum * 60) + ((vergleichszeitSchluss.getMinute() + 60) - vergleichszeitStart.getMinute());
             }
-            //p.setUhrzeitManuell(16, 30);
+
             int dauer = t1.zeitDifferenz();
-            //assertEquals(minSum, dauer);
+            assertEquals(minSum, dauer);
+
 
             //Test mit Datum
+            //ParkhausZeit wieder auf 8:00 Uhr zurück
+            p.setUhrzeit(LocalTime.of(8,0));
             Ticket t2 = p.neuesTicket("Normaler-Parkplatz");
-            System.out.println(p.getUhrzeit());
-            System.out.println(p.getDatum());
+
             //Parkhaus Datum ändern
             p.parkhauszeitAnpassen(LocalTime.of(9,0), LocalDate.of(2023, 1, 2));
-            System.out.println(p.getUhrzeit());
-            System.out.println(p.getDatum());
 
-            assertEquals(100, (int)t2.bezahlen());
+            assertEquals(25*p.getStundentarif(), (int)t2.bezahlen());
 
 
         }catch (ParkplaetzeBelegtException e) {
