@@ -27,17 +27,6 @@ public class Ticket implements TicketIF {
 
     private Parkhaus parkhaus;
 
-    /*
-    //Test-Konstruktor damit man sich nicht immer ein Ticket mit "Ticket-Art" erstellen muss zum Testen
-    public Ticket() {
-        this.ticketID = identifikationsNummer++;
-        this.artDesParkplatzes = "normaler Parkplatz";
-        this.parkdauerMin = 0;
-        this.entwertet = false;
-
-        this.uhrzeit = parkhaus.getUhrzeit();       // nehme als Ticketzeit die aktuelle Parkhauszeit
-        this.datum = parkhaus.getDatum();           // nehme als Ticketdatum das aktuelle Parkhausdatum
-    }*/
 
     public Ticket(String art, Parkhaus parkhaus) {
 
@@ -54,7 +43,7 @@ public class Ticket implements TicketIF {
     }
 
 
-    //------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------------
     //Was mit dem Parkhaus.Ticket passiert:
 
     /**
@@ -95,7 +84,7 @@ public class Ticket implements TicketIF {
      * @return Nachricht, die dem Besucher angezeigt werden soll
      */
     public String ausfahren() throws TicketNichtGefundenException, ParkhausGeschlossenException {
-        if (this.parkhaus.getUhrzeit().isBefore(this.parkhaus.getOeffnungszeit()) | this.parkhaus.getUhrzeit().isAfter(this.parkhaus.getSchliessungszeit())) {
+        if (this.parkhaus.getUhrzeit().isBefore(this.parkhaus.getOeffnungszeit()) || this.parkhaus.getUhrzeit().isAfter(this.parkhaus.getSchliessungszeit())) {
             throw new ParkhausGeschlossenException("Parkhaus ist geschlossen.");
         }
 

@@ -21,7 +21,7 @@ public class Parkhaus implements ParkhausIF {
     private int anzahlFreierMotorradParkplaetze; // -----------"--------------
     private int parkplaetzeGesamt; //Anzahl der Parkplätze insgesamt, ob frei oder besetzt
 
-    //Liste mit allen Tickets von Autos, die sich zur Zeit im Parkhaus befinden
+    //Liste mit allen Tickets von Autos, die sich zurzeit im Parkhaus befinden
     private List<Ticket> aktiveTickets = new ArrayList<>();
 
     //Liste mit Tickets von Besuchern, die das Parkhaus verlassen haben
