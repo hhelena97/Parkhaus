@@ -14,6 +14,12 @@ public class StateEntwertet extends State{
     }
 
 
+    /**
+     * Die Methode 'bezahlen()' wirft eine Exception, da bezahlen in diesem State nicht erlaubt ist.
+     *
+     * @return Exceptionnachricht, dass das Ticket schon bezahlt ist
+     * @throws TicketNichtGefundenException
+     */
     public double bezahlen() throws TicketNichtGefundenException{
         throw new TicketNichtGefundenException("Ticket bereits bezahlt");
     }

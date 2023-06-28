@@ -43,7 +43,7 @@ public class Ticket implements TicketIF {
     }
 
 
-    //------------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
     //Was mit dem Parkhaus.Ticket passiert:
 
     /**
@@ -59,7 +59,8 @@ public class Ticket implements TicketIF {
     }
 
     /**
-     * Die Methode 'zeitDifferenz' vergleicht die Uhrzeit des Tickets mit der aktuellen Zeit und berechnet die Differenz zwischen beiden
+     * Die Methode 'zeitDifferenz' vergleicht die Uhrzeit des Tickets mit der aktuellen Zeit
+     * und berechnet die Differenz zwischen beiden
      *
      * @return die Differenz zwischen der im Parkhaus.Ticket gespeicherten Uhrzeit und der aktuellen Zeit in Minuten
      */
@@ -77,14 +78,17 @@ public class Ticket implements TicketIF {
     }
 
     /**
-     * "ausfahren" prüft, ob das Ticket entwertet wurde und die Zeit zum ausfahren noch reicht. Wenn die Bedingungen nicht
-     * erfüllt sind, wird ein entsprechender Hinweis ausgegeben. Ist das Ticket entwertet und die Viertelstunde noch nicht um,
-     * wird das Ticket inaktiv und die Anzahl der freien Parkplätze wird um eins erhöht, entsprechend dem Parkplatz, der belegt war.
+     * "ausfahren" prüft, ob das Ticket entwertet wurde und die Zeit zum ausfahren noch reicht.
+     * Wenn die Bedingungen nicht erfüllt sind, wird ein entsprechender Hinweis ausgegeben.
+     * Ist das Ticket entwertet und die Viertelstunde noch nicht um,
+     * wird das Ticket inaktiv und die Anzahl der freien Parkplätze wird um eins erhöht,
+     * entsprechend dem Parkplatz, der belegt war.
      *
      * @return Nachricht, die dem Besucher angezeigt werden soll
      */
     public String ausfahren() throws TicketNichtGefundenException, ParkhausGeschlossenException {
-        if (this.parkhaus.getUhrzeit().isBefore(this.parkhaus.getOeffnungszeit()) || this.parkhaus.getUhrzeit().isAfter(this.parkhaus.getSchliessungszeit())) {
+        if (this.parkhaus.getUhrzeit().isBefore(this.parkhaus.getOeffnungszeit())
+                || this.parkhaus.getUhrzeit().isAfter(this.parkhaus.getSchliessungszeit())) {
             throw new ParkhausGeschlossenException("Parkhaus ist geschlossen.");
         }
 
@@ -98,12 +102,13 @@ public class Ticket implements TicketIF {
      */
     public double bezahlen() throws TicketNichtGefundenException, ParkhausGeschlossenException
     {
-        if (this.parkhaus.getUhrzeit().isBefore(this.parkhaus.getOeffnungszeit()) || this.parkhaus.getUhrzeit().isAfter(this.parkhaus.getSchliessungszeit()))
+        if (this.parkhaus.getUhrzeit().isBefore(this.parkhaus.getOeffnungszeit())
+                || this.parkhaus.getUhrzeit().isAfter(this.parkhaus.getSchliessungszeit()))
         {
             throw new ParkhausGeschlossenException("Parkhaus ist geschlossen.");
         }
 
-        return this.zustand.bezahlen();     // rufe bezahlen Methode des Zustands auf + gebe den zu bezahlenden Preis zurück
+        return this.zustand.bezahlen(); // rufe bezahlen Methode des Zustands auf + gebe den zu bezahlenden Preis zurück
     }
 
     // -----------------------------------------------------------------------------------------------------------------

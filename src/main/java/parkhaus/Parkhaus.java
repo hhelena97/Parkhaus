@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class Parkhaus implements ParkhausIF {
 
-    private double stundentarif;    //kann man das final machen?
+    private double stundentarif;    // globaler Stundentarif des Parkhauses
     private LocalTime uhrzeit;  //globale Uhrzeit des Parkhauses
     private LocalDate datum;  //globales Datum
 
@@ -30,7 +30,6 @@ public class Parkhaus implements ParkhausIF {
     private LocalTime schliessungszeit;
 
 
-    //brauchen wie beide Konstruktoren? //ja, ist hilfreich zum Testen
     public Parkhaus() {
 
         this.stundentarif = 0.0;
@@ -57,6 +56,7 @@ public class Parkhaus implements ParkhausIF {
     }
 
     public Parkhaus(double stundentarif, int normaleParkplaetze, int eAutoParkplaetze, int behindertenParkplaetze, int motoradparkplaetze) {
+
         this.stundentarif = stundentarif;
         parkplaetzeGesamt = normaleParkplaetze + behindertenParkplaetze + eAutoParkplaetze + motoradparkplaetze;
         anzahlFreierParkplaetze = parkplaetzeGesamt;

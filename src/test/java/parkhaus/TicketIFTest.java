@@ -71,16 +71,32 @@ class TicketIFTest {
         }
     }
 
+
+    /**
+     * Test-Methode zur Funktion Parkhauszeit anpassen.
+     * Bei Umstellung der Zeit auf Vergangenheit soll eine Exception geworfen werden.
+     *
+     * @author jboven2s
+     */
     @Test
-    void bezahleTicketTest() {
+    void bezahleTicketTestStateAktiv() {
         try {
             Parkhaus p = new Parkhaus(2.1);
+            LocalTime t1 = LocalTime.of(12,00);
+            LocalTime t2 = LocalTime.of(16,30);
+            p.setUhrzeit(t1);
             Ticket t = new Ticket("Normaler Parkplatz", p);
-            p.setUhrzeitManuell(16, 30);
+            p.setUhrzeit(t2);
             t.bezahlen();
 
             // Teste ob 'preis' richtig berechnet wurde
-            double erwarteterPreis = p.getStundentarif() * t.zeitDifferenz();
+            int h = t2.getHour() - t1.getHour();
+            if (t2.getMinute() - t1.getMinute() % 60 != 0)
+            {
+                h++;
+            }
+
+            double erwarteterPreis = p.getStundentarif() * h;
             assertEquals(erwarteterPreis, t.getPreis());
 
         } catch (TicketNichtGefundenException e1) {
@@ -89,6 +105,36 @@ class TicketIFTest {
             System.out.println("Außerhalb der Öffnungszeiten");
         }
     }
+
+    /**
+     *
+     *
+     */
+    @Test
+    void bezahleTicketTestStateEntwertet() {
+
+        Parkhaus p = new Parkhaus(2.1);
+        Ticket t = new Ticket("Normaler Parkplatz", p);
+        StateAktiv a = new StateAktiv(t);
+        t.zustand = new StateEntwertet(t, a);
+
+        assertThrows(TicketNichtGefundenException.class, () -> t.bezahlen());
+    }
+
+    /**
+     *
+     *
+     */
+    @Test
+    void bezahleTicketTestStateInaktiv() {
+
+        Parkhaus p = new Parkhaus(2.1);
+        Ticket t = new Ticket("Normaler Parkplatz", p);
+        t.zustand = new StateInaktiv(t);
+
+        assertThrows(TicketNichtGefundenException.class, () -> t.bezahlen());
+    }
+
 
     @Test
     void ausfahrenTest(){
