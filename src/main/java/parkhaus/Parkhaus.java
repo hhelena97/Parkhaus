@@ -55,7 +55,8 @@ public class Parkhaus implements ParkhausIF {
         this.datum = LocalDate.of(2023, 1, 1);
     }
 
-    public Parkhaus(double stundentarif, int normaleParkplaetze, int eAutoParkplaetze, int behindertenParkplaetze, int motoradparkplaetze) {
+    public Parkhaus(double stundentarif, int normaleParkplaetze, int eAutoParkplaetze, int behindertenParkplaetze,
+                    int motoradparkplaetze) {
 
         this.stundentarif = stundentarif;
         parkplaetzeGesamt = normaleParkplaetze + behindertenParkplaetze + eAutoParkplaetze + motoradparkplaetze;

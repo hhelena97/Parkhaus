@@ -78,11 +78,7 @@ public class Ticket implements TicketIF {
     }
 
     /**
-     * "ausfahren" prüft, ob das Ticket entwertet wurde und die Zeit zum ausfahren noch reicht.
-     * Wenn die Bedingungen nicht erfüllt sind, wird ein entsprechender Hinweis ausgegeben.
-     * Ist das Ticket entwertet und die Viertelstunde noch nicht um,
-     * wird das Ticket inaktiv und die Anzahl der freien Parkplätze wird um eins erhöht,
-     * entsprechend dem Parkplatz, der belegt war.
+     * Die Methode 'ausfahren' ruft die 'ausfahren'-Methode des Zustandes auf, in dem sich das Ticket aktuell befindet.
      *
      * @return Nachricht, die dem Besucher angezeigt werden soll
      */

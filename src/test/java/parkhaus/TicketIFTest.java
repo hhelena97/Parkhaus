@@ -82,7 +82,7 @@ class TicketIFTest {
     void bezahleTicketTestStateAktiv() {
         try {
             Parkhaus p = new Parkhaus(2.1);
-            LocalTime t1 = LocalTime.of(12,00);
+            LocalTime t1 = LocalTime.of(12,0);
             LocalTime t2 = LocalTime.of(16,30);
             p.setUhrzeit(t1);
             Ticket t = new Ticket("Normaler Parkplatz", p);
@@ -118,7 +118,7 @@ class TicketIFTest {
         StateAktiv a = new StateAktiv(t);
         t.zustand = new StateEntwertet(t, a);
 
-        assertThrows(TicketNichtGefundenException.class, () -> t.bezahlen());
+        assertThrows(TicketNichtGefundenException.class, t::bezahlen);
     }
 
     /**
@@ -132,7 +132,7 @@ class TicketIFTest {
         Ticket t = new Ticket("Normaler Parkplatz", p);
         t.zustand = new StateInaktiv(t);
 
-        assertThrows(TicketNichtGefundenException.class, () -> t.bezahlen());
+        assertThrows(TicketNichtGefundenException.class, t::bezahlen);
     }
 
 
@@ -201,14 +201,14 @@ class TicketIFTest {
     }
     //Testet, ob die Methoden bezahlen und ausfahren die Exception werfen
     @Test
-    void TicketNichtGefundenTest() throws ParkhausGeschlossenException, ParkplaetzeBelegtException {
+    void ticketNichtGefundenTest() throws ParkhausGeschlossenException, ParkplaetzeBelegtException {
 
         Parkhaus testParkhaus = new Parkhaus(3.0,10,0,0,0);
         Ticket testticket1 = testParkhaus.neuesTicket("Normaler Parkplatz");
-        assertThrows(TicketNichtGefundenException.class, () -> testticket1.ausfahren());
+        assertThrows(TicketNichtGefundenException.class, testticket1::ausfahren);
         testticket1.zustand = testticket1.zustand.getNext();
-        assertThrows(TicketNichtGefundenException.class, () -> testticket1.bezahlen());
+        assertThrows(TicketNichtGefundenException.class, testticket1::bezahlen);
         testticket1.zustand = testticket1.zustand.getNext();
-        assertThrows(TicketNichtGefundenException.class, () -> testticket1.ausfahren());
+        assertThrows(TicketNichtGefundenException.class, testticket1::ausfahren);
     }
 }
