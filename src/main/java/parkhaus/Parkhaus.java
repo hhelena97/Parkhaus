@@ -158,33 +158,35 @@ public class Parkhaus implements ParkhausIF {
     public String stringFuerAktiveTicketsAuflistung() {
         String htmlString = "";
         htmlString += "<h2>Zurzeit aktive Tickets: </h2>";
-        int index = 0;
-        for (Ticket i : this.getAktiveTickets()) {
-            htmlString += "<p>Ticket-ID: " + this.getAktiveTickets().get(index).getTicketID() + ", ";
-            htmlString += "Datum: " + this.getAktiveTickets().get(index).getDatum() + ", ";
-            htmlString += "Ankunftszeit: " + this.getAktiveTickets().get(index).getUhrzeit().getHour();
-            if (this.getAktiveTickets().get(index).getUhrzeit().getMinute() < 10) {
-                htmlString += ":0" + this.getAktiveTickets().get(index).getUhrzeit().getMinute() + ", ";
+        List<Ticket> aktiveTickets = this.getAktiveTickets();
+        for (int index = 0; index < aktiveTickets.size(); index++) {
+            Ticket ticket = aktiveTickets.get(index);
+            htmlString += "<p>Ticket-ID: " + ticket.getTicketID() + ", ";
+            htmlString += "Datum: " + ticket.getDatum() + ", ";
+            htmlString += "Ankunftszeit: " + ticket.getUhrzeit().getHour();
+            if (ticket.getUhrzeit().getMinute() < 10) {
+                htmlString += ":0" + ticket.getUhrzeit().getMinute() + ", ";
             } else {
-                htmlString += ":" + this.getAktiveTickets().get(index).getUhrzeit().getMinute() + ", ";
+                htmlString += ":" + ticket.getUhrzeit().getMinute() + ", ";
             }
-            htmlString += "Parkplatzart: " + this.getAktiveTickets().get(index).getArtDesParkplatzes() + "</p>";
-            index++;
+            htmlString += "Parkplatzart: " + ticket.getArtDesParkplatzes() + "</p>";
         }
+
         return htmlString;
     }
 
     public String stringFuerInaktiveTicketsAuflistung() {
         String htmlString = "";
-        int index = 0;
-        for (Ticket i : this.getInaktiveTickets()) {
-            htmlString += "<p>Ticket-ID: " + this.getInaktiveTickets().get(index).getTicketID() + ", ";
-            htmlString += "Datum: " + this.getInaktiveTickets().get(index).getDatum() + ", ";
-            htmlString += "Dauer: " + this.getInaktiveTickets().get(index).getParkdauerMin() + ", ";
-            htmlString += "Preis: " + this.getInaktiveTickets().get(index).getPreis() + ", ";
-            htmlString += "Parkplatzart: " + this.getInaktiveTickets().get(index).getArtDesParkplatzes() + "</p>";
-            index++;
+        List<Ticket> inaktiveTickets = this.getInaktiveTickets();
+        for (int index = 0; index < inaktiveTickets.size(); index++) {
+            Ticket ticket = inaktiveTickets.get(index);
+            htmlString += "<p>Ticket-ID: " + ticket.getTicketID() + ", ";
+            htmlString += "Datum: " + ticket.getDatum() + ", ";
+            htmlString += "Dauer: " + ticket.getParkdauerMin() + ", ";
+            htmlString += "Preis: " + ticket.getPreis() + ", ";
+            htmlString += "Parkplatzart: " + ticket.getArtDesParkplatzes() + "</p>";
         }
+
         return htmlString;
     }
 
