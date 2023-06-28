@@ -158,9 +158,9 @@ public class Parkhaus implements ParkhausIF {
     public String stringFuerAktiveTicketsAuflistung() {
         String htmlString = "";
         htmlString += "<h2>Zurzeit aktive Tickets: </h2>";
-        List<Ticket> aktiveTickets = this.getAktiveTickets();
-        for (int index = 0; index < aktiveTickets.size(); index++) {
-            Ticket ticket = aktiveTickets.get(index);
+        List<Ticket> aktuellAktiveTickets = this.getAktiveTickets();
+        for (int index = 0; index < aktuellAktiveTickets.size(); index++) {
+            Ticket ticket = aktuellAktiveTickets.get(index);
             htmlString += "<p>Ticket-ID: " + ticket.getTicketID() + ", ";
             htmlString += "Datum: " + ticket.getDatum() + ", ";
             htmlString += "Ankunftszeit: " + ticket.getUhrzeit().getHour();
@@ -177,9 +177,9 @@ public class Parkhaus implements ParkhausIF {
 
     public String stringFuerInaktiveTicketsAuflistung() {
         String htmlString = "";
-        List<Ticket> inaktiveTickets = this.getInaktiveTickets();
-        for (int index = 0; index < inaktiveTickets.size(); index++) {
-            Ticket ticket = inaktiveTickets.get(index);
+        List<Ticket> aktuellInaktiveTickets = this.getInaktiveTickets();
+        for (int index = 0; index < aktuellInaktiveTickets.size(); index++) {
+            Ticket ticket = aktuellInaktiveTickets.get(index);
             htmlString += "<p>Ticket-ID: " + ticket.getTicketID() + ", ";
             htmlString += "Datum: " + ticket.getDatum() + ", ";
             htmlString += "Dauer: " + ticket.getParkdauerMin() + ", ";
