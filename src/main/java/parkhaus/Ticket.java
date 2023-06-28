@@ -6,7 +6,7 @@ import java.time.temporal.ChronoUnit;
 
 public class Ticket implements TicketIF {
 
-    State zustand = null; //Zustand des Tickets (aktiv, entwertet, inaktiv)
+    State zustand; //Zustand des Tickets (aktiv, entwertet, inaktiv)
 
     private LocalDate datum;        // Datum des Ticktes
     private LocalTime uhrzeit;      // Uhrzeit des Tickets
@@ -18,14 +18,10 @@ public class Ticket implements TicketIF {
     private double rabattEuro;      // Rabatt des Tickets in Euro
     private boolean entwertet;
     private int parkdauerMin;       // Parkdauer des Tickets in Minuten
-    private int ticketID;           // ID des Tickets
+    private final int ticketID;     // ID des Tickets
     private static int identifikationsNummer = 0; //zur Vergabe der Ticket-ID als Klassenvariable
 
-    public Parkhaus getParkhaus() {
-        return parkhaus;
-    }
-
-    private Parkhaus parkhaus;
+    private final Parkhaus parkhaus;
 
 
     public Ticket(String art, Parkhaus parkhaus) {
@@ -109,7 +105,9 @@ public class Ticket implements TicketIF {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Getter und Setter:
-
+    public Parkhaus getParkhaus() {
+        return parkhaus;
+    }
     public int getUhrzeitStunde() {
         return this.uhrzeit.getHour();
     }

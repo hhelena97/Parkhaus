@@ -10,12 +10,14 @@ import java.time.LocalTime;
 class TicketIFTest {
 
 
+    public static final String NORMALERPARKPLATZ = "Normaler Parkplatz";
+
     @Test
     void entwertenTest(){
         try{
             Parkhaus p = new Parkhaus(3, 100, 5, 5, 10);
-            Ticket t1 = p.neuesTicket("Normaler Parkplatz");
-            Ticket t2 = p.neuesTicket("Normaler Parkplatz");
+            Ticket t1 = p.neuesTicket(NORMALERPARKPLATZ);
+            Ticket t2 = p.neuesTicket(NORMALERPARKPLATZ);
             t1.entwerten();
             assertTrue(t1.getEntwertet());
             assertFalse(t2.getEntwertet());
@@ -31,7 +33,7 @@ class TicketIFTest {
 
         try {
             Parkhaus p = new Parkhaus(3, 100, 5, 5, 10);
-            Ticket t1 = p.neuesTicket("Normaler Parkplatz"); //Ticket zur Uhrzeit 8:00 uhr erstellen
+            Ticket t1 = p.neuesTicket(NORMALERPARKPLATZ); //Ticket zur Uhrzeit 8:00 uhr erstellen
             p.setUhrzeit(LocalTime.of(13,0));
             LocalTime vergleichszeitStart = LocalTime.of(8, 0);
             LocalTime vergleichszeitSchluss = p.getUhrzeit();
@@ -52,7 +54,7 @@ class TicketIFTest {
             //Test mit Datum
             //ParkhausZeit wieder auf 8:00 Uhr zurück
             p.setUhrzeit(LocalTime.of(8,0));
-            Ticket t2 = p.neuesTicket("Normaler-Parkplatz");
+            Ticket t2 = p.neuesTicket(NORMALERPARKPLATZ);
 
             //Parkhaus Datum ändern
             p.parkhauszeitAnpassen(LocalTime.of(9,0), LocalDate.of(2023, 1, 2));
@@ -85,7 +87,7 @@ class TicketIFTest {
             LocalTime t1 = LocalTime.of(12,0);
             LocalTime t2 = LocalTime.of(16,30);
             p.setUhrzeit(t1);
-            Ticket t = new Ticket("Normaler Parkplatz", p);
+            Ticket t = new Ticket(NORMALERPARKPLATZ, p);
             p.setUhrzeit(t2);
             t.bezahlen();
 
@@ -114,7 +116,7 @@ class TicketIFTest {
     void bezahleTicketTestStateEntwertet() {
 
         Parkhaus p = new Parkhaus(2.1);
-        Ticket t = new Ticket("Normaler Parkplatz", p);
+        Ticket t = new Ticket(NORMALERPARKPLATZ, p);
         StateAktiv a = new StateAktiv(t);
         t.zustand = new StateEntwertet(t, a);
 
@@ -129,7 +131,7 @@ class TicketIFTest {
     void bezahleTicketTestStateInaktiv() {
 
         Parkhaus p = new Parkhaus(2.1);
-        Ticket t = new Ticket("Normaler Parkplatz", p);
+        Ticket t = new Ticket(NORMALERPARKPLATZ, p);
         t.zustand = new StateInaktiv(t);
 
         assertThrows(TicketNichtGefundenException.class, t::bezahlen);
@@ -141,10 +143,10 @@ class TicketIFTest {
 
         try {
             Parkhaus testParkhaus = new Parkhaus(2.0, 10, 10, 10, 10);
-            Ticket testTicket1 = testParkhaus.neuesTicket("Normaler Parkplatz");
+            Ticket testTicket1 = testParkhaus.neuesTicket(NORMALERPARKPLATZ);
             Ticket testTicket2 = testParkhaus.neuesTicket("Behinderten-Parkplatz");
             Ticket testTicket3 = testParkhaus.neuesTicket("E-Auto-Parkplatz");
-            Ticket testTicket4 = testParkhaus.neuesTicket("Motorrad Parkplatz");
+            Ticket testTicket4 = testParkhaus.neuesTicket("Motorrad-Parkplatz");
 
             //Ausfahren testen mit unbezahltem Ticket, sollte auch Hinweis ausgeben
             testTicket1.ausfahren();
@@ -204,7 +206,7 @@ class TicketIFTest {
     void ticketNichtGefundenTest() throws ParkhausGeschlossenException, ParkplaetzeBelegtException {
 
         Parkhaus testParkhaus = new Parkhaus(3.0,10,0,0,0);
-        Ticket testticket1 = testParkhaus.neuesTicket("Normaler Parkplatz");
+        Ticket testticket1 = testParkhaus.neuesTicket(NORMALERPARKPLATZ);
         assertThrows(TicketNichtGefundenException.class, testticket1::ausfahren);
         testticket1.zustand = testticket1.zustand.getNext();
         assertThrows(TicketNichtGefundenException.class, testticket1::bezahlen);
