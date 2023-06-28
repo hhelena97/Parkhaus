@@ -137,7 +137,7 @@ class ParkhausIFTest {
 
     //Testet, ob die Methode neuesTicket die Exception wirft
     @Test
-    void ParkplaetzeBelegtTest(){
+    void parkplaetzeBelegtTest(){
         Parkhaus testParkhaus = new Parkhaus(0,10,0,0,0);
         assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket(E_AUTO_PARKPLATZ));
         assertThrows(ParkplaetzeBelegtException.class, () -> testParkhaus.neuesTicket(MOTORRAD_PARKPLATZ));
@@ -148,7 +148,7 @@ class ParkhausIFTest {
 
     //Testet, ob die Methode neues Ticket die Exception wirft, wenn das Parkhaus geschlossen ist
     @Test
-    void ParkhausGeschlossenTest() throws ReiseInVergangenheitException{
+    void parkhausGeschlossenTest() throws ReiseInVergangenheitException{
         Parkhaus testParkhaus = new Parkhaus(3,100,5,10,5);
         LocalTime timeNeu = LocalTime.of(23,10);
         testParkhaus.parkhauszeitAnpassen(timeNeu, testParkhaus.getDatum());

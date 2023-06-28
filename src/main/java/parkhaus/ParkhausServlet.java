@@ -18,7 +18,10 @@ public class ParkhausServlet extends HttpServlet {
    static final String TICKETERSTELLENEX = "TicketErstellenException";
    static final String AUSFAHRENEX = "AusfahrenException";
    static final String PARKHAUSGESCHLOSSENEX = "ParkhausGeschlossenException";
+   static final String BEZAHLENEX = "BezahlenException";
+   static final String ZEITEX = "ZeitException";
    static final String BETREIBERANSICHT = "Betreiberansicht.jsp";
+
 
     public void init() {
         //existiert bereits ein Parkhaus im Context, dann wird das verwendet - sonst wird ein neues erstellt
@@ -43,7 +46,7 @@ public class ParkhausServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        //braucht man, damit der nachdem 1 Knopf in der Betreiberansicht gedrückt wurde nicht wieder auf die Startseite springt
+        //in der Betreiberansicht bleiben
         String naechsteSeite = "index.jsp";
 
         //hole das Parkhaus aus dem Context
@@ -65,7 +68,7 @@ public class ParkhausServlet extends HttpServlet {
 
             getServletContext().setAttribute(PARKHAUS, p);
             //Exception-Nachrichten ausblenden
-            NachrichtenAusblenden();
+            nachrichtenAusblenden();
 
         } else if("ParkhauszeitenAnpassen".equals(action)) {        // Anpassen der Parkhauszeit
 
@@ -101,7 +104,7 @@ public class ParkhausServlet extends HttpServlet {
         } else if ("ticketErstellen".equals(action)) {
 
             //Exception-Nachrichten ausblenden
-            NachrichtenAusblenden();
+            nachrichtenAusblenden();
 
             //erstellt ein neues Ticket mit der ausgewählten Parkplatzart
             try {
@@ -123,7 +126,7 @@ public class ParkhausServlet extends HttpServlet {
         } else if ("bezahlen".equals(action)) {         // Bezahlen eines Tickets
 
             //Exception-Nachrichten ausblenden
-            NachrichtenAusblenden();
+            nachrichtenAusblenden();
 
             int len = p.getAktiveTickets().size();
             try {
@@ -144,15 +147,15 @@ public class ParkhausServlet extends HttpServlet {
                         request.setAttribute("rabattBezahlenX", rabattEuro);
                         request.setAttribute("zeitTicketX", parkzeit);
 
-                        if (getServletContext().getAttribute("BezahlenException") != null) {
-                            getServletContext().removeAttribute("BezahlenException");
+                        if (getServletContext().getAttribute(BEZAHLENEX) != null) {
+                            getServletContext().removeAttribute(BEZAHLENEX);
                         }
                     }
                 }
                 if (getServletContext().getAttribute("bezahleTicketX") == null) {
                     Exception e1 = new TicketNichtGefundenException
                             ("Ticket nicht gefunden. Zur Zahlung bereite Tickets unter 'aktive Tickets'.");
-                    getServletContext().setAttribute("BezahlenException", e1.getMessage());
+                    getServletContext().setAttribute(BEZAHLENEX, e1.getMessage());
                 }
             } catch (TicketNichtGefundenException e11){
                 getServletContext().setAttribute("TicketNichtGefundenException", e11.getMessage());
@@ -168,7 +171,7 @@ public class ParkhausServlet extends HttpServlet {
         } else if ("schrankeOeffnen".equals(action)) {
 
             //Exception-Nachrichten ausblenden
-            NachrichtenAusblenden();
+            nachrichtenAusblenden();
 
             //t ist das Ticket was ausgewählt wurde
             try {
@@ -272,21 +275,21 @@ public class ParkhausServlet extends HttpServlet {
 
 
     //Eine Methode um alle Nachrichten auszublenden
-    private void NachrichtenAusblenden (){
+    private void nachrichtenAusblenden(){
         if (getServletContext().getAttribute("TicketErstellt") != null) {
             getServletContext().removeAttribute("TicketErstellt");
         }
         if (getServletContext().getAttribute(TICKETERSTELLENEX) != null) {
             getServletContext().removeAttribute(TICKETERSTELLENEX);
         }
-        if (getServletContext().getAttribute("BezahlenException") != null) {
-            getServletContext().removeAttribute("BezahlenException");
+        if (getServletContext().getAttribute(BEZAHLENEX) != null) {
+            getServletContext().removeAttribute(BEZAHLENEX);
         }
         if (getServletContext().getAttribute(AUSFAHRENEX) != null) {
             getServletContext().removeAttribute(AUSFAHRENEX);
         }
-        if (getServletContext().getAttribute("ZeitException") != null) {
-            getServletContext().removeAttribute("ZeitException");
+        if (getServletContext().getAttribute(ZEITEX) != null) {
+            getServletContext().removeAttribute(ZEITEX);
         }
         if (getServletContext().getAttribute(PARKHAUSGESCHLOSSENEX) != null) {
             getServletContext().removeAttribute(PARKHAUSGESCHLOSSENEX);
@@ -294,5 +297,6 @@ public class ParkhausServlet extends HttpServlet {
     }
 
     public void destroy() {
+        //Beenden des Servlets und Freigeben der Ressourcen
     }
 }
